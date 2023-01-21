@@ -5,7 +5,7 @@ reserved = {
     'canvas'     : 'CANVAS',
     'draw'       : 'DRAW',
     'brush'      : 'BRUSH',
-    'lsys'       : 'LSYS',
+    'lsystem'    : 'LSYSTEM',
     'left'       : 'LEFT',
     'right'      : 'RIGHT',
     'line'       : 'LINE',
@@ -43,6 +43,8 @@ tokens = (
    'LEQUAL',
    'LESS',
    'GREATER',
+
+   
    'LPAREN',
    'RPAREN',
    'EQUAL',
@@ -74,9 +76,14 @@ t_RPAREN  = r'\)'
 t_EQUAL= r'='
 t_COMMA= r','
 t_END= r';'
+t_TWOPOINTS= r':'
 t_LBRACE = r'\{'
 t_RBRACE = r'\}'
 t_COLOR = r'\#([a,b,c,d,e,f]|\d){6}'
+
+def t_ARROW(t):
+    r'->'
+    return t.value
 
 def t_FLOAT(t):
     r'\d+(\.\d+)?'
