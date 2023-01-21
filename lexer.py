@@ -28,6 +28,7 @@ reserved = {
 # List of token names. 
 tokens = (
    'STRING',
+
    'PLUS',
    'MINUS',
    'MULTIPLY',
@@ -55,6 +56,7 @@ tokens = (
 
 # Regular expression rules for simple tokens
 t_STRING = r'"(\w|\s)*"'
+
 
 t_PLUS = r'\+'
 t_MINUS = r'\-'

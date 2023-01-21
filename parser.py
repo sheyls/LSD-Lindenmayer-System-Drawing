@@ -10,8 +10,18 @@ tokens = lexer.tokens
 #   Grammar
 #
 #   Program          : StatementList
+#
+#   StatementList    : Statement; StatementList
+#                    | Statement;
+#
+#   Statement        : lsystem_def: lsystem ID { Lsystem_body }
+#                                    
+#  
+#   Lsystem_body     : axiom: axiom_stmt, Ls_rules
+#
+#   Ls_rules         : rule - body_stmt, | Ls_rules | Epsilon
+#
 # -----------------------------------------------------------------------------
-
 """
 Example:
 
