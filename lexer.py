@@ -77,7 +77,7 @@ t_RBRACE = r'\}'
 t_COLOR = r'\#([a,b,c,d,e,f]|\d){6}'
 
 def t_FLOAT(t):
-    r'\d+(\.\d+)?'
+    r'\d+\.\d+'
     try:
         t.value = float(t.value)
     except:
@@ -85,18 +85,19 @@ def t_FLOAT(t):
         t_error(t) 
     return t
 
-def t_ANGLE(t):
+def t_INT(t):
     r'\d+'
+    t.value = int(t.value)
+    return t
+
+def t_ANGLE(t):
+    r'\d+\.\d+'
     t.value = float(t.value)
     if t.value > 360 or t.value < -360:
         t_error(t)
     else:
         return t   
 
-def t_INT(t):
-    r'\d+'
-    t.value = int(t.value)
-    return t
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
@@ -136,3 +137,13 @@ def find_column(input, token):
 tokens= list(reserved.values()) + list(tokens)
 
 lexer = lex.lex(debug=True)
+
+data = "7 + 8"
+lexer.input(data)
+
+
+while True:
+    tok = lexer.token()
+    if not tok: 
+        break      # No more input
+    print(tok)
