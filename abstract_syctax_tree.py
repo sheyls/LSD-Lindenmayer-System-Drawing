@@ -50,3 +50,14 @@ class LsystemDefinition(Node):
 
     def evaluate(self, context: Context):
         pass
+
+class VariableAssignment(Node):
+    def __init__(self, name, value) -> None:
+        self.name = name
+        self.value = value
+
+class VariableDeclaration(Node):
+    def __init__(self, type, name, value) -> None:
+        self.type = type
+        self.name = name
+        self.value = value
