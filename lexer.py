@@ -47,23 +47,28 @@ tokens = (
    
    'LPAREN',
    'RPAREN',
+   'LCOR',
+   'RCOR',
    'EQUAL',
    'COMMA',
    'END',
+   'TWOPOINTS',
    'LBRACE',
-   'RBRACE'
+   'RBRACE',
+   'ARROW'
    
 )
 
 
 # Regular expression rules for simple tokens
 t_STRING = r'"(\w|\s)*"'
-
+t_ARROW = r'->'
 
 t_PLUS = r'\+'
 t_MINUS = r'\-'
 t_MULTIPLY = r'\*'
 t_DIFFER = r'\\'
+
 
 t_EQUALEQUAL = r'=='
 t_GEQUAL = r'>='
@@ -73,6 +78,8 @@ t_GREATER = r'>'
 
 t_LPAREN  = r'\('
 t_RPAREN  = r'\)'
+t_LCOR = r'\['
+t_RCOR = r'\]'
 t_EQUAL= r'='
 t_COMMA= r','
 t_END= r';'
@@ -81,9 +88,9 @@ t_LBRACE = r'\{'
 t_RBRACE = r'\}'
 t_COLOR = r'\#([a,b,c,d,e,f]|\d){6}'
 
-def t_ARROW(t):
-    r'->'
-    return t.value
+# def t_ARROW(t):
+#     r'->'
+#     return t.value
 
 def t_FLOAT(t):
     r'\d+\.\d+'
@@ -145,14 +152,7 @@ def find_column(input, token):
 
 tokens= list(reserved.values()) + list(tokens)
 
-lexer = lex.lex(debug=True)
-
-data = "7 + 8"
-lexer.input(data)
+lexer = lex.lex()
 
 
-while True:
-    tok = lexer.token()
-    if not tok: 
-        break      # No more input
-    print(tok)
+
