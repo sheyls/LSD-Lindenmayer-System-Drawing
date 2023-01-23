@@ -12,18 +12,17 @@ tokens = lexer.tokens
 #
 #   Program             : InstructionList
 #
-#   InstructionList    :  Instruction END  InstructionList
+#   InstructionList    :  Instruction END InstructionList
 #                      |  Instruction END
 #
 #   Instruction        : lsystem ID { Lsystem_body } 
 #                      | #All the valid instructions here
 #                                    
 #  
-#   Lsystem_body        : axiom: axiom_stmt, Ls_rules
+#   Lsystem_body        : axiom: axiom_stmt COMMA rule -> replace_stmt
 #
-#   Ls_rules            : rule -> replace_stmt, 
-#                       | Ls_rules
-#                       | Epsilon?
+#   Ls_rules            : rule -> replace_stmt COMMA Ls_rules
+#                       | rule -> replace_stmt
 #
 # -----------------------------------------------------------------------------
 """
@@ -50,6 +49,7 @@ def p_instruction_list(p):
     '''
     if (len(p) == 4):
         p[0] = [p[1]] + p[3]
+
     elif (len(p) == 3):
         p[0] = [p[1]]
 
@@ -57,15 +57,14 @@ def p_lsystem(p):
     '''
     Instrucion : LSYSTEM ID LBRACE Body RBRACE
     '''
-    if len(p) == 6:
-        p[0] = LsystemDeclaration(p[2], p[4])
+    p[0] = LsystemDeclaration(p[2], p[4])
 
-def p_body(p):
+def p_lsystem_body(p):
     '''
     Lsystem_body : AXIOM TWOPOINTS STRING COMMA Ls_rules
                 
     '''
-    pass
+    p[0] = LsystemDefinition ( p[3], p[5] )
 
 def p_lsystem_rules(p):
     '''
@@ -74,7 +73,10 @@ def p_lsystem_rules(p):
 
     '''
     if len(p) == 4:
-        pass
+        p[0] = [RuleDefinition( p[1], p[3] )]
+    
+    if len(p) == 6:
+        p[0] = [RuleDefinition( p[1], p[3] )].append(p[5])
 
 def p_error(p):
     raise Exception(f"Syntax error at '{p.value}', line {p.lineno} (Index {p.lexpos}).")

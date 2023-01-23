@@ -29,7 +29,24 @@ class LsystemDeclaration(Node):
         self.body = body_lsys
         
     def evaluate(self, context: Context):
-        child_context: Context = context.make_child()
-        for parameter in self.parameters:
-            child_context.define(parameter[1], Instance(Type.get(parameter[0]), None))
-        context.define(self.name, LsystemInstance(child_context, self.type, self.parameters, self.body))
+        pass
+        #child_context: Context = context.make_child()
+        #for parameter in self.parameters:
+        #    child_context.define(parameter[1], Instance(Type.get(parameter[0]), None))
+        #context.define(self.name, LsystemInstance(child_context, self.type, self.parameters, self.body))
+
+class RuleDefinition(Node):
+    def __init__(self, right_part, left_part) -> None:
+        self.right_part = right_part
+        self.left_part = left_part
+        
+    def evaluate(self, context: Context):
+        pass
+
+class LsystemDefinition(Node):
+    def __init__(self, axiom, rules):
+        self.axiom = axiom
+        self.rules = rules
+
+    def evaluate(self, context: Context):
+        pass
