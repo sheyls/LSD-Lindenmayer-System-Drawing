@@ -51,7 +51,6 @@ def p_instruction_list(p):
     '''
     if (len(p) == 4):
         p[0] = [p[1]] + p[3]
-
     elif (len(p) == 3):
         p[0] = [p[1]]
 
@@ -96,4 +95,4 @@ def p_error(p):
     raise Exception(f"Syntax error at '{p.value}', line {p.lineno} (Index {p.lexpos}).")
 
 # Build the parser
-parser = yacc()
+parser = yacc.yacc()
