@@ -14,6 +14,11 @@ class Node(ABC):
     @abstractmethod
     def evaluate(self, context: Context):
         pass
+
+    def accept(self, visitor):
+        method_name = 'visit_{}'.format(self.__class__.__name__.lower())
+        visit = getattr(visitor,method_name)
+        return visit(self)
     
 class Program(Node):
     def __init__(self, statements: List[Node]) -> None:
