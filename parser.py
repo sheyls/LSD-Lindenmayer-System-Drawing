@@ -65,7 +65,9 @@ def p_lsystem_body(p):
     Lsystem_body : AXIOM TWOPOINTS STRING COMMA Ls_rules
                 
     '''
-    p[0] = LsystemDefinition ( p[3], p[5] )
+    
+    p[0] = LsystemDefinition ( AxiomDefinition( p[3] ), p[5] )
+
 
 def p_lsystem_rules(p):
     '''
@@ -74,10 +76,10 @@ def p_lsystem_rules(p):
 
     '''
     if len(p) == 4:
-        p[0] = [RuleDefinition( p[1], p[3] )]
+        p[0] = [RulesDefinition( p[1], p[3] )]
     
     if len(p) == 6:
-        p[0] = [RuleDefinition( p[1], p[3] )].append(p[5])
+        p[0] = [RulesDefinition( p[1], p[3] )].append(p[5])
 
 def p_variable(p):
     '''
