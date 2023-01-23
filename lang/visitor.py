@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import lang.context
+from lang.context import Context
 from lang.type import *
 class Visitor(object):
     pass
@@ -9,7 +9,7 @@ class Eval(Visitor):
 
     def visit_program(self, program):
         for instruction in program.instructions:
-            instruction.accept(self())
+            instruction.accept(Eval())
 
     def visit_lsystemdeclaration(self, lsystem_declaration):
         print('ssss')
@@ -24,12 +24,13 @@ class Eval(Visitor):
         pass
 
     def visit_variableassignment(self, var_assignment):
-        variable = context.resolve(self.name)
+        variable = Context.resolve(self.name)
         #esto solo pincha si el valor de las variables son tipos puros
         new_value = var_assignment.value
         variable.value = new_value
         print('bbb')
 
     def visit_variabledeclaration(self, var_declaration):
-        context.define(self.name, Instance(Type.get(self.type), self.value.evaluate(context)))
+        #esto solo pincha si el valor de las variables son tipos puros  
+        Context.define(var_declaration.name, Instance(Type.get(var_declaration.type), var_declaration.value))
         print('aaaa')

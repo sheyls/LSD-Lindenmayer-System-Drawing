@@ -10,7 +10,7 @@ class Node(ABC):
     @abstractmethod
     def __init__(self) -> None:
         self.computed_type = None
-        
+
     def accept(self, visitor):
         method_name = 'visit_{}'.format(self.__class__.__name__.lower())
         visit = getattr(visitor,method_name)
