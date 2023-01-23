@@ -1,0 +1,43 @@
+
+lsys leaf {
+    axiom = a,
+    F -> >F<,
+    a -> F[+x]Fb,
+    b -> F[-y]Fa,
+    x -> a,
+    y -> b
+};
+
+lsys bushes {
+    axiom = Y,
+    X -> X[-FFF][+FFF]FX,
+    Y -> YFX[+Y][-Y]
+};
+
+lsys bushes_2 {
+    axiom =F,
+    F -> FF+[+F-F-F]-[-F+F+F]
+}
+
+lsys bushes_3 {
+    axiom = F
+    F -> F[+FF][-FF]F[-F][+F]F
+}
+
+
+lsys triangle {
+    axiom = F+F+F
+    F -> F-F+F
+}
+
+lsys quedratic_gosper{
+    axiom = -YF
+    X -> XFX-YF-YF+FX+FX-YF-YFFX+YF+FXFXYF-FX+YF+FXFX+YF-FXYF-YF-FX+FX+YFYF-
+    Y -> +FXFX-YF-YF+FX+FXYF+FX-YFYF-FX-YF+FXYFYF-FX-YFFX+FX+YF-YF-FX+FX+YFY
+}
+
+lsys square_sierpinski{
+    axiom = F+XF+F+XF
+    X -> XF-F+F-XF+F+XF-F+F-X
+}
+

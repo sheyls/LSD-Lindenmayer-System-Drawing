@@ -5,7 +5,7 @@ reserved = {
     'canvas'     : 'CANVAS',
     'draw'       : 'DRAW',
     'brush'      : 'BRUSH',
-    'lsystem'    : 'LSYSTEM',
+    'lsys'    : 'LSYS',
     'left'       : 'LEFT',
     'right'      : 'RIGHT',
     'line'       : 'LINE',

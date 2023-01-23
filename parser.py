@@ -80,4 +80,4 @@ def p_error(p):
     raise Exception(f"Syntax error at '{p.value}', line {p.lineno} (Index {p.lexpos}).")
 
 # Build the parser
-parser = yacc()
+parser = yacc.yacc()
