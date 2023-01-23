@@ -12,19 +12,18 @@ tokens = lexer.tokens
 #
 #   Program             : InstructionList
 #
-#   InstructionList    :  Instruction END InstructionList
+#   InstructionList    :  Instruction END  InstructionList
 #                      |  Instruction END
 #
-#   Instruction        :  lsystem ID { Lsystem_body }
-#                      |  Type ID EQUAL Assignable
-#                      |  ID EQUAL Assignable 
+#   Instruction        : lsystem ID { Lsystem_body } 
 #                      | #All the valid instructions here
 #                                    
 #  
-#   Lsystem_body        : axiom: axiom_stmt COMMA rule -> replace_stmt
+#   Lsystem_body        : axiom: axiom_stmt, Ls_rules
 #
-#   Ls_rules            : rule -> replace_stmt COMMA Ls_rules
-#                       | rule -> replace_stmt
+#   Ls_rules            : rule -> replace_stmt, 
+#                       | Ls_rules
+#                       | Epsilon?
 #
 # -----------------------------------------------------------------------------
 """
@@ -46,7 +45,7 @@ def p_program(p):
 
 def p_instruction_list(p):
     '''
-    InstructionList : Instruction END InstructionList
+    InsructionList : Instruction END InstructionList
                    | Instruction END
     '''
     if (len(p) == 4):
@@ -56,16 +55,17 @@ def p_instruction_list(p):
 
 def p_lsystem(p):
     '''
-    Instruction : LSYSTEM ID LBRACE Body RBRACE
+    Instrucion : LSYSTEM ID LBRACE Body RBRACE
     '''
-    p[0] = LsystemDeclaration(p[2], p[4])
+    if len(p) == 6:
+        p[0] = LsystemDeclaration(p[2], p[4])
 
-def p_lsystem_body(p):
+def p_body(p):
     '''
     Lsystem_body : AXIOM TWOPOINTS STRING COMMA Ls_rules
                 
     '''
-    p[0] = LsystemDefinition ( p[3], p[5] )
+    pass
 
 def p_lsystem_rules(p):
     '''
@@ -74,25 +74,10 @@ def p_lsystem_rules(p):
 
     '''
     if len(p) == 4:
-        p[0] = [RuleDefinition( p[1], p[3] )]
-    
-    if len(p) == 6:
-        p[0] = [RuleDefinition( p[1], p[3] )].append(p[5])
-
-def p_variable(p):
-    '''
-    Instruction : Type ID EQUAL Assignable
-                | ID EQUAL Assignable
-    '''
-
-    if len(p) == 5:
-        p[0] = VariableDeclaration(p[1], p[2], p[4])
-    elif len(p) == 4:
-        p[0] = VariableAssignment(p[1], p[3])
-
+        pass
 
 def p_error(p):
     raise Exception(f"Syntax error at '{p.value}', line {p.lineno} (Index {p.lexpos}).")
 
 # Build the parser
-parser = yacc.yacc()
+parser = yacc()

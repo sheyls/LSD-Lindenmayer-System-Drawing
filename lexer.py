@@ -88,9 +88,6 @@ t_LBRACE = r'\{'
 t_RBRACE = r'\}'
 t_COLOR = r'\#([a,b,c,d,e,f]|\d){6}'
 
-# def t_ARROW(t):
-#     r'->'
-#     return t.value
 
 def t_FLOAT(t):
     r'\d+\.\d+'
