@@ -143,7 +143,7 @@ def t_error(t):
 def find_column(input, token):
     '''
         Compute column.
-        Input is the input text string.
+        p is the input text string.
         Token is a token instance.
     '''
     

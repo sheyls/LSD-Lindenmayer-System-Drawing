@@ -1,0 +1,120 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    AND
+    ANGLE
+    BREAK
+    BRUSH
+    CANVAS
+    COLOR
+    DIFFER
+    DRAW
+    ELSE
+    EQUALEQUAL
+    FALSE
+    FLOAT
+    GEQUAL
+    GREATER
+    IF
+    INT
+    LCOR
+    LEFT
+    LEQUAL
+    LESS
+    LINE
+    LPAREN
+    LSYS
+    MINUS
+    MULTIPLY
+    NILL
+    NOT
+    OR
+    PLUS
+    POP
+    PUSH
+    RCOR
+    RIGHT
+    RPAREN
+    RULE
+    TRUE
+    WHILE
+
+Grammar
+
+Rule 0     S' -> Program
+Rule 1     Program -> InsructionList
+Rule 2     InstructionList -> Instruction END InstructionList
+Rule 3     InstructionList -> Instruction END
+Rule 4     Instruction -> LSYSTEM ID LBRACE Body RBRACE
+Rule 5     Lsystem_body -> AXIOM TWOPOINTS STRING COMMA Ls_rules
+Rule 6     Ls_rules -> STRING ARROW STRING COMMA ls_rules
+Rule 7     Ls_rules -> STRING ARROW STRING
+Rule 8     Instruction -> Type ID EQUAL Assignable
+Rule 9     Instruction -> ID EQUAL Assignable
+
+Terminals, with rules where they appear
+
+AND                  : 
+ANGLE                : 
+ARROW                : 6 7
+AXIOM                : 5
+BREAK                : 
+BRUSH                : 
+CANVAS               : 
+COLOR                : 
+COMMA                : 5 6
+DIFFER               : 
+DRAW                 : 
+ELSE                 : 
+END                  : 2 3
+EQUAL                : 8 9
+EQUALEQUAL           : 
+FALSE                : 
+FLOAT                : 
+GEQUAL               : 
+GREATER              : 
+ID                   : 4 8 9
+IF                   : 
+INT                  : 
+LBRACE               : 4
+LCOR                 : 
+LEFT                 : 
+LEQUAL               : 
+LESS                 : 
+LINE                 : 
+LPAREN               : 
+LSYS                 : 
+MINUS                : 
+MULTIPLY             : 
+NILL                 : 
+NOT                  : 
+OR                   : 
+PLUS                 : 
+POP                  : 
+PUSH                 : 
+RBRACE               : 4
+RCOR                 : 
+RIGHT                : 
+RPAREN               : 
+RULE                 : 
+STRING               : 5 6 6 7 7
+TRUE                 : 
+TWOPOINTS            : 5
+WHILE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+Assignable           : 8 9
+Body                 : 4
+InsructionList       : 1
+Instruction          : 2 3
+InstructionList      : 2
+LSYSTEM              : 4
+Ls_rules             : 5
+Lsystem_body         : 
+Program              : 0
+Type                 : 8
+ls_rules             : 6
+
