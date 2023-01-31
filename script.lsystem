@@ -1,0 +1,9 @@
+lsys leaf{
+    axiom : A,
+    F -> >F<,
+    A -> F[+X]FB,
+    B -> F[-Y]FA,
+    X -> A,
+    Y -> B
+
+};

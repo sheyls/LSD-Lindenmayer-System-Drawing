@@ -1,6 +1,7 @@
 import ply.yacc as yacc
-import lexer
+import lexer 
 from abstract_syctax_tree import *
+import os
 
 tokens = lexer.tokens
 
@@ -15,7 +16,9 @@ tokens = lexer.tokens
 #   InstructionList    :   Instruction END
 #                      |   Instruction END  InstructionList
 #
-#   Instruction        : lsystem ID { Lsystem_body } END
+#   Instruction        : LSYS ID { Lsystem_body } END
+#                      | TYPE ID EQUAL Assignable
+#                      | ID EQUAL Assignable
 #                      | #All the valid instructions here
 #                                    
 #  
@@ -53,19 +56,33 @@ def p_instruction_list(p):
     elif (len(p) == 3):
         p[0] = [p[1]]
 
+
+
+def p_assignable(p):
+    ''' Assignable : VALUE'''
+    
+    p[0]=p[1]
+
 def p_lsystem(p):
     '''
     Instruction : LSYS ID LBRACE Lsystem_body RBRACE
+                | ID EQUAL Assignable
+                | TYPE ID EQUAL Assignable
     '''
     if len(p) == 6:
         p[0] = LsystemDeclaration(p[2], p[4])
+    elif len(p)==5:
+        p[0] = VariableDeclaration(p[1],p[2],p[4])
+    elif len(p)==4:
+        p[0] = VariableAssignment(p[1],p[3])
+    
 
 def p_body(p):
     '''
     Lsystem_body : AXIOM TWOPOINTS STRING COMMA Ls_rules
                 
     '''
-    pass
+    p[0] = LsysBody(AxiomDefinition(p[2]), p[4])
 
 def p_lsystem_rules(p):
     '''
@@ -74,10 +91,25 @@ def p_lsystem_rules(p):
 
     '''
     if len(p) == 4:
-        pass
+        p[0] = [RulesDefinition(left_part=p[1],right_part=p[3])]
+    elif len(p)==6:
+        p[0] = [RulesDefinition(left_part=p[1],right_part=p[3])].append(p[5])
 
 def p_error(p):
     raise Exception(f"Syntax error at '{p.value}', line {p.lineno} (Index {p.lexpos}).")
 
 # Build the parser
 parser = yacc.yacc(debug=True)
+
+with open('script.lsystem')as file:
+    data = file.read()
+
+# lexer.input(data)
+ 
+# while True:
+#     tok = lexer.token()
+#     if not tok: 
+#         break      # No more input
+#     print(tok)
+
+ast = parser.parse(data)

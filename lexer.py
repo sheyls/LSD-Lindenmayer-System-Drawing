@@ -5,7 +5,7 @@ reserved = {
     'canvas'     : 'CANVAS',
     'draw'       : 'DRAW',
     'brush'      : 'BRUSH',
-    'lsystem'    : 'LSYSTEM',
+    'lsys'       : 'LSYS',
     'left'       : 'LEFT',
     'right'      : 'RIGHT',
     'line'       : 'LINE',
@@ -22,19 +22,21 @@ reserved = {
     'or'         : 'OR',
     'true'       :'TRUE',
     'false'      :'FALSE',
-    'break'      :'BREAK'
+    'break'      :'BREAK',
+    'int'        :'TYPE'
+    
 }
 
 # List of token names. 
 tokens = (
    'STRING',
-
+    
    'PLUS',
    'MINUS',
    'MULTIPLY',
    'DIFFER',
    'ID',
-   'INT',
+   'VALUE',
    'FLOAT',
    'ANGLE',
    'COLOR',  
@@ -47,18 +49,22 @@ tokens = (
    
    'LPAREN',
    'RPAREN',
+   'LCOR',
+   'RCOR',
    'EQUAL',
    'COMMA',
    'END',
+   'TWOPOINTS',
    'LBRACE',
-   'RBRACE'
+   'RBRACE',
+   'ARROW'
    
 )
 
 
 # Regular expression rules for simple tokens
-t_STRING = r'"(\w|\s)*"'
-
+t_STRING = r'[A-Z]'
+t_ARROW = r'->'
 
 t_PLUS = r'\+'
 t_MINUS = r'\-'
@@ -73,6 +79,8 @@ t_GREATER = r'>'
 
 t_LPAREN  = r'\('
 t_RPAREN  = r'\)'
+t_LCOR = r'\['
+t_RCOR = r'\]'
 t_EQUAL= r'='
 t_COMMA= r','
 t_END= r';'
@@ -81,9 +89,6 @@ t_LBRACE = r'\{'
 t_RBRACE = r'\}'
 t_COLOR = r'\#([a,b,c,d,e,f]|\d){6}'
 
-def t_ARROW(t):
-    r'->'
-    return t.value
 
 def t_FLOAT(t):
     r'\d+\.\d+'
@@ -109,7 +114,7 @@ def t_ANGLE(t):
 
 
 def t_ID(t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    r'[a-z_][a-z_0-9]*'
     t.type = reserved.get(t.value, 'ID')    # Check for reserved words
     return t
 
@@ -145,14 +150,17 @@ def find_column(input, token):
 
 tokens= list(reserved.values()) + list(tokens)
 
-lexer = lex.lex(debug=True)
+lexer = lex.lex()
 
-data = "7 + 8"
+with open('script.lsystem')as file:
+    data = file.read()
+
+
 lexer.input(data)
-
-
+ 
 while True:
     tok = lexer.token()
     if not tok: 
         break      # No more input
     print(tok)
+

@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'AND ANGLE ARROW AXIOM BREAK BRUSH CANVAS COLOR COMMA DIFFER DRAW ELSE END EQUAL EQUALEQUAL FALSE FLOAT GEQUAL GREATER ID IF INT LBRACE LCOR LEFT LEQUAL LESS LINE LPAREN LSYS MINUS MULTIPLY NILL NOT OR PLUS POP PUSH RBRACE RCOR RIGHT RPAREN RULE STRING TRUE TWOPOINTS WHILE\n    Program : InstructionList\n    \n    InstructionList : Instruction END InstructionList\n                   | Instruction END\n    \n    Instruction : LSYS ID LBRACE Lsystem_body RBRACE\n    \n    Lsystem_body : AXIOM TWOPOINTS STRING COMMA Ls_rules\n                \n    \n    Ls_rules : STRING ARROW STRING COMMA Ls_rules\n             | STRING ARROW STRING\n\n    \n    Assignable : INT\n    \n    Instruction : ID EQUAL Assignable\n    '
+_lr_signature = 'AND ANGLE ARROW AXIOM BREAK BRUSH CANVAS COLOR COMMA DIFFER DRAW ELSE END EQUAL EQUALEQUAL FALSE FLOAT GEQUAL GREATER ID IF LBRACE LCOR LEFT LEQUAL LESS LINE LPAREN LSYS MINUS MULTIPLY NILL NOT OR PLUS POP PUSH RBRACE RCOR RIGHT RPAREN RULE STRING TRUE TWOPOINTS TYPE VALUE WHILE\n    Program : InstructionList\n    \n    InstructionList : Instruction END InstructionList\n                   | Instruction END\n     Assignable : VALUE\n    Instruction : LSYS ID LBRACE Lsystem_body RBRACE\n                | ID EQUAL Assignable\n                | TYPE ID EQUAL Assignable\n    \n    Lsystem_body : AXIOM TWOPOINTS STRING COMMA Ls_rules\n                \n    \n    Ls_rules : STRING ARROW STRING COMMA Ls_rules\n             | STRING ARROW STRING\n\n    '
     
-_lr_action_items = {'LSYS':([0,6,],[4,4,]),'ID':([0,4,6,],[5,7,5,]),'$end':([1,2,6,9,],[0,-1,-3,-2,]),'END':([3,11,12,15,],[6,-9,-8,-4,]),'EQUAL':([5,],[8,]),'LBRACE':([7,],[10,]),'INT':([8,],[12,]),'AXIOM':([10,],[14,]),'RBRACE':([13,20,22,24,],[15,-5,-7,-6,]),'TWOPOINTS':([14,],[16,]),'STRING':([16,18,21,23,],[17,19,22,19,]),'COMMA':([17,22,],[18,23,]),'ARROW':([19,],[21,]),}
+_lr_action_items = {'LSYS':([0,7,],[4,4,]),'ID':([0,4,6,7,],[5,8,10,5,]),'TYPE':([0,7,],[6,6,]),'$end':([1,2,7,11,],[0,-1,-3,-2,]),'END':([3,13,14,18,19,],[7,-6,-4,-7,-5,]),'EQUAL':([5,10,],[9,15,]),'LBRACE':([8,],[12,]),'VALUE':([9,15,],[14,14,]),'AXIOM':([12,],[17,]),'RBRACE':([16,24,26,28,],[19,-8,-10,-9,]),'TWOPOINTS':([17,],[20,]),'STRING':([20,22,25,27,],[21,23,26,23,]),'COMMA':([21,26,],[22,27,]),'ARROW':([23,],[25,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'Program':([0,],[1,]),'InstructionList':([0,6,],[2,9,]),'Instruction':([0,6,],[3,3,]),'Assignable':([8,],[11,]),'Lsystem_body':([10,],[13,]),'Ls_rules':([18,23,],[20,24,]),}
+_lr_goto_items = {'Program':([0,],[1,]),'InstructionList':([0,7,],[2,11,]),'Instruction':([0,7,],[3,3,]),'Assignable':([9,15,],[13,18,]),'Lsystem_body':([12,],[16,]),'Ls_rules':([22,27,],[24,28,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,13 +27,14 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> Program","S'",1,None,None,None),
-  ('Program -> InstructionList','Program',1,'p_program','parser_2.py',44),
-  ('InstructionList -> Instruction END InstructionList','InstructionList',3,'p_instruction_list','parser_2.py',50),
-  ('InstructionList -> Instruction END','InstructionList',2,'p_instruction_list','parser_2.py',51),
-  ('Instruction -> LSYS ID LBRACE Lsystem_body RBRACE','Instruction',5,'p_lsystem','parser_2.py',60),
-  ('Lsystem_body -> AXIOM TWOPOINTS STRING COMMA Ls_rules','Lsystem_body',5,'p_lsystem_body','parser_2.py',66),
-  ('Ls_rules -> STRING ARROW STRING COMMA Ls_rules','Ls_rules',5,'p_lsystem_rules','parser_2.py',75),
-  ('Ls_rules -> STRING ARROW STRING','Ls_rules',3,'p_lsystem_rules','parser_2.py',76),
-  ('Assignable -> INT','Assignable',1,'p_assignable','parser_2.py',87),
-  ('Instruction -> ID EQUAL Assignable','Instruction',3,'p_variable','parser_2.py',94),
+  ('Program -> InstructionList','Program',1,'p_program','parser_1.py',45),
+  ('InstructionList -> Instruction END InstructionList','InstructionList',3,'p_instruction_list','parser_1.py',51),
+  ('InstructionList -> Instruction END','InstructionList',2,'p_instruction_list','parser_1.py',52),
+  ('Assignable -> VALUE','Assignable',1,'p_assignable','parser_1.py',62),
+  ('Instruction -> LSYS ID LBRACE Lsystem_body RBRACE','Instruction',5,'p_lsystem','parser_1.py',68),
+  ('Instruction -> ID EQUAL Assignable','Instruction',3,'p_lsystem','parser_1.py',69),
+  ('Instruction -> TYPE ID EQUAL Assignable','Instruction',4,'p_lsystem','parser_1.py',70),
+  ('Lsystem_body -> AXIOM TWOPOINTS STRING COMMA Ls_rules','Lsystem_body',5,'p_body','parser_1.py',82),
+  ('Ls_rules -> STRING ARROW STRING COMMA Ls_rules','Ls_rules',5,'p_lsystem_rules','parser_1.py',89),
+  ('Ls_rules -> STRING ARROW STRING','Ls_rules',3,'p_lsystem_rules','parser_1.py',90),
 ]
