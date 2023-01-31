@@ -12,10 +12,10 @@ tokens = lexer.tokens
 #
 #   Program             : InstructionList
 #
-#   InstructionList    :  Instruction END  InstructionList
-#                      |  Instruction END
+#   InstructionList    :   Instruction END
+#                      |   Instruction END  InstructionList
 #
-#   Instruction        : lsystem ID { Lsystem_body } 
+#   Instruction        : lsystem ID { Lsystem_body } END
 #                      | #All the valid instructions here
 #                                    
 #  
@@ -39,13 +39,13 @@ def p_expression_plus(p):
 """
 def p_program(p):
     '''
-    Program : InsructionList
+    Program : InstructionList
     '''
     p[0] = Program(p[1])
 
 def p_instruction_list(p):
     '''
-    InsructionList : Instruction END InstructionList
+    InstructionList : Instruction END InstructionList
                    | Instruction END
     '''
     if (len(p) == 4):
@@ -55,7 +55,7 @@ def p_instruction_list(p):
 
 def p_lsystem(p):
     '''
-    Instrucion : LSYSTEM ID LBRACE Body RBRACE
+    Instruction : LSYS ID LBRACE Lsystem_body RBRACE
     '''
     if len(p) == 6:
         p[0] = LsystemDeclaration(p[2], p[4])
@@ -69,7 +69,7 @@ def p_body(p):
 
 def p_lsystem_rules(p):
     '''
-    Ls_rules : STRING ARROW STRING COMMA ls_rules
+    Ls_rules : STRING ARROW STRING COMMA Ls_rules
              | STRING ARROW STRING
 
     '''
@@ -80,4 +80,4 @@ def p_error(p):
     raise Exception(f"Syntax error at '{p.value}', line {p.lineno} (Index {p.lexpos}).")
 
 # Build the parser
-parser = yacc()
+parser = yacc.yacc(debug=True)

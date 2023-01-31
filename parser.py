@@ -15,8 +15,15 @@ tokens = lexer.tokens
 #   InstructionList    :  Instruction END  InstructionList
 #                      |  Instruction END
 #
+<<<<<<< Updated upstream
 #   Instruction        : lsystem ID { Lsystem_body } 
+=======
+#   Instruction        :  lsystem ID { Lsystem_body }
+#                      |  ID EQUAL Assignable 
+>>>>>>> Stashed changes
 #                      | #All the valid instructions here
+#
+#   Assignable         : int
 #                                    
 #  
 #   Lsystem_body        : axiom: axiom_stmt, Ls_rules
@@ -39,7 +46,7 @@ def p_expression_plus(p):
 """
 def p_program(p):
     '''
-    Program : InsructionList
+    Program : InstructionList
     '''
     p[0] = Program(p[1])
 
@@ -55,7 +62,11 @@ def p_instruction_list(p):
 
 def p_lsystem(p):
     '''
+<<<<<<< Updated upstream
     Instrucion : LSYSTEM ID LBRACE Body RBRACE
+=======
+    Instruction : LSYS ID LBRACE Lsystem_body RBRACE
+>>>>>>> Stashed changes
     '''
     if len(p) == 6:
         p[0] = LsystemDeclaration(p[2], p[4])
@@ -69,12 +80,37 @@ def p_body(p):
 
 def p_lsystem_rules(p):
     '''
-    Ls_rules : STRING ARROW STRING COMMA ls_rules
+    Ls_rules : STRING ARROW STRING COMMA Ls_rules
              | STRING ARROW STRING
 
     '''
     if len(p) == 4:
+<<<<<<< Updated upstream
         pass
+=======
+        p[0] = [RulesDefinition( p[1], p[3] )]
+    
+    if len(p) == 6:
+        p[0] = [RulesDefinition( p[1], p[3] )].append(p[5])
+
+def p_assignable(p):
+    '''
+    Assignable : INT
+    '''
+    p[0]= p[1]
+
+
+def p_variable(p):
+    '''
+    Instruction : ID EQUAL Assignable
+    '''
+
+    if len(p) == 5:
+        p[0] = VariableDeclaration(p[1], p[2], p[4])
+    elif len(p) == 4:
+        p[0] = VariableAssignment(p[1], p[3])
+
+>>>>>>> Stashed changes
 
 def p_error(p):
     raise Exception(f"Syntax error at '{p.value}', line {p.lineno} (Index {p.lexpos}).")
