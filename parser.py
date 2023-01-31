@@ -15,12 +15,8 @@ tokens = lexer.tokens
 #   InstructionList    :  Instruction END  InstructionList
 #                      |  Instruction END
 #
-<<<<<<< Updated upstream
-#   Instruction        : lsystem ID { Lsystem_body } 
-=======
 #   Instruction        :  lsystem ID { Lsystem_body }
 #                      |  ID EQUAL Assignable 
->>>>>>> Stashed changes
 #                      | #All the valid instructions here
 #
 #   Assignable         : int
@@ -62,11 +58,7 @@ def p_instruction_list(p):
 
 def p_lsystem(p):
     '''
-<<<<<<< Updated upstream
-    Instrucion : LSYSTEM ID LBRACE Body RBRACE
-=======
     Instruction : LSYS ID LBRACE Lsystem_body RBRACE
->>>>>>> Stashed changes
     '''
     if len(p) == 6:
         p[0] = LsystemDeclaration(p[2], p[4])
@@ -85,9 +77,6 @@ def p_lsystem_rules(p):
 
     '''
     if len(p) == 4:
-<<<<<<< Updated upstream
-        pass
-=======
         p[0] = [RulesDefinition( p[1], p[3] )]
     
     if len(p) == 6:
@@ -110,7 +99,6 @@ def p_variable(p):
     elif len(p) == 4:
         p[0] = VariableAssignment(p[1], p[3])
 
->>>>>>> Stashed changes
 
 def p_error(p):
     raise Exception(f"Syntax error at '{p.value}', line {p.lineno} (Index {p.lexpos}).")
