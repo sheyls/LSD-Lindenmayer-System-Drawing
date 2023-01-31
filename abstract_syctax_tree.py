@@ -39,9 +39,18 @@ class LsystemDeclaration(Node):
         #for parameter in self.parameters:
         #    child_context.define(parameter[1], Instance(Type.get(parameter[0]), None))
         #context.define(self.name, LsystemInstance(child_context, self.type, self.parameters, self.body))
+class LsystemBody(Node):
+    def __init__(self, axiom, axiom_prod, rules) -> None:
+        self.axiom = axiom
+        self.axiom_prod = axiom_prod
+        self.rules = rules
+
+
+
+        
 
 class RuleDefinition(Node):
-    def __init__(self, right_part, left_part) -> None:
+    def __init__(self, right_part, left_part, *args) -> None:
         self.right_part = right_part
         self.left_part = left_part
         

@@ -11,6 +11,7 @@ Unused terminals:
     DIFFER
     DRAW
     ELSE
+    EQUAL
     EQUALEQUAL
     FALSE
     FLOAT
@@ -24,7 +25,6 @@ Unused terminals:
     LESS
     LINE
     LPAREN
-    LSYS
     MINUS
     MULTIPLY
     NILL
@@ -43,15 +43,13 @@ Unused terminals:
 Grammar
 
 Rule 0     S' -> Program
-Rule 1     Program -> InsructionList
+Rule 1     Program -> InstructionList
 Rule 2     InstructionList -> Instruction END InstructionList
 Rule 3     InstructionList -> Instruction END
-Rule 4     Instruction -> LSYSTEM ID LBRACE Body RBRACE
+Rule 4     Instruction -> LSYS ID LBRACE Lsystem_body RBRACE
 Rule 5     Lsystem_body -> AXIOM TWOPOINTS STRING COMMA Ls_rules
-Rule 6     Ls_rules -> STRING ARROW STRING COMMA ls_rules
+Rule 6     Ls_rules -> STRING ARROW STRING COMMA Ls_rules
 Rule 7     Ls_rules -> STRING ARROW STRING
-Rule 8     Instruction -> Type ID EQUAL Assignable
-Rule 9     Instruction -> ID EQUAL Assignable
 
 Terminals, with rules where they appear
 
@@ -68,13 +66,13 @@ DIFFER               :
 DRAW                 : 
 ELSE                 : 
 END                  : 2 3
-EQUAL                : 8 9
+EQUAL                : 
 EQUALEQUAL           : 
 FALSE                : 
 FLOAT                : 
 GEQUAL               : 
 GREATER              : 
-ID                   : 4 8 9
+ID                   : 4
 IF                   : 
 INT                  : 
 LBRACE               : 4
@@ -84,7 +82,7 @@ LEQUAL               :
 LESS                 : 
 LINE                 : 
 LPAREN               : 
-LSYS                 : 
+LSYS                 : 4
 MINUS                : 
 MULTIPLY             : 
 NILL                 : 
@@ -106,15 +104,183 @@ error                :
 
 Nonterminals, with rules where they appear
 
-Assignable           : 8 9
-Body                 : 4
-InsructionList       : 1
 Instruction          : 2 3
-InstructionList      : 2
-LSYSTEM              : 4
-Ls_rules             : 5
-Lsystem_body         : 
+InstructionList      : 1 2
+Ls_rules             : 5 6
+Lsystem_body         : 4
 Program              : 0
-Type                 : 8
-ls_rules             : 6
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . Program
+    (1) Program -> . InstructionList
+    (2) InstructionList -> . Instruction END InstructionList
+    (3) InstructionList -> . Instruction END
+    (4) Instruction -> . LSYS ID LBRACE Lsystem_body RBRACE
+
+    LSYS            shift and go to state 4
+
+    Program                        shift and go to state 1
+    InstructionList                shift and go to state 2
+    Instruction                    shift and go to state 3
+
+state 1
+
+    (0) S' -> Program .
+
+
+
+state 2
+
+    (1) Program -> InstructionList .
+
+    $end            reduce using rule 1 (Program -> InstructionList .)
+
+
+state 3
+
+    (2) InstructionList -> Instruction . END InstructionList
+    (3) InstructionList -> Instruction . END
+
+    END             shift and go to state 5
+
+
+state 4
+
+    (4) Instruction -> LSYS . ID LBRACE Lsystem_body RBRACE
+
+    ID              shift and go to state 6
+
+
+state 5
+
+    (2) InstructionList -> Instruction END . InstructionList
+    (3) InstructionList -> Instruction END .
+    (2) InstructionList -> . Instruction END InstructionList
+    (3) InstructionList -> . Instruction END
+    (4) Instruction -> . LSYS ID LBRACE Lsystem_body RBRACE
+
+    $end            reduce using rule 3 (InstructionList -> Instruction END .)
+    LSYS            shift and go to state 4
+
+    Instruction                    shift and go to state 3
+    InstructionList                shift and go to state 7
+
+state 6
+
+    (4) Instruction -> LSYS ID . LBRACE Lsystem_body RBRACE
+
+    LBRACE          shift and go to state 8
+
+
+state 7
+
+    (2) InstructionList -> Instruction END InstructionList .
+
+    $end            reduce using rule 2 (InstructionList -> Instruction END InstructionList .)
+
+
+state 8
+
+    (4) Instruction -> LSYS ID LBRACE . Lsystem_body RBRACE
+    (5) Lsystem_body -> . AXIOM TWOPOINTS STRING COMMA Ls_rules
+
+    AXIOM           shift and go to state 10
+
+    Lsystem_body                   shift and go to state 9
+
+state 9
+
+    (4) Instruction -> LSYS ID LBRACE Lsystem_body . RBRACE
+
+    RBRACE          shift and go to state 11
+
+
+state 10
+
+    (5) Lsystem_body -> AXIOM . TWOPOINTS STRING COMMA Ls_rules
+
+    TWOPOINTS       shift and go to state 12
+
+
+state 11
+
+    (4) Instruction -> LSYS ID LBRACE Lsystem_body RBRACE .
+
+    END             reduce using rule 4 (Instruction -> LSYS ID LBRACE Lsystem_body RBRACE .)
+
+
+state 12
+
+    (5) Lsystem_body -> AXIOM TWOPOINTS . STRING COMMA Ls_rules
+
+    STRING          shift and go to state 13
+
+
+state 13
+
+    (5) Lsystem_body -> AXIOM TWOPOINTS STRING . COMMA Ls_rules
+
+    COMMA           shift and go to state 14
+
+
+state 14
+
+    (5) Lsystem_body -> AXIOM TWOPOINTS STRING COMMA . Ls_rules
+    (6) Ls_rules -> . STRING ARROW STRING COMMA Ls_rules
+    (7) Ls_rules -> . STRING ARROW STRING
+
+    STRING          shift and go to state 15
+
+    Ls_rules                       shift and go to state 16
+
+state 15
+
+    (6) Ls_rules -> STRING . ARROW STRING COMMA Ls_rules
+    (7) Ls_rules -> STRING . ARROW STRING
+
+    ARROW           shift and go to state 17
+
+
+state 16
+
+    (5) Lsystem_body -> AXIOM TWOPOINTS STRING COMMA Ls_rules .
+
+    RBRACE          reduce using rule 5 (Lsystem_body -> AXIOM TWOPOINTS STRING COMMA Ls_rules .)
+
+
+state 17
+
+    (6) Ls_rules -> STRING ARROW . STRING COMMA Ls_rules
+    (7) Ls_rules -> STRING ARROW . STRING
+
+    STRING          shift and go to state 18
+
+
+state 18
+
+    (6) Ls_rules -> STRING ARROW STRING . COMMA Ls_rules
+    (7) Ls_rules -> STRING ARROW STRING .
+
+    COMMA           shift and go to state 19
+    RBRACE          reduce using rule 7 (Ls_rules -> STRING ARROW STRING .)
+
+
+state 19
+
+    (6) Ls_rules -> STRING ARROW STRING COMMA . Ls_rules
+    (6) Ls_rules -> . STRING ARROW STRING COMMA Ls_rules
+    (7) Ls_rules -> . STRING ARROW STRING
+
+    STRING          shift and go to state 15
+
+    Ls_rules                       shift and go to state 20
+
+state 20
+
+    (6) Ls_rules -> STRING ARROW STRING COMMA Ls_rules .
+
+    RBRACE          reduce using rule 6 (Ls_rules -> STRING ARROW STRING COMMA Ls_rules .)
 
