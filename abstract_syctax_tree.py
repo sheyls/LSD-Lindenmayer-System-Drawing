@@ -21,13 +21,13 @@ class Program(Node):
     def __init__(self, instructions: List[Node]) -> None:
         self.instructions = instructions
 
-    def check_semantics(self, logger):
+    def check_semantics(self):
         collector = TypeCollector()
-        collector.visit(self, logger)
+        collector.visit(self)
         builder = TypeBuilder(collector.context)
-        builder.visit(self, logger)
+        builder.visit(self)
         checker = TypeChecker(builder.visitor)
-        checker.visit(self, logger)
+        checker.visit(self)
 
 
 class LsystemDeclaration(Node):
