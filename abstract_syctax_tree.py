@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from typing import List
 from lang.context import Context
 from lang.type import *
+from lang.visitor import *
 
 
 
@@ -19,6 +20,14 @@ class Node(ABC):
 class Program(Node):
     def __init__(self, instructions: List[Node]) -> None:
         self.instructions = instructions
+
+    def check_semantics(self):
+        collector = TypeCollector()
+        collector.visit(self)
+        builder = TypeBuilder(collector.context)
+        builder.visit(self)
+        checker = TypeChecker(builder.visitor)
+        checker.visit(self)
 
 
 class LsystemDeclaration(Node):
