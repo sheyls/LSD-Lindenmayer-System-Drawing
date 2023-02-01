@@ -5,7 +5,7 @@ reserved = {
     'canvas'     : 'CANVAS',
     'draw'       : 'DRAW',
     'brush'      : 'BRUSH',
-    'lsys'    : 'LSYS',
+    'lsys'       : 'LSYS',
     'left'       : 'LEFT',
     'right'      : 'RIGHT',
     'line'       : 'LINE',
@@ -22,19 +22,21 @@ reserved = {
     'or'         : 'OR',
     'true'       :'TRUE',
     'false'      :'FALSE',
-    'break'      :'BREAK'
+    'break'      :'BREAK',
+    'int'        :'TYPE'
+    
 }
 
 # List of token names. 
 tokens = (
    'STRING',
-
+    
    'PLUS',
    'MINUS',
    'MULTIPLY',
    'DIFFER',
    'ID',
-   'INT',
+   'VALUE',
    'FLOAT',
    'ANGLE',
    'COLOR',  
@@ -61,14 +63,13 @@ tokens = (
 
 
 # Regular expression rules for simple tokens
-t_STRING = r'"(\w|\s)*"'
-t_ARROW = r'->'
+t_ARROW = r'=>'
+t_STRING = r'[A-Z\+\-\<\>\[\]]+'
 
 t_PLUS = r'\+'
 t_MINUS = r'\-'
 t_MULTIPLY = r'\*'
 t_DIFFER = r'\\'
-
 
 t_EQUALEQUAL = r'=='
 t_GEQUAL = r'>='
@@ -113,7 +114,7 @@ def t_ANGLE(t):
 
 
 def t_ID(t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    r'[a-z_][a-z_0-9]*'
     t.type = reserved.get(t.value, 'ID')    # Check for reserved words
     return t
 
@@ -151,5 +152,15 @@ tokens= list(reserved.values()) + list(tokens)
 
 lexer = lex.lex()
 
+with open('script.lsystem')as file:
+    data = file.read()
 
+
+# lexer.input(data)
+ 
+# while True:
+#     tok = lexer.token()
+#     if not tok: 
+#         break      # No more input
+#     print(tok)
 

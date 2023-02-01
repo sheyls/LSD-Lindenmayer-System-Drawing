@@ -35,6 +35,11 @@ class LsystemDeclaration(Node):
         self.name = name
         self.body = body_lsys
 
+class LsysBody(Node):
+    def __init__(self, axiom, l_rules) -> None:
+        self.axiom = axiom
+        self.l_rules = l_rules
+
 class AxiomDefinition(Node):
     def __init__(self, axiom: str):
         self.axiom = axiom
