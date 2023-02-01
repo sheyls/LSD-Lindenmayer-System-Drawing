@@ -63,8 +63,8 @@ tokens = (
 
 
 # Regular expression rules for simple tokens
-t_STRING = r'[A-Z]'
-t_ARROW = r'->'
+t_ARROW = r'=>'
+t_STRING = r'[A-Z\+\-\<\>\[\]]+'
 
 t_PLUS = r'\+'
 t_MINUS = r'\-'
@@ -156,11 +156,11 @@ with open('script.lsystem')as file:
     data = file.read()
 
 
-lexer.input(data)
+# lexer.input(data)
  
-while True:
-    tok = lexer.token()
-    if not tok: 
-        break      # No more input
-    print(tok)
+# while True:
+#     tok = lexer.token()
+#     if not tok: 
+#         break      # No more input
+#     print(tok)
 

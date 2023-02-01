@@ -82,7 +82,7 @@ def p_body(p):
     Lsystem_body : AXIOM TWOPOINTS STRING COMMA Ls_rules
                 
     '''
-    p[0] = LsysBody(AxiomDefinition(p[2]), p[4])
+    p[0] = LsysBody(AxiomDefinition(p[1]), p[5])
 
 def p_lsystem_rules(p):
     '''
@@ -90,10 +90,12 @@ def p_lsystem_rules(p):
              | STRING ARROW STRING
 
     '''
+
     if len(p) == 4:
         p[0] = [RulesDefinition(left_part=p[1],right_part=p[3])]
     elif len(p)==6:
-        p[0] = [RulesDefinition(left_part=p[1],right_part=p[3])].append(p[5])
+        p[0] = [RulesDefinition(left_part=p[1],right_part=p[3])] + p[5]
+        
 
 def p_error(p):
     raise Exception(f"Syntax error at '{p.value}', line {p.lineno} (Index {p.lexpos}).")
@@ -113,3 +115,16 @@ with open('script.lsystem')as file:
 #     print(tok)
 
 ast = parser.parse(data)
+
+for i in ast.statements:
+    print(i)
+    print()
+    print(i.body.l_rules)
+    print()
+    print(i.body.axiom)
+    print()
+    print()
+    for rule in i.body.l_rules:
+        print(rule.left_part)
+        print(rule.right_part)
+
