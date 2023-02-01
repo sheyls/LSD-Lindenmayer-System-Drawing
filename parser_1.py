@@ -116,7 +116,7 @@ with open('script.lsystem')as file:
 
 ast = parser.parse(data)
 
-for i in ast.statements:
+for i in ast.instructions:
     print(i)
     print()
     print(i.body.l_rules)
