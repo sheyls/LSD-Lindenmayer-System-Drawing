@@ -22,11 +22,10 @@ tokens = lexer.tokens
 #                      | #All the valid instructions here
 #                                    
 #  
-#   Lsystem_body        : axiom: axiom_stmt, Ls_rules
+#   Lsystem_body        : axiom: axiom_stmt COMMA rule -> replace_stmt
 #
-#   Ls_rules            : rule -> replace_stmt, 
-#                       | Ls_rules
-#                       | Epsilon?
+#   Ls_rules            : rule -> replace_stmt COMMA Ls_rules
+#                       | rule -> replace_stmt
 #
 # -----------------------------------------------------------------------------
 """
@@ -59,7 +58,7 @@ def p_instruction_list(p):
 
 
 def p_assignable(p):
-    ''' Assignable : VALUE'''
+    ''' Assignable : INT'''
     
     p[0]=p[1]
 
@@ -116,15 +115,15 @@ with open('script.lsystem')as file:
 
 ast = parser.parse(data)
 
-for i in ast.instructions:
-    print(i)
-    print()
-    print(i.body.l_rules)
-    print()
-    print(i.body.axiom)
-    print()
-    print()
-    for rule in i.body.l_rules:
-        print(rule.left_part)
-        print(rule.right_part)
+# for i in ast.instructions:
+#     print(i)
+#     print()
+#     print(i.body.l_rules)
+#     print()
+#     print(i.body.axiom)
+#     print()
+#     print()
+#     for rule in i.body.l_rules:
+#         print(rule.left_part)
+#         print(rule.right_part)
 

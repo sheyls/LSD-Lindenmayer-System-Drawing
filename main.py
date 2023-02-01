@@ -1,9 +1,14 @@
-from abstract_syctax_tree import *
-from lang.visitor import *
+from lang.context import Context
+from lang.visitor import Eval
+from parser_1 import parser
 
-a = LsystemDeclaration('A', "A->+FF+F")
-d = VariableDeclaration('INT', 'var', 12)
-c = VariableAssignment('var',10)
 
-b = Program([a,d,c])
-b.accept(Eval())
+with open('script.lsystem') as file:
+    data = file.read()
+
+ast = parser.parse(data)
+
+#type_checker = Eval(Context())
+c =  Context()
+ast.accept(Eval(c))
+

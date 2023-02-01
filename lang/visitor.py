@@ -1,22 +1,31 @@
 from __future__ import annotations
 
 import logging
+from matplotlib.style import context
+
+from sympy import content
 
 from lang.context import Context
 from lang.type import *
 class Visitor(object):
-    pass
+    def __init__(self, context) -> None:
+        self.context = context
 
 class Eval(Visitor):
 
+    def __init__(self, context) -> None:
+        super().__init__(context)
+
     def visit_program(self, program):
         for instruction in program.instructions:
-            instruction.accept(Eval())
+            instruction.accept(Eval(self.context))
 
     def visit_lsystemdeclaration(self, lsystem_declaration):
-        print('ssss')
+        self.context.define(lsystem_declaration.name, LsystemInstance(self.context, lsystem_declaration.body)), #self.type))
+        print("ccc")
 
     def visit_axiomdefinition(self, axiom_definition):
+        #context.define(lsystem_declaration.name, LsystemInstance(child_context, self.type, self.parameters, self.body))
         pass
 
     def visit_rulesdefinition(self, rules_definiton):
@@ -26,15 +35,14 @@ class Eval(Visitor):
         pass
 
     def visit_variableassignment(self, var_assignment):
-        variable = Context.resolve(self.name)
+        variable = self.context.resolve(var_assignment.name)
         #esto solo pincha si el valor de las variables son tipos puros
-        new_value = var_assignment.value
-        variable.value = new_value
+        variable.value = var_assignment
         print('bbb')
 
     def visit_variabledeclaration(self, var_declaration):
         #esto solo pincha si el valor de las variables son tipos puros  
-        Context.define(var_declaration.name, Instance(Type.get(var_declaration.type), var_declaration.value))
+        self.context.define(var_declaration.name, Instance(Type.get(var_declaration.type), var_declaration.value))
         print('aaaa')
 
 class TypeCollector(Visitor):

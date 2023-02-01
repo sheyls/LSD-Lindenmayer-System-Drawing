@@ -23,7 +23,7 @@ reserved = {
     'true'       :'TRUE',
     'false'      :'FALSE',
     'break'      :'BREAK',
-    'int'        :'TYPE'
+    '_int'        :'TYPE'
     
 }
 
@@ -36,7 +36,7 @@ tokens = (
    'MULTIPLY',
    'DIFFER',
    'ID',
-   'VALUE',
+   'INT',
    'FLOAT',
    'ANGLE',
    'COLOR',  
@@ -152,8 +152,8 @@ tokens= list(reserved.values()) + list(tokens)
 
 lexer = lex.lex()
 
-with open('script.lsystem')as file:
-    data = file.read()
+# with open('script.lsystem')as file:
+#     data = file.read()
 
 
 # lexer.input(data)

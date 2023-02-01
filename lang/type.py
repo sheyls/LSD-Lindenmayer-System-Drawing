@@ -45,14 +45,14 @@ class Instance:
         self.value = value
         
 class LsystemInstance:
-    def __init__(self, context: Context, type: Type, body) -> None:
+    def __init__(self, context: Context, body) -> None:
         self.context = context
         #self.type = type lsystem
         self.body = body
 
 #Internal types
 _lsystem = Type('lsystem')
-_int = Type('int')
+_int = Type('_int')
 _string = Type('string')
 _brush = Type('brush')
 _canvas = Type('canvas')
