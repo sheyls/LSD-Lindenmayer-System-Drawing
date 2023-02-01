@@ -22,11 +22,10 @@ tokens = lexer.tokens
 #                      | #All the valid instructions here
 #                                    
 #  
-#   Lsystem_body        : axiom: axiom_stmt, Ls_rules
+#   Lsystem_body        : axiom: axiom_stmt COMMA rule -> replace_stmt
 #
-#   Ls_rules            : rule -> replace_stmt, 
-#                       | Ls_rules
-#                       | Epsilon?
+#   Ls_rules            : rule -> replace_stmt COMMA Ls_rules
+#                       | rule -> replace_stmt
 #
 # -----------------------------------------------------------------------------
 """
@@ -77,7 +76,7 @@ def p_lsystem(p):
         p[0] = VariableAssignment(p[1],p[3])
     
 
-def p_body(p):
+def p_lsystem_body(p):
     '''
     Lsystem_body : AXIOM TWOPOINTS STRING COMMA Ls_rules
                 
