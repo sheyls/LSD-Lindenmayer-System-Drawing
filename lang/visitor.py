@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import turtle
 from matplotlib.style import context
 
 from sympy import content
@@ -33,7 +34,19 @@ class Eval(Visitor):
 
     def visit_rulesdefinition(self, rules_definiton):
         pass
+    
     def visit_lsystemdefinition(self, lsystem_definition):
+        pass
+    
+
+    def visit_brushdeclaration(self, brush_declaration):
+        brush = turtle.Turtle()
+        self.context.define(brush_declaration.name, BrushInstance(self.context, brush_declaration.body, brush)), #self.type))
+        
+        print(self.context.symbols[brush_declaration.name].body.size)
+        print("ddd")
+
+    def visit_brushsbody(self, lsysbody):
         pass
 
     def visit_variableassignment(self, var_assignment):

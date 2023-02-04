@@ -19,13 +19,15 @@ tokens = lexer.tokens
 #   Instruction        : LSYS ID { Lsystem_body } END
 #                      | TYPE ID EQUAL Assignable
 #                      | ID EQUAL Assignable
-#                      | #All the valid instructions here
+#                      | BRUSH ID { Brush_body } END
 #                                    
 #  
 #   Lsystem_body        : axiom: axiom_stmt COMMA rule -> replace_stmt
 #
 #   Ls_rules            : rule -> replace_stmt COMMA Ls_rules
 #                       | rule -> replace_stmt
+#
+#   Brush_body          : size: int COMMA color: color COMMA speed: int
 #
 # -----------------------------------------------------------------------------
 """
@@ -65,16 +67,23 @@ def p_assignable(p):
 def p_lsystem(p):
     '''
     Instruction : LSYS ID LBRACE Lsystem_body RBRACE
-                | ID EQUAL Assignable
+    
+    '''
+
+    p[0] = LsystemDeclaration(p[2], p[4])
+\
+
+def p_variables(p):
+    '''
+    Instruction : ID EQUAL Assignable 
                 | TYPE ID EQUAL Assignable
     '''
-    if len(p) == 6:
-        p[0] = LsystemDeclaration(p[2], p[4])
-    elif len(p)==5:
+    if len(p)==5:
         p[0] = VariableDeclaration(p[1],p[2],p[4])
     elif len(p)==4:
         p[0] = VariableAssignment(p[1],p[3])
-    
+
+
 
 def p_lsystem_body(p):
     '''
@@ -87,7 +96,6 @@ def p_lsystem_rules(p):
     '''
     Ls_rules : STRING ARROW STRING COMMA Ls_rules
              | STRING ARROW STRING
-
     '''
 
     if len(p) == 4:
@@ -95,6 +103,17 @@ def p_lsystem_rules(p):
     elif len(p)==6:
         p[0] = [RulesDefinition(left_part=p[1],right_part=p[3])] + p[5]
         
+def p_brush(p):
+    '''
+    Instruction : BRUSH ID LBRACE brush_body RBRACE
+    '''
+    p[0] = LsystemDeclaration(p[2], p[4])
+
+def p_brush_body(p):
+    '''
+    Brush_body : size TWOPOINTS INT COMMA COLOR TWOPOINTS color COMMA SPPED TWOPOINTS int    
+    '''
+    p[0] = BrushBody(p[3], p[7], p[11])
 
 def p_error(p):
     raise Exception(f"Syntax error at '{p.value}', line {p.lineno} (Index {p.lexpos}).")

@@ -35,11 +35,21 @@ class LsystemDeclaration(Node):
         self.name = name
         self.body = body_lsys
 
+class BrushDeclaration(Node):
+    def __init__(self, name, body_brush) -> None:
+        self.name = name
+        self.body = body_brush
+
+class BrushBody(Node):
+    def __init__(self, size, color, speed) -> None:
+        self.size = size
+        self.color = color
+        self.speed = speed
+
 class LsysBody(Node):
     def __init__(self, axiom, l_rules) -> None:
         self.axiom = axiom
         self.l_rules = l_rules
-
 class AxiomDefinition(Node):
     def __init__(self, axiom: str):
         self.axiom = axiom

@@ -10,3 +10,10 @@ lsys leaf{
     Y => B
 
 };
+
+brush classic {
+
+    size: 4,
+    color: #FFFFFF,
+    speed: 200
+};

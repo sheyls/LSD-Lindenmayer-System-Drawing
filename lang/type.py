@@ -50,8 +50,18 @@ class LsystemInstance:
         #self.type = type lsystem
         self.body = body
 
-    # def __str__(self) -> str:
-    #     return self.body.rules
+class BrushInstance:
+    def __init__(self, context: Context, body, brush) -> None:
+        self.context = context
+        #self.type = type 
+        brush.speed(body.speed)
+        #brush.penup()
+        #my_pen.setpos(0, -250)
+        #brush.pendown()
+        brush.hideturtle()
+        brush.pensize(body.size)
+        brush.color(0,0,0)
+        self.brush = brush
 
 #Internal types
 _lsystem = Type('lsystem')
