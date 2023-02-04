@@ -25,7 +25,6 @@ class Eval(Visitor):
         print("ccc")
 
     def visit_axiomdefinition(self, axiom_definition):
-        #context.define(lsystem_declaration.name, LsystemInstance(child_context, self.type, self.parameters, self.body))
         pass
 
     def visit_rulesdefinition(self, rules_definiton):
