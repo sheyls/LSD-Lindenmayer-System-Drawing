@@ -50,6 +50,9 @@ class LsystemInstance:
         #self.type = type lsystem
         self.body = body
 
+    # def __str__(self) -> str:
+    #     return self.body.rules
+
 #Internal types
 _lsystem = Type('lsystem')
 _int = Type('_int')

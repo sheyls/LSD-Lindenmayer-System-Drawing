@@ -81,7 +81,7 @@ def p_body(p):
     Lsystem_body : AXIOM TWOPOINTS STRING COMMA Ls_rules
                 
     '''
-    p[0] = LsysBody(AxiomDefinition(p[1]), p[5])
+    p[0] = LsysBody(AxiomDefinition(p[3]), p[5])
 
 def p_lsystem_rules(p):
     '''

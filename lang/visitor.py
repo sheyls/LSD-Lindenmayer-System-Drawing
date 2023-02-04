@@ -22,14 +22,17 @@ class Eval(Visitor):
 
     def visit_lsystemdeclaration(self, lsystem_declaration):
         self.context.define(lsystem_declaration.name, LsystemInstance(self.context, lsystem_declaration.body)), #self.type))
+        print(self.context.symbols[lsystem_declaration.name].body.l_rules[0].right_part)
         print("ccc")
+
+    def visit_lsysbody(self, lsysbody):
+        pass
 
     def visit_axiomdefinition(self, axiom_definition):
         pass
 
     def visit_rulesdefinition(self, rules_definiton):
         pass
-
     def visit_lsystemdefinition(self, lsystem_definition):
         pass
 
