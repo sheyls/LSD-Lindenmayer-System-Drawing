@@ -11,9 +11,10 @@ lsys leaf{
 
 };
 
-brush classic {
+brush mibrochamucha {
 
-    size: 4,
-    color: #FFFFFF,
+    size: 3,
+    color: #00ff00,
     speed: 200
+
 };

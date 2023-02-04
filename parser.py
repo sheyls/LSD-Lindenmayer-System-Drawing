@@ -60,7 +60,7 @@ def p_instruction_list(p):
 
 
 def p_assignable(p):
-    ''' Assignable : VALUE'''
+    ''' Assignable : INT'''
     
     p[0]=p[1]
 
@@ -105,13 +105,13 @@ def p_lsystem_rules(p):
         
 def p_brush(p):
     '''
-    Instruction : BRUSH ID LBRACE brush_body RBRACE
+    Instruction : BRUSH ID LBRACE Brush_body RBRACE
     '''
-    p[0] = LsystemDeclaration(p[2], p[4])
+    p[0] = BrushDeclaration(p[2], p[4])
 
 def p_brush_body(p):
     '''
-    Brush_body : size TWOPOINTS INT COMMA COLOR TWOPOINTS color COMMA SPPED TWOPOINTS int    
+    Brush_body : SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT    
     '''
     p[0] = BrushBody(p[3], p[7], p[11])
 
@@ -134,15 +134,15 @@ with open('script.lsystem')as file:
 
 ast = parser.parse(data)
 
-for i in ast.statements:
-    print(i)
-    print()
-    print(i.body.l_rules)
-    print()
-    print(i.body.axiom)
-    print()
-    print()
-    for rule in i.body.l_rules:
-        print(rule.left_part)
-        print(rule.right_part)
+# for i in ast.instructions:
+#     print(i)
+#     print()
+#     print(i.body.l_rules)
+#     print()
+#     print(i.body.axiom)
+#     print()
+#     print()
+#     for rule in i.body.l_rules:
+#         print(rule.left_part)
+#         print(rule.right_part)
 

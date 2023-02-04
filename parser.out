@@ -42,15 +42,15 @@ Rule 0     S' -> Program
 Rule 1     Program -> InstructionList
 Rule 2     InstructionList -> Instruction END InstructionList
 Rule 3     InstructionList -> Instruction END
-Rule 4     Assignable -> VALUE
+Rule 4     Assignable -> INT
 Rule 5     Instruction -> LSYS ID LBRACE Lsystem_body RBRACE
 Rule 6     Instruction -> ID EQUAL Assignable
 Rule 7     Instruction -> TYPE ID EQUAL Assignable
 Rule 8     Lsystem_body -> AXIOM TWOPOINTS STRING COMMA Ls_rules
 Rule 9     Ls_rules -> STRING ARROW STRING COMMA Ls_rules
 Rule 10    Ls_rules -> STRING ARROW STRING
-Rule 11    Instruction -> BRUSH ID LBRACE brush_body RBRACE
-Rule 12    Brush_body -> size TWOPOINTS INT COMMA COLOR TWOPOINTS color COMMA SPPED TWOPOINTS int
+Rule 11    Instruction -> BRUSH ID LBRACE Brush_body RBRACE
+Rule 12    Brush_body -> SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT
 
 Terminals, with rules where they appear
 
@@ -61,6 +61,7 @@ AXIOM                : 8
 BREAK                : 
 BRUSH                : 11
 CANVAS               : 
+COL                  : 12
 COLOR                : 12
 COMMA                : 8 9 12 12
 DIFFER               : 
@@ -75,7 +76,7 @@ GEQUAL               :
 GREATER              : 
 ID                   : 5 6 7 11
 IF                   : 
-INT                  : 12
+INT                  : 4 12 12
 LBRACE               : 5 11
 LCOR                 : 
 LEFT                 : 
@@ -97,6 +98,8 @@ RCOR                 :
 RIGHT                : 
 RPAREN               : 
 RULE                 : 
+SIZE                 : 12
+SPEED                : 12
 STRING               : 8 9 9 10 10
 TRUE                 : 
 TWOPOINTS            : 8 12 12 12
@@ -107,16 +110,370 @@ error                :
 Nonterminals, with rules where they appear
 
 Assignable           : 6 7
-Brush_body           : 
+Brush_body           : 11
 Instruction          : 2 3
 InstructionList      : 1 2
 Ls_rules             : 8 9
 Lsystem_body         : 5
 Program              : 0
-SPPED                : 12
-VALUE                : 4
-brush_body           : 11
-color                : 12
-int                  : 12
-size                 : 12
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . Program
+    (1) Program -> . InstructionList
+    (2) InstructionList -> . Instruction END InstructionList
+    (3) InstructionList -> . Instruction END
+    (5) Instruction -> . LSYS ID LBRACE Lsystem_body RBRACE
+    (6) Instruction -> . ID EQUAL Assignable
+    (7) Instruction -> . TYPE ID EQUAL Assignable
+    (11) Instruction -> . BRUSH ID LBRACE Brush_body RBRACE
+
+    LSYS            shift and go to state 4
+    ID              shift and go to state 5
+    TYPE            shift and go to state 6
+    BRUSH           shift and go to state 7
+
+    Program                        shift and go to state 1
+    InstructionList                shift and go to state 2
+    Instruction                    shift and go to state 3
+
+state 1
+
+    (0) S' -> Program .
+
+
+
+state 2
+
+    (1) Program -> InstructionList .
+
+    $end            reduce using rule 1 (Program -> InstructionList .)
+
+
+state 3
+
+    (2) InstructionList -> Instruction . END InstructionList
+    (3) InstructionList -> Instruction . END
+
+    END             shift and go to state 8
+
+
+state 4
+
+    (5) Instruction -> LSYS . ID LBRACE Lsystem_body RBRACE
+
+    ID              shift and go to state 9
+
+
+state 5
+
+    (6) Instruction -> ID . EQUAL Assignable
+
+    EQUAL           shift and go to state 10
+
+
+state 6
+
+    (7) Instruction -> TYPE . ID EQUAL Assignable
+
+    ID              shift and go to state 11
+
+
+state 7
+
+    (11) Instruction -> BRUSH . ID LBRACE Brush_body RBRACE
+
+    ID              shift and go to state 12
+
+
+state 8
+
+    (2) InstructionList -> Instruction END . InstructionList
+    (3) InstructionList -> Instruction END .
+    (2) InstructionList -> . Instruction END InstructionList
+    (3) InstructionList -> . Instruction END
+    (5) Instruction -> . LSYS ID LBRACE Lsystem_body RBRACE
+    (6) Instruction -> . ID EQUAL Assignable
+    (7) Instruction -> . TYPE ID EQUAL Assignable
+    (11) Instruction -> . BRUSH ID LBRACE Brush_body RBRACE
+
+    $end            reduce using rule 3 (InstructionList -> Instruction END .)
+    LSYS            shift and go to state 4
+    ID              shift and go to state 5
+    TYPE            shift and go to state 6
+    BRUSH           shift and go to state 7
+
+    Instruction                    shift and go to state 3
+    InstructionList                shift and go to state 13
+
+state 9
+
+    (5) Instruction -> LSYS ID . LBRACE Lsystem_body RBRACE
+
+    LBRACE          shift and go to state 14
+
+
+state 10
+
+    (6) Instruction -> ID EQUAL . Assignable
+    (4) Assignable -> . INT
+
+    INT             shift and go to state 16
+
+    Assignable                     shift and go to state 15
+
+state 11
+
+    (7) Instruction -> TYPE ID . EQUAL Assignable
+
+    EQUAL           shift and go to state 17
+
+
+state 12
+
+    (11) Instruction -> BRUSH ID . LBRACE Brush_body RBRACE
+
+    LBRACE          shift and go to state 18
+
+
+state 13
+
+    (2) InstructionList -> Instruction END InstructionList .
+
+    $end            reduce using rule 2 (InstructionList -> Instruction END InstructionList .)
+
+
+state 14
+
+    (5) Instruction -> LSYS ID LBRACE . Lsystem_body RBRACE
+    (8) Lsystem_body -> . AXIOM TWOPOINTS STRING COMMA Ls_rules
+
+    AXIOM           shift and go to state 20
+
+    Lsystem_body                   shift and go to state 19
+
+state 15
+
+    (6) Instruction -> ID EQUAL Assignable .
+
+    END             reduce using rule 6 (Instruction -> ID EQUAL Assignable .)
+
+
+state 16
+
+    (4) Assignable -> INT .
+
+    END             reduce using rule 4 (Assignable -> INT .)
+
+
+state 17
+
+    (7) Instruction -> TYPE ID EQUAL . Assignable
+    (4) Assignable -> . INT
+
+    INT             shift and go to state 16
+
+    Assignable                     shift and go to state 21
+
+state 18
+
+    (11) Instruction -> BRUSH ID LBRACE . Brush_body RBRACE
+    (12) Brush_body -> . SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT
+
+    SIZE            shift and go to state 23
+
+    Brush_body                     shift and go to state 22
+
+state 19
+
+    (5) Instruction -> LSYS ID LBRACE Lsystem_body . RBRACE
+
+    RBRACE          shift and go to state 24
+
+
+state 20
+
+    (8) Lsystem_body -> AXIOM . TWOPOINTS STRING COMMA Ls_rules
+
+    TWOPOINTS       shift and go to state 25
+
+
+state 21
+
+    (7) Instruction -> TYPE ID EQUAL Assignable .
+
+    END             reduce using rule 7 (Instruction -> TYPE ID EQUAL Assignable .)
+
+
+state 22
+
+    (11) Instruction -> BRUSH ID LBRACE Brush_body . RBRACE
+
+    RBRACE          shift and go to state 26
+
+
+state 23
+
+    (12) Brush_body -> SIZE . TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT
+
+    TWOPOINTS       shift and go to state 27
+
+
+state 24
+
+    (5) Instruction -> LSYS ID LBRACE Lsystem_body RBRACE .
+
+    END             reduce using rule 5 (Instruction -> LSYS ID LBRACE Lsystem_body RBRACE .)
+
+
+state 25
+
+    (8) Lsystem_body -> AXIOM TWOPOINTS . STRING COMMA Ls_rules
+
+    STRING          shift and go to state 28
+
+
+state 26
+
+    (11) Instruction -> BRUSH ID LBRACE Brush_body RBRACE .
+
+    END             reduce using rule 11 (Instruction -> BRUSH ID LBRACE Brush_body RBRACE .)
+
+
+state 27
+
+    (12) Brush_body -> SIZE TWOPOINTS . INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT
+
+    INT             shift and go to state 29
+
+
+state 28
+
+    (8) Lsystem_body -> AXIOM TWOPOINTS STRING . COMMA Ls_rules
+
+    COMMA           shift and go to state 30
+
+
+state 29
+
+    (12) Brush_body -> SIZE TWOPOINTS INT . COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT
+
+    COMMA           shift and go to state 31
+
+
+state 30
+
+    (8) Lsystem_body -> AXIOM TWOPOINTS STRING COMMA . Ls_rules
+    (9) Ls_rules -> . STRING ARROW STRING COMMA Ls_rules
+    (10) Ls_rules -> . STRING ARROW STRING
+
+    STRING          shift and go to state 32
+
+    Ls_rules                       shift and go to state 33
+
+state 31
+
+    (12) Brush_body -> SIZE TWOPOINTS INT COMMA . COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT
+
+    COLOR           shift and go to state 34
+
+
+state 32
+
+    (9) Ls_rules -> STRING . ARROW STRING COMMA Ls_rules
+    (10) Ls_rules -> STRING . ARROW STRING
+
+    ARROW           shift and go to state 35
+
+
+state 33
+
+    (8) Lsystem_body -> AXIOM TWOPOINTS STRING COMMA Ls_rules .
+
+    RBRACE          reduce using rule 8 (Lsystem_body -> AXIOM TWOPOINTS STRING COMMA Ls_rules .)
+
+
+state 34
+
+    (12) Brush_body -> SIZE TWOPOINTS INT COMMA COLOR . TWOPOINTS COL COMMA SPEED TWOPOINTS INT
+
+    TWOPOINTS       shift and go to state 36
+
+
+state 35
+
+    (9) Ls_rules -> STRING ARROW . STRING COMMA Ls_rules
+    (10) Ls_rules -> STRING ARROW . STRING
+
+    STRING          shift and go to state 37
+
+
+state 36
+
+    (12) Brush_body -> SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS . COL COMMA SPEED TWOPOINTS INT
+
+    COL             shift and go to state 38
+
+
+state 37
+
+    (9) Ls_rules -> STRING ARROW STRING . COMMA Ls_rules
+    (10) Ls_rules -> STRING ARROW STRING .
+
+    COMMA           shift and go to state 39
+    RBRACE          reduce using rule 10 (Ls_rules -> STRING ARROW STRING .)
+
+
+state 38
+
+    (12) Brush_body -> SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL . COMMA SPEED TWOPOINTS INT
+
+    COMMA           shift and go to state 40
+
+
+state 39
+
+    (9) Ls_rules -> STRING ARROW STRING COMMA . Ls_rules
+    (9) Ls_rules -> . STRING ARROW STRING COMMA Ls_rules
+    (10) Ls_rules -> . STRING ARROW STRING
+
+    STRING          shift and go to state 32
+
+    Ls_rules                       shift and go to state 41
+
+state 40
+
+    (12) Brush_body -> SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA . SPEED TWOPOINTS INT
+
+    SPEED           shift and go to state 42
+
+
+state 41
+
+    (9) Ls_rules -> STRING ARROW STRING COMMA Ls_rules .
+
+    RBRACE          reduce using rule 9 (Ls_rules -> STRING ARROW STRING COMMA Ls_rules .)
+
+
+state 42
+
+    (12) Brush_body -> SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED . TWOPOINTS INT
+
+    TWOPOINTS       shift and go to state 43
+
+
+state 43
+
+    (12) Brush_body -> SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS . INT
+
+    INT             shift and go to state 44
+
+
+state 44
+
+    (12) Brush_body -> SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT .
+
+    RBRACE          reduce using rule 12 (Brush_body -> SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT .)
 

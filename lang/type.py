@@ -4,6 +4,8 @@ from typing import Dict, List
 
 from lang.context import Context
 
+import turtle
+
 
 class Type:
     types = {}
@@ -60,7 +62,13 @@ class BrushInstance:
         #brush.pendown()
         brush.hideturtle()
         brush.pensize(body.size)
-        brush.color(0,0,0)
+        brush.color(body.color)
+        window = turtle.Screen()
+        window.bgcolor("white")
+        turtle.colormode(255)
+        brush.forward(45)
+        window.exitonclick()
+
         self.brush = brush
 
 #Internal types
