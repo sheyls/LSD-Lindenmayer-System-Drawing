@@ -1,4 +1,5 @@
 from __future__ import annotations
+from curses import window
 
 import logging
 import turtle
@@ -26,18 +27,6 @@ class Eval(Visitor):
         #print(self.context.symbols[lsystem_declaration.name].body.l_rules[0].right_part)
         print("ccc")
 
-    def visit_lsysbody(self, lsysbody):
-        pass
-
-    def visit_axiomdefinition(self, axiom_definition):
-        pass
-
-    def visit_rulesdefinition(self, rules_definiton):
-        pass
-    
-    def visit_lsystemdefinition(self, lsystem_definition):
-        pass
-    
 
     def visit_brushdeclaration(self, brush_declaration):
         brush = turtle.Turtle()
@@ -53,8 +42,38 @@ class Eval(Visitor):
         #print(self.context.symbols[brush_declaration.name].body.size)
         print("eee")
 
-    def visit_brushsbody(self, lsysbody):
-        pass
+    def visit_draw(self, draw_node):
+
+        window = self.context.resolve(draw_node.canvas).canvas
+        lsystem = self.context.resolve(draw_node.lsystem).body
+        brush = self.context.resolve(draw_node.brush).brush
+
+        curve = lsystem.axiom.axiom.lower()
+        for _ in range(draw_node.complexity):
+            print(curve)
+            for rule in lsystem.l_rules:
+                print(curve)
+                print(rule.right)
+                print(rule.left)
+                curve = curve.replace(rule.left.lower(), rule.right)  
+            curve = curve.lower()
+        
+        for rule in lsystem.l_rules:
+                curve = curve.replace(rule.right, "")
+                print(curve)
+        print(curve)
+
+
+        for c in curve:
+            if c == 'f':
+                brush.forward(5)
+            elif c == '+':
+                brush.left(draw_node.angle)
+            elif c == '-':
+                brush.right(draw_node.angle)
+
+        print("qbola")
+        window.exitonclick()
 
     def visit_variableassignment(self, var_assignment):
         variable = self.context.resolve(var_assignment.name)

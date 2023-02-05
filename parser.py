@@ -21,6 +21,7 @@ tokens = lexer.tokens
 #                      | ID EQUAL Assignable
 #                      | BRUSH ID { Brush_body } END
 #                      | CANVAS ID { Canvas_body } END
+#                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA int COMMA int RPAREN END
 #                                    
 #   Lsystem_body        : axiom: axiom_stmt COMMA rule -> replace_stmt
 #
@@ -92,7 +93,7 @@ def p_lsystem_body(p):
     Lsystem_body : AXIOM TWOPOINTS STRING COMMA Ls_rules
                 
     '''
-    p[0] = LsysBody(AxiomDefinition(p[1]), p[5])
+    p[0] = LsysBody(AxiomDefinition(p[3]), p[5])
 
 def p_lsystem_rules(p):
     '''
@@ -129,6 +130,11 @@ def p_canvas_body(p):
     '''
     p[0] = CanvasBody(p[3], p[7], p[11])
 
+def p_draw(p):
+    '''
+    Instruction : DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT RPAREN
+    '''
+    p[0] = Draw(p[3], p[5], p[7], p[9], p[11])
 
 def p_error(p):
     raise Exception(f"Syntax error at '{p.value}', line {p.lineno} (Index {p.lexpos}).")

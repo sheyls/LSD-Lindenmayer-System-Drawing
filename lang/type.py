@@ -68,14 +68,15 @@ class BrushInstance:
         #turtle.colormode(255)
         #brush.forward(45)
         #window.exitonclick()
+        #brush.setpos(250, -250)
+        #brush.pendown()
         self.brush = brush
 
 class CanvasInstance:
     def __init__(self, context: Context, body, canvas) -> None:
         self.context = context
         canvas.bgcolor(body.color)
-        canvas.screensize(body.high, body.width)
-        canvas.exitonclick()
+        canvas.screensize(body.width, body.high)
         self.canvas = canvas
 
         

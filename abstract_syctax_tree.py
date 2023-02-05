@@ -61,15 +61,15 @@ class LsysBody(Node):
     def __init__(self, axiom, l_rules) -> None:
         self.axiom = axiom
         self.l_rules = l_rules
-        
+
 class AxiomDefinition(Node):
     def __init__(self, axiom: str):
         self.axiom = axiom
         
 class RulesDefinition(Node):
     def __init__(self, right_part, left_part) -> None:
-        self.right_part = right_part
-        self.left_part = left_part
+        self.right = right_part
+        self.left = left_part
 
 class LsystemDefinition(Node):
     def __init__(self, axiom, rules):
@@ -86,3 +86,11 @@ class VariableDeclaration(Node):
         self.type = type
         self.name = name
         self.value = value
+
+class Draw(Node):
+    def __init__(self, lsystem, brush, canvas, angle, complexity) -> None:
+        self.lsystem = lsystem
+        self.brush = brush
+        self.canvas = canvas
+        self.angle = angle
+        self.complexity = complexity
