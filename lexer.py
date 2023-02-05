@@ -14,6 +14,8 @@ reserved = {
     'color'      : 'COLOR',
     'size'       : 'SIZE',
     'speed'      : 'SPEED',
+    'high'       : 'HIGH',
+    'width'      : 'WIDTH',
     'rule'       : 'RULE',
     'push'       : 'PUSH',
     'pop'        : 'POP',

@@ -60,16 +60,25 @@ class BrushInstance:
         #brush.penup()
         #my_pen.setpos(0, -250)
         #brush.pendown()
-        brush.hideturtle()
         brush.pensize(body.size)
         brush.color(body.color)
-        window = turtle.Screen()
-        window.bgcolor("white")
-        turtle.colormode(255)
-        brush.forward(45)
-        window.exitonclick()
-
+        brush.hideturtle()
+        #window = turtle.Screen()
+        #window.bgcolor("white")
+        #turtle.colormode(255)
+        #brush.forward(45)
+        #window.exitonclick()
         self.brush = brush
+
+class CanvasInstance:
+    def __init__(self, context: Context, body, canvas) -> None:
+        self.context = context
+        canvas.bgcolor(body.color)
+        canvas.screensize(body.high, body.width)
+        canvas.exitonclick()
+        self.canvas = canvas
+
+        
 
 #Internal types
 _lsystem = Type('lsystem')

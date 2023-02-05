@@ -43,8 +43,15 @@ class Eval(Visitor):
         brush = turtle.Turtle()
         self.context.define(brush_declaration.name, BrushInstance(self.context, brush_declaration.body, brush)), #self.type))
         
-        print(self.context.symbols[brush_declaration.name].body.size)
+       # print(self.context.symbols[brush_declaration.name].body.size)
         print("ddd")
+
+    def visit_canvasdeclaration(self, canvas_declaration):
+        canvas = turtle.Screen()
+        self.context.define(canvas_declaration.name, CanvasInstance(self.context, canvas_declaration.body, canvas)), #self.type))
+        
+        #print(self.context.symbols[brush_declaration.name].body.size)
+        print("eee")
 
     def visit_brushsbody(self, lsysbody):
         pass

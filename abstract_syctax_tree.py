@@ -46,10 +46,22 @@ class BrushBody(Node):
         self.color = color
         self.speed = speed
 
+class CanvasDeclaration(Node):
+    def __init__(self, name, body_canvas) -> None:
+        self.name = name
+        self.body = body_canvas
+
+class CanvasBody(Node):
+    def __init__(self, high, width, color) -> None:
+        self.high = high
+        self.width = width
+        self.color = color
+
 class LsysBody(Node):
     def __init__(self, axiom, l_rules) -> None:
         self.axiom = axiom
         self.l_rules = l_rules
+        
 class AxiomDefinition(Node):
     def __init__(self, axiom: str):
         self.axiom = axiom

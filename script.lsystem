@@ -18,3 +18,10 @@ brush mibrochamucha {
     speed: 200
 
 };
+
+canvas micanvasgamba {
+
+    high: 1000,
+    width: 3000,
+    color: #0000ff
+};
