@@ -62,6 +62,7 @@ class BrushInstance:
         #brush.pendown()
         brush.pensize(body.size)
         brush.color(body.color)
+        brush.left(90)
         brush.hideturtle()
         #window = turtle.Screen()
         #window.bgcolor("white")

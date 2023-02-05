@@ -2,24 +2,24 @@ _int a = 3;
 a = 5;
 
 lsys leaf{
-    axiom : F++F++F,
-    F => F-F++F-F
+    axiom : F+F+F+F,
+    F => FF+F+F+F+FF
 
 };
 
 brush mibrochamucha {
 
-    size: 2,
-    color: #00ff00,
+    size: 1,
+    color: #c93c20,
     speed: 300
 
 };
 
 canvas micanvasgambas {
 
-    high: 100,
-    width: 100,
+    high: 4000,
+    width: 4000,
     color: #ffffff
 };
 
-draw(leaf, mibrochamucha, micanvasgambas, 60, 10);
+draw(leaf, mibrochamucha, micanvasgambas, 90, 5);

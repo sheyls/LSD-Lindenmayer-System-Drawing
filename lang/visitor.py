@@ -63,14 +63,37 @@ class Eval(Visitor):
                 print(curve)
         print(curve)
 
-
+        stack = []
         for c in curve:
             if c == 'f':
                 brush.forward(5)
+            elif c == 'g':
+                brush.penup()
+                brush.forward(5)
+                brush.pendown()
             elif c == '+':
                 brush.left(draw_node.angle)
             elif c == '-':
                 brush.right(draw_node.angle)
+            elif c == '[':
+                pos = brush.position()
+                stack.append(pos)
+                ang = brush.heading()
+                stack.append(ang)
+
+                #brush.push()
+            elif c == ']':
+                #brush.penup()
+                ang = stack.pop()
+                pos = stack.pop()
+                brush.up()
+                brush.setheading(ang)
+                brush.goto(pos)
+                brush.down()
+                #brush.setpos(stack[-1])
+                #brush.pendown()
+                #brush.pop()
+
 
         print("qbola")
         window.exitonclick()
