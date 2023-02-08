@@ -5,12 +5,17 @@ reserved = {
     'canvas'     : 'CANVAS',
     'draw'       : 'DRAW',
     'brush'      : 'BRUSH',
-    'lsys'    : 'LSYS',
+    'lsys'       : 'LSYS',
     'left'       : 'LEFT',
     'right'      : 'RIGHT',
     'line'       : 'LINE',
     'nill'       : 'NILL',
     'axiom'      : 'AXIOM',
+    'color'      : 'COLOR',
+    'size'       : 'SIZE',
+    'speed'      : 'SPEED',
+    'high'       : 'HIGH',
+    'width'      : 'WIDTH',
     'rule'       : 'RULE',
     'push'       : 'PUSH',
     'pop'        : 'POP',
@@ -22,13 +27,15 @@ reserved = {
     'or'         : 'OR',
     'true'       :'TRUE',
     'false'      :'FALSE',
-    'break'      :'BREAK'
+    'break'      :'BREAK',
+    '_int'        :'TYPE'
+    
 }
 
 # List of token names. 
 tokens = (
    'STRING',
-
+    
    'PLUS',
    'MINUS',
    'MULTIPLY',
@@ -37,7 +44,7 @@ tokens = (
    'INT',
    'FLOAT',
    'ANGLE',
-   'COLOR',  
+   'COL',  
    'EQUALEQUAL',
    'GEQUAL',
    'LEQUAL',
@@ -61,14 +68,13 @@ tokens = (
 
 
 # Regular expression rules for simple tokens
-t_STRING = r'"(\w|\s)*"'
-t_ARROW = r'->'
+t_ARROW = r'=>'
+t_STRING = r'[A-Z\+\-\<\>\[\]]+'
 
 t_PLUS = r'\+'
 t_MINUS = r'\-'
 t_MULTIPLY = r'\*'
 t_DIFFER = r'\\'
-
 
 t_EQUALEQUAL = r'=='
 t_GEQUAL = r'>='
@@ -86,7 +92,7 @@ t_END= r';'
 t_TWOPOINTS= r':'
 t_LBRACE = r'\{'
 t_RBRACE = r'\}'
-t_COLOR = r'\#([a,b,c,d,e,f]|\d){6}'
+#t_COL = r'\#([a,b,c,d,e,f]|\d){6}'
 
 
 def t_FLOAT(t):
@@ -113,8 +119,14 @@ def t_ANGLE(t):
 
 
 def t_ID(t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    r'[a-z_][a-z_0-9]*'
     t.type = reserved.get(t.value, 'ID')    # Check for reserved words
+    return t
+
+
+def t_COL(t):
+    #r'[A-Z\+\-\<\>\[\]]+'
+    r'\#[a-f\d]{6}'
     return t
 
 def t_COMMENT(t):
@@ -151,5 +163,15 @@ tokens= list(reserved.values()) + list(tokens)
 
 lexer = lex.lex()
 
+# with open('script.lsystem')as file:
+#     data = file.read()
 
+
+# lexer.input(data)
+ 
+# while True:
+#     tok = lexer.token()
+#     if not tok: 
+#         break      # No more input
+#     print(tok)
 
