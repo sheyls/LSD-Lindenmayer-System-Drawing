@@ -67,29 +67,31 @@ class Eval(Visitor):
 
         stack = []
         meaning_of_plus_and_minus = True
+        forward_value = 5
+        draw_angle = draw_node.angle
         for c in curve:
             if c == 'f':
                 # Move forward by line length drawing a line 
-                brush.forward(5)   
+                brush.forward(forward_value)   
             elif c == 'g': 
                 # Move forward by line length without drawing a line
                 brush.penup()
-                brush.forward(5)
+                brush.forward(forward_value)
                 brush.pendown()
             elif c == '+': # if meaning_of_plus_and_minus id False that means the meaning of the symbols are turned
                 if meaning_of_plus_and_minus:
                     # Turn left by turning angle
-                    brush.left(draw_node.angle)
+                    brush.left(draw_angle)
                 else:
                     # the meaning is turned
-                    brush.right(draw_node.angle)
+                    brush.right(draw_angle)
                 
             elif c == '-':
                 if meaning_of_plus_and_minus:
                     # Turn right by turning angle
-                    brush.right(draw_node.angle)
+                    brush.right(draw_angle)
                 else:    
-                    brush.left(draw_node.angle)
+                    brush.left(draw_angle)
                 
             elif c == '[':
                 # Push current drawing state onto the stack
@@ -113,10 +115,10 @@ class Eval(Visitor):
                 #brush.pop()
             elif c == '#':
                 # Increment the line width by line width increment
-                brush.pensize(brush.pensize() + 1)
+                brush.pensize(brush.pensize() + 0.5)
             elif c == '!': 
                 # Decrement the line width by line width increment
-                brush.pensize(brush.pensize() - 1)
+                brush.pensize(brush.pensize() - 0.5)
             elif c == '{':
                 # Open a polygon
                 c = 9
@@ -125,22 +127,22 @@ class Eval(Visitor):
                 d = 9
             elif c == '>':
                 # Multiply the line length by the line length scale factor
-                f = 8    
+                forward_value = forward_value + 0.3
             elif c == '<':
                 # Divide the line length by the line length scale factor
-                e = 9    
+                forward_value = forward_value - 0.3
             elif c == '&':
                 # Swap the meaning of + and -  
                 if meaning_of_plus_and_minus:
                     meaning_of_plus_and_minus = False
                 else:
                     meaning_of_plus_and_minus = True
-            elif c == '(':
+            elif c == '%':
                 # Decrement turning angle by turning angle increment 
-                s = 9
-            elif c ==')':
+                draw_angle = draw_angle + 10
+            elif c =='$':
                 # Increment turning angle by turning angle increment
-                l = 9                              
+                draw_angle = draw_angle - 10                            
 
 
 

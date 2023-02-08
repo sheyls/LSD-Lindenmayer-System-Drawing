@@ -19,12 +19,27 @@ lsys quedratic_gosper {
 
 lsys square_sierpinski{
     axiom : F+XF+F+XF,
-    X => XF-F+F-XF+F+XF-F+F-X!
+    X => XF-F+F-XF+F+XF-F+F-X%$
+};
+
+lsys classic_sierpinski_curve{
+    axiom : F--XF--F--XF,
+    X => XF+F+XF--F--XF+F+X
+};
+
+lsys hexagonal_gosper{
+    axiom : XF,
+    X => X+YF++YF-FX--FXFX-YF+,
+    Y => -FX+YFYF++YF+FX--FX-Y
 };
 
 lsys bushes_2 {
     axiom :F,
     F => FF+[+F-F-F]-[-F+F+F]
+};
+lsys levy_curve {
+    axiom :F,
+    F => -F++F-
 };
 
 brush mibrochamucha {
@@ -42,5 +57,6 @@ canvas micanvasgambas {
     color: #000000
 };
 
-draw(square_sierpinski, mibrochamucha, micanvasgambas, 90, 5);
+draw(levy_curve, mibrochamucha, micanvasgambas, 45, 10);
+draw(hexagonal_gosper, mibrochamucha, micanvasgambas, 60, 5);
 draw(block, mibrochamucha, micanvasgambas, 90, 5);
