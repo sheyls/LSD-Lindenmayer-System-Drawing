@@ -5,37 +5,19 @@ Unused terminals:
     AND
     ANGLE
     BREAK
-<<<<<<< HEAD
-    BRUSH
-    CANVAS
-    COLOR
-    DIFFER
-    DRAW
-    ELSE
-    EQUAL
-=======
     DIFFER
     ELSE
->>>>>>> dev-sh
     EQUALEQUAL
     FALSE
     FLOAT
     GEQUAL
     GREATER
     IF
-<<<<<<< HEAD
-    INT
-=======
->>>>>>> dev-sh
     LCOR
     LEFT
     LEQUAL
     LESS
     LINE
-<<<<<<< HEAD
-    LPAREN
-=======
->>>>>>> dev-sh
     MINUS
     MULTIPLY
     NILL
@@ -46,10 +28,6 @@ Unused terminals:
     PUSH
     RCOR
     RIGHT
-<<<<<<< HEAD
-    RPAREN
-=======
->>>>>>> dev-sh
     RULE
     TRUE
     WHILE
@@ -60,12 +38,6 @@ Rule 0     S' -> Program
 Rule 1     Program -> InstructionList
 Rule 2     InstructionList -> Instruction END InstructionList
 Rule 3     InstructionList -> Instruction END
-<<<<<<< HEAD
-Rule 4     Instruction -> LSYS ID LBRACE Lsystem_body RBRACE
-Rule 5     Lsystem_body -> AXIOM TWOPOINTS STRING COMMA Ls_rules
-Rule 6     Ls_rules -> STRING ARROW STRING COMMA Ls_rules
-Rule 7     Ls_rules -> STRING ARROW STRING
-=======
 Rule 4     Assignable -> INT
 Rule 5     Instruction -> LSYS ID LBRACE Lsystem_body RBRACE
 Rule 6     Instruction -> ID EQUAL Assignable
@@ -78,26 +50,11 @@ Rule 12    Brush_body -> SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEE
 Rule 13    Instruction -> CANVAS ID LBRACE Canvas_body RBRACE
 Rule 14    Canvas_body -> HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS COL
 Rule 15    Instruction -> DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT RPAREN
->>>>>>> dev-sh
 
 Terminals, with rules where they appear
 
 AND                  : 
 ANGLE                : 
-<<<<<<< HEAD
-ARROW                : 6 7
-AXIOM                : 5
-BREAK                : 
-BRUSH                : 
-CANVAS               : 
-COLOR                : 
-COMMA                : 5 6
-DIFFER               : 
-DRAW                 : 
-ELSE                 : 
-END                  : 2 3
-EQUAL                : 
-=======
 ARROW                : 9 10
 AXIOM                : 8
 BREAK                : 
@@ -111,36 +68,23 @@ DRAW                 : 15
 ELSE                 : 
 END                  : 2 3
 EQUAL                : 6 7
->>>>>>> dev-sh
 EQUALEQUAL           : 
 FALSE                : 
 FLOAT                : 
 GEQUAL               : 
 GREATER              : 
-<<<<<<< HEAD
-ID                   : 4
-IF                   : 
-INT                  : 
-LBRACE               : 4
-=======
 HIGH                 : 14
 ID                   : 5 6 7 11 13 15 15 15
 IF                   : 
 INT                  : 4 12 12 14 14 15 15
 LBRACE               : 5 11 13
->>>>>>> dev-sh
 LCOR                 : 
 LEFT                 : 
 LEQUAL               : 
 LESS                 : 
 LINE                 : 
-<<<<<<< HEAD
-LPAREN               : 
-LSYS                 : 4
-=======
 LPAREN               : 15
 LSYS                 : 5
->>>>>>> dev-sh
 MINUS                : 
 MULTIPLY             : 
 NILL                 : 
@@ -149,17 +93,6 @@ OR                   :
 PLUS                 : 
 POP                  : 
 PUSH                 : 
-<<<<<<< HEAD
-RBRACE               : 4
-RCOR                 : 
-RIGHT                : 
-RPAREN               : 
-RULE                 : 
-STRING               : 5 6 6 7 7
-TRUE                 : 
-TWOPOINTS            : 5
-WHILE                : 
-=======
 RBRACE               : 5 11 13
 RCOR                 : 
 RIGHT                : 
@@ -173,17 +106,10 @@ TWOPOINTS            : 8 12 12 12 14 14 14
 TYPE                 : 7
 WHILE                : 
 WIDTH                : 14
->>>>>>> dev-sh
 error                : 
 
 Nonterminals, with rules where they appear
 
-<<<<<<< HEAD
-Instruction          : 2 3
-InstructionList      : 1 2
-Ls_rules             : 5 6
-Lsystem_body         : 4
-=======
 Assignable           : 6 7
 Brush_body           : 11
 Canvas_body          : 13
@@ -191,7 +117,6 @@ Instruction          : 2 3
 InstructionList      : 1 2
 Ls_rules             : 8 9
 Lsystem_body         : 5
->>>>>>> dev-sh
 Program              : 0
 
 Parsing method: LALR
@@ -202,11 +127,6 @@ state 0
     (1) Program -> . InstructionList
     (2) InstructionList -> . Instruction END InstructionList
     (3) InstructionList -> . Instruction END
-<<<<<<< HEAD
-    (4) Instruction -> . LSYS ID LBRACE Lsystem_body RBRACE
-
-    LSYS            shift and go to state 4
-=======
     (5) Instruction -> . LSYS ID LBRACE Lsystem_body RBRACE
     (6) Instruction -> . ID EQUAL Assignable
     (7) Instruction -> . TYPE ID EQUAL Assignable
@@ -220,7 +140,6 @@ state 0
     BRUSH           shift and go to state 7
     CANVAS          shift and go to state 8
     DRAW            shift and go to state 9
->>>>>>> dev-sh
 
     Program                        shift and go to state 1
     InstructionList                shift and go to state 2
@@ -244,47 +163,18 @@ state 3
     (2) InstructionList -> Instruction . END InstructionList
     (3) InstructionList -> Instruction . END
 
-<<<<<<< HEAD
-    END             shift and go to state 5
-=======
     END             shift and go to state 10
->>>>>>> dev-sh
 
 
 state 4
 
-<<<<<<< HEAD
-    (4) Instruction -> LSYS . ID LBRACE Lsystem_body RBRACE
-
-    ID              shift and go to state 6
-=======
     (5) Instruction -> LSYS . ID LBRACE Lsystem_body RBRACE
 
     ID              shift and go to state 11
->>>>>>> dev-sh
 
 
 state 5
 
-<<<<<<< HEAD
-    (2) InstructionList -> Instruction END . InstructionList
-    (3) InstructionList -> Instruction END .
-    (2) InstructionList -> . Instruction END InstructionList
-    (3) InstructionList -> . Instruction END
-    (4) Instruction -> . LSYS ID LBRACE Lsystem_body RBRACE
-
-    $end            reduce using rule 3 (InstructionList -> Instruction END .)
-    LSYS            shift and go to state 4
-
-    Instruction                    shift and go to state 3
-    InstructionList                shift and go to state 7
-
-state 6
-
-    (4) Instruction -> LSYS ID . LBRACE Lsystem_body RBRACE
-
-    LBRACE          shift and go to state 8
-=======
     (6) Instruction -> ID . EQUAL Assignable
 
     EQUAL           shift and go to state 12
@@ -295,38 +185,17 @@ state 6
     (7) Instruction -> TYPE . ID EQUAL Assignable
 
     ID              shift and go to state 13
->>>>>>> dev-sh
 
 
 state 7
 
-<<<<<<< HEAD
-    (2) InstructionList -> Instruction END InstructionList .
-
-    $end            reduce using rule 2 (InstructionList -> Instruction END InstructionList .)
-=======
     (11) Instruction -> BRUSH . ID LBRACE Brush_body RBRACE
 
     ID              shift and go to state 14
->>>>>>> dev-sh
 
 
 state 8
 
-<<<<<<< HEAD
-    (4) Instruction -> LSYS ID LBRACE . Lsystem_body RBRACE
-    (5) Lsystem_body -> . AXIOM TWOPOINTS STRING COMMA Ls_rules
-
-    AXIOM           shift and go to state 10
-
-    Lsystem_body                   shift and go to state 9
-
-state 9
-
-    (4) Instruction -> LSYS ID LBRACE Lsystem_body . RBRACE
-
-    RBRACE          shift and go to state 11
-=======
     (13) Instruction -> CANVAS . ID LBRACE Canvas_body RBRACE
 
     ID              shift and go to state 15
@@ -337,23 +206,10 @@ state 9
     (15) Instruction -> DRAW . LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT RPAREN
 
     LPAREN          shift and go to state 16
->>>>>>> dev-sh
 
 
 state 10
 
-<<<<<<< HEAD
-    (5) Lsystem_body -> AXIOM . TWOPOINTS STRING COMMA Ls_rules
-
-    TWOPOINTS       shift and go to state 12
-
-
-state 11
-
-    (4) Instruction -> LSYS ID LBRACE Lsystem_body RBRACE .
-
-    END             reduce using rule 4 (Instruction -> LSYS ID LBRACE Lsystem_body RBRACE .)
-=======
     (2) InstructionList -> Instruction END . InstructionList
     (3) InstructionList -> Instruction END .
     (2) InstructionList -> . Instruction END InstructionList
@@ -381,23 +237,10 @@ state 11
     (5) Instruction -> LSYS ID . LBRACE Lsystem_body RBRACE
 
     LBRACE          shift and go to state 18
->>>>>>> dev-sh
 
 
 state 12
 
-<<<<<<< HEAD
-    (5) Lsystem_body -> AXIOM TWOPOINTS . STRING COMMA Ls_rules
-
-    STRING          shift and go to state 13
-
-
-state 13
-
-    (5) Lsystem_body -> AXIOM TWOPOINTS STRING . COMMA Ls_rules
-
-    COMMA           shift and go to state 14
-=======
     (6) Instruction -> ID EQUAL . Assignable
     (4) Assignable -> . INT
 
@@ -410,27 +253,10 @@ state 13
     (7) Instruction -> TYPE ID . EQUAL Assignable
 
     EQUAL           shift and go to state 21
->>>>>>> dev-sh
 
 
 state 14
 
-<<<<<<< HEAD
-    (5) Lsystem_body -> AXIOM TWOPOINTS STRING COMMA . Ls_rules
-    (6) Ls_rules -> . STRING ARROW STRING COMMA Ls_rules
-    (7) Ls_rules -> . STRING ARROW STRING
-
-    STRING          shift and go to state 15
-
-    Ls_rules                       shift and go to state 16
-
-state 15
-
-    (6) Ls_rules -> STRING . ARROW STRING COMMA Ls_rules
-    (7) Ls_rules -> STRING . ARROW STRING
-
-    ARROW           shift and go to state 17
-=======
     (11) Instruction -> BRUSH ID . LBRACE Brush_body RBRACE
 
     LBRACE          shift and go to state 22
@@ -441,62 +267,24 @@ state 15
     (13) Instruction -> CANVAS ID . LBRACE Canvas_body RBRACE
 
     LBRACE          shift and go to state 23
->>>>>>> dev-sh
 
 
 state 16
 
-<<<<<<< HEAD
-    (5) Lsystem_body -> AXIOM TWOPOINTS STRING COMMA Ls_rules .
-
-    RBRACE          reduce using rule 5 (Lsystem_body -> AXIOM TWOPOINTS STRING COMMA Ls_rules .)
-=======
     (15) Instruction -> DRAW LPAREN . ID COMMA ID COMMA ID COMMA INT COMMA INT RPAREN
 
     ID              shift and go to state 24
->>>>>>> dev-sh
 
 
 state 17
 
-<<<<<<< HEAD
-    (6) Ls_rules -> STRING ARROW . STRING COMMA Ls_rules
-    (7) Ls_rules -> STRING ARROW . STRING
-
-    STRING          shift and go to state 18
-=======
     (2) InstructionList -> Instruction END InstructionList .
 
     $end            reduce using rule 2 (InstructionList -> Instruction END InstructionList .)
->>>>>>> dev-sh
 
 
 state 18
 
-<<<<<<< HEAD
-    (6) Ls_rules -> STRING ARROW STRING . COMMA Ls_rules
-    (7) Ls_rules -> STRING ARROW STRING .
-
-    COMMA           shift and go to state 19
-    RBRACE          reduce using rule 7 (Ls_rules -> STRING ARROW STRING .)
-
-
-state 19
-
-    (6) Ls_rules -> STRING ARROW STRING COMMA . Ls_rules
-    (6) Ls_rules -> . STRING ARROW STRING COMMA Ls_rules
-    (7) Ls_rules -> . STRING ARROW STRING
-
-    STRING          shift and go to state 15
-
-    Ls_rules                       shift and go to state 20
-
-state 20
-
-    (6) Ls_rules -> STRING ARROW STRING COMMA Ls_rules .
-
-    RBRACE          reduce using rule 6 (Ls_rules -> STRING ARROW STRING COMMA Ls_rules .)
-=======
     (5) Instruction -> LSYS ID LBRACE . Lsystem_body RBRACE
     (8) Lsystem_body -> . AXIOM TWOPOINTS STRING COMMA Ls_rules
 
@@ -896,5 +684,4 @@ state 72
     (14) Canvas_body -> HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS COL .
 
     RBRACE          reduce using rule 14 (Canvas_body -> HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS COL .)
->>>>>>> dev-sh
 

@@ -16,13 +16,9 @@ tokens = lexer.tokens
 #   InstructionList    :   Instruction END
 #                      |   Instruction END  InstructionList
 #
-<<<<<<< HEAD
-#   Instruction        : lsystem ID { Lsystem_body } END
-=======
 #   Instruction        : LSYS ID { Lsystem_body } END
 #                      | TYPE ID EQUAL Assignable
 #                      | ID EQUAL Assignable
->>>>>>> dev-sh
 #                      | #All the valid instructions here
 #                                    
 #  
@@ -68,11 +64,8 @@ def p_assignable(p):
 def p_lsystem(p):
     '''
     Instruction : LSYS ID LBRACE Lsystem_body RBRACE
-<<<<<<< HEAD
-=======
                 | ID EQUAL Assignable
                 | TYPE ID EQUAL Assignable
->>>>>>> dev-sh
     '''
     if len(p) == 6:
         p[0] = LsystemDeclaration(p[2], p[4])
@@ -105,9 +98,6 @@ def p_error(p):
     raise Exception(f"Syntax error at '{p.value}', line {p.lineno} (Index {p.lexpos}).")
 
 # Build the parser
-<<<<<<< HEAD
-parser = yacc.yacc(debug=True)
-=======
 parser = yacc.yacc(debug=True)
 
 with open('script.lsystem')as file:
@@ -135,4 +125,3 @@ ast = parser.parse(data)
 #         print(rule.left_part)
 #         print(rule.right_part)
 
->>>>>>> dev-sh

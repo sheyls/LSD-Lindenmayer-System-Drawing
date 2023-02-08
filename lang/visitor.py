@@ -5,7 +5,7 @@ import logging
 import turtle
 from matplotlib.style import context
 
-from sympy import content
+#from sympy import content
 
 from lang.context import Context
 from lang.type import *
@@ -50,11 +50,13 @@ class Eval(Visitor):
 
         curve = lsystem.axiom.axiom.lower()
         for _ in range(draw_node.complexity):
-            print(curve)
+            print("Este es el axioma",curve)
             for rule in lsystem.l_rules:
                 print(curve)
-                print(rule.right)
-                print(rule.left)
+                print("Estoy probando")
+                print()
+                print(rule.left,rule.right)
+                #print(rule.left)
                 curve = curve.replace(rule.left.lower(), rule.right)  
             curve = curve.lower()
         
@@ -64,18 +66,33 @@ class Eval(Visitor):
         print(curve)
 
         stack = []
+        meaning_of_plus_and_minus = True
         for c in curve:
             if c == 'f':
-                brush.forward(5)
-            elif c == 'g':
+                # Move forward by line length drawing a line 
+                brush.forward(5)   
+            elif c == 'g': 
+                # Move forward by line length without drawing a line
                 brush.penup()
                 brush.forward(5)
                 brush.pendown()
-            elif c == '+':
-                brush.left(draw_node.angle)
+            elif c == '+': # if meaning_of_plus_and_minus id False that means the meaning of the symbols are turned
+                if meaning_of_plus_and_minus:
+                    # Turn left by turning angle
+                    brush.left(draw_node.angle)
+                else:
+                    # the meaning is turned
+                    brush.right(draw_node.angle)
+                
             elif c == '-':
-                brush.right(draw_node.angle)
+                if meaning_of_plus_and_minus:
+                    # Turn right by turning angle
+                    brush.right(draw_node.angle)
+                else:    
+                    brush.left(draw_node.angle)
+                
             elif c == '[':
+                # Push current drawing state onto the stack
                 pos = brush.position()
                 stack.append(pos)
                 ang = brush.heading()
@@ -83,6 +100,7 @@ class Eval(Visitor):
 
                 #brush.push()
             elif c == ']':
+                # Pop current drawing state onto the stack
                 #brush.penup()
                 ang = stack.pop()
                 pos = stack.pop()
@@ -93,6 +111,38 @@ class Eval(Visitor):
                 #brush.setpos(stack[-1])
                 #brush.pendown()
                 #brush.pop()
+            elif c == '#':
+                # Increment the line width by line width increment
+                brush.pensize(brush.pensize() + 1)
+            elif c == '!': 
+                # Decrement the line width by line width increment
+                brush.pensize(brush.pensize() - 1)
+            elif c == '{':
+                # Open a polygon
+                c = 9
+            elif c == '}':
+                # Close a polygon and fill it with fill colour
+                d = 9
+            elif c == '>':
+                # Multiply the line length by the line length scale factor
+                f = 8    
+            elif c == '<':
+                # Divide the line length by the line length scale factor
+                e = 9    
+            elif c == '&':
+                # Swap the meaning of + and -  
+                if meaning_of_plus_and_minus:
+                    meaning_of_plus_and_minus = False
+                else:
+                    meaning_of_plus_and_minus = True
+            elif c == '(':
+                # Decrement turning angle by turning angle increment 
+                s = 9
+            elif c ==')':
+                # Increment turning angle by turning angle increment
+                l = 9                              
+
+
 
 
         print("qbola")

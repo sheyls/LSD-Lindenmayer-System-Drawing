@@ -69,7 +69,8 @@ tokens = (
 
 # Regular expression rules for simple tokens
 t_ARROW = r'=>'
-t_STRING = r'[A-Z\+\-\<\>\[\]]+'
+# t_STRING = r'[A-Z\+\-\<\>\[\]]+
+t_STRING = r'[A-Z\+\-\<\>\[\]\#\!\&\@\|]+'
 
 t_PLUS = r'\+'
 t_MINUS = r'\-'
