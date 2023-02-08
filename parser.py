@@ -19,13 +19,18 @@ tokens = lexer.tokens
 #   Instruction        : LSYS ID { Lsystem_body } END
 #                      | TYPE ID EQUAL Assignable
 #                      | ID EQUAL Assignable
-#                      | #All the valid instructions here
+#                      | BRUSH ID { Brush_body } END
+#                      | CANVAS ID { Canvas_body } END
+#                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA int COMMA int RPAREN END
 #                                    
-#  
 #   Lsystem_body        : axiom: axiom_stmt COMMA rule -> replace_stmt
 #
 #   Ls_rules            : rule -> replace_stmt COMMA Ls_rules
 #                       | rule -> replace_stmt
+#
+#   Brush_body          : size: int COMMA color: color COMMA speed: int
+#
+#   Canvas_body          : size: int COMMA int COMMA color: color
 #
 # -----------------------------------------------------------------------------
 """
@@ -58,36 +63,42 @@ def p_instruction_list(p):
 
 
 def p_assignable(p):
-    ''' Assignable : VALUE'''
+    ''' Assignable : INT'''
     
     p[0]=p[1]
 
 def p_lsystem(p):
     '''
     Instruction : LSYS ID LBRACE Lsystem_body RBRACE
-                | ID EQUAL Assignable
+    
+    '''
+
+    p[0] = LsystemDeclaration(p[2], p[4])
+\
+
+def p_variables(p):
+    '''
+    Instruction : ID EQUAL Assignable 
                 | TYPE ID EQUAL Assignable
     '''
-    if len(p) == 6:
-        p[0] = LsystemDeclaration(p[2], p[4])
-    elif len(p)==5:
+    if len(p)==5:
         p[0] = VariableDeclaration(p[1],p[2],p[4])
     elif len(p)==4:
         p[0] = VariableAssignment(p[1],p[3])
-    
+
+
 
 def p_lsystem_body(p):
     '''
     Lsystem_body : AXIOM TWOPOINTS STRING COMMA Ls_rules
                 
     '''
-    p[0] = LsysBody(AxiomDefinition(p[1]), p[5])
+    p[0] = LsysBody(AxiomDefinition(p[3]), p[5])
 
 def p_lsystem_rules(p):
     '''
     Ls_rules : STRING ARROW STRING COMMA Ls_rules
              | STRING ARROW STRING
-
     '''
 
     if len(p) == 4:
@@ -95,6 +106,35 @@ def p_lsystem_rules(p):
     elif len(p)==6:
         p[0] = [RulesDefinition(left_part=p[1],right_part=p[3])] + p[5]
         
+def p_brush(p):
+    '''
+    Instruction : BRUSH ID LBRACE Brush_body RBRACE
+    '''
+    p[0] = BrushDeclaration(p[2], p[4])
+
+def p_brush_body(p):
+    '''
+    Brush_body : SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT    
+    '''
+    p[0] = BrushBody(p[3], p[7], p[11])
+
+def p_canvas(p):
+    '''
+    Instruction : CANVAS ID LBRACE Canvas_body RBRACE
+    '''
+    p[0] = CanvasDeclaration(p[2], p[4])
+
+def p_canvas_body(p):
+    '''
+    Canvas_body : HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS COL    
+    '''
+    p[0] = CanvasBody(p[3], p[7], p[11])
+
+def p_draw(p):
+    '''
+    Instruction : DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT RPAREN
+    '''
+    p[0] = Draw(p[3], p[5], p[7], p[9], p[11])
 
 def p_error(p):
     raise Exception(f"Syntax error at '{p.value}', line {p.lineno} (Index {p.lexpos}).")
@@ -115,15 +155,15 @@ with open('script.lsystem')as file:
 
 ast = parser.parse(data)
 
-for i in ast.statements:
-    print(i)
-    print()
-    print(i.body.l_rules)
-    print()
-    print(i.body.axiom)
-    print()
-    print()
-    for rule in i.body.l_rules:
-        print(rule.left_part)
-        print(rule.right_part)
+# for i in ast.instructions:
+#     print(i)
+#     print()
+#     print(i.body.l_rules)
+#     print()
+#     print(i.body.axiom)
+#     print()
+#     print()
+#     for rule in i.body.l_rules:
+#         print(rule.left_part)
+#         print(rule.right_part)
 

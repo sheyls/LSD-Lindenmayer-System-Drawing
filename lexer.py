@@ -11,6 +11,11 @@ reserved = {
     'line'       : 'LINE',
     'nill'       : 'NILL',
     'axiom'      : 'AXIOM',
+    'color'      : 'COLOR',
+    'size'       : 'SIZE',
+    'speed'      : 'SPEED',
+    'high'       : 'HIGH',
+    'width'      : 'WIDTH',
     'rule'       : 'RULE',
     'push'       : 'PUSH',
     'pop'        : 'POP',
@@ -37,10 +42,10 @@ tokens = (
    'MULTIPLY',
    'DIFFER',
    'ID',
-   'VALUE',
+   'INT',
    'FLOAT',
    'ANGLE',
-   'COLOR',  
+   'COL',  
    'EQUALEQUAL',
    'GEQUAL',
    'LEQUAL',
@@ -88,7 +93,7 @@ t_END= r';'
 t_TWOPOINTS= r':'
 t_LBRACE = r'\{'
 t_RBRACE = r'\}'
-t_COLOR = r'\#([a,b,c,d,e,f]|\d){6}'
+#t_COL = r'\#([a,b,c,d,e,f]|\d){6}'
 
 
 def t_FLOAT(t):
@@ -117,6 +122,12 @@ def t_ANGLE(t):
 def t_ID(t):
     r'[a-z_][a-z_0-9]*'
     t.type = reserved.get(t.value, 'ID')    # Check for reserved words
+    return t
+
+
+def t_COL(t):
+    #r'[A-Z\+\-\<\>\[\]]+'
+    r'\#[a-f\d]{6}'
     return t
 
 def t_COMMENT(t):
@@ -153,8 +164,8 @@ tokens= list(reserved.values()) + list(tokens)
 
 lexer = lex.lex()
 
-with open('script.lsystem')as file:
-    data = file.read()
+# with open('script.lsystem')as file:
+#     data = file.read()
 
 
 # lexer.input(data)

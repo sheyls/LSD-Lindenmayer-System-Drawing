@@ -22,11 +22,10 @@ tokens = lexer.tokens
 #                      | #All the valid instructions here
 #                                    
 #  
-#   Lsystem_body        : axiom: axiom_stmt, Ls_rules
+#   Lsystem_body        : axiom: axiom_stmt COMMA rule -> replace_stmt
 #
-#   Ls_rules            : rule -> replace_stmt, 
-#                       | Ls_rules
-#                       | Epsilon?
+#   Ls_rules            : rule -> replace_stmt COMMA Ls_rules
+#                       | rule -> replace_stmt
 #
 #   Assigmen            : VALUE
 #
@@ -63,7 +62,7 @@ def p_type(p):
     '''Type : TYPE'''
 
 def p_assignable(p):
-    ''' Assignable : VALUE'''
+    ''' Assignable : INT'''
     
     p[0]=p[1]
 
@@ -86,7 +85,7 @@ def p_body(p):
     Lsystem_body : AXIOM TWOPOINTS STRING COMMA Ls_rules
                 
     '''
-    p[0] = LsysBody(AxiomDefinition(p[1]), p[5])
+    p[0] = LsysBody(AxiomDefinition(p[3]), p[5])
 
 def p_lsystem_rules(p):
     '''

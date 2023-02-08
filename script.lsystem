@@ -1,9 +1,25 @@
+_int a = 3;
+a = 5;
+
 lsys leaf{
-    axiom : A,
-    F => >F<,
-    A => F[+X]FB,
-    B => F[-Y]FA,
-    X => A,
-    Y => B
+    axiom : F+F+F+F,
+    F => FF+F+F+F+FF
 
 };
+
+brush mibrochamucha {
+
+    size: 1,
+    color: #c93c20,
+    speed: 300
+
+};
+
+canvas micanvasgambas {
+
+    high: 4000,
+    width: 4000,
+    color: #ffffff
+};
+
+draw(leaf, mibrochamucha, micanvasgambas, 90, 5);

@@ -35,6 +35,28 @@ class LsystemDeclaration(Node):
         self.name = name
         self.body = body_lsys
 
+class BrushDeclaration(Node):
+    def __init__(self, name, body_brush) -> None:
+        self.name = name
+        self.body = body_brush
+
+class BrushBody(Node):
+    def __init__(self, size, color, speed) -> None:
+        self.size = size
+        self.color = color
+        self.speed = speed
+
+class CanvasDeclaration(Node):
+    def __init__(self, name, body_canvas) -> None:
+        self.name = name
+        self.body = body_canvas
+
+class CanvasBody(Node):
+    def __init__(self, high, width, color) -> None:
+        self.high = high
+        self.width = width
+        self.color = color
+
 class LsysBody(Node):
     def __init__(self, axiom, l_rules) -> None:
         self.axiom = axiom
@@ -46,8 +68,8 @@ class AxiomDefinition(Node):
         
 class RulesDefinition(Node):
     def __init__(self, right_part, left_part) -> None:
-        self.right_part = right_part
-        self.left_part = left_part
+        self.right = right_part
+        self.left = left_part
 
 class LsystemDefinition(Node):
     def __init__(self, axiom, rules):
@@ -64,3 +86,11 @@ class VariableDeclaration(Node):
         self.type = type
         self.name = name
         self.value = value
+
+class Draw(Node):
+    def __init__(self, lsystem, brush, canvas, angle, complexity) -> None:
+        self.lsystem = lsystem
+        self.brush = brush
+        self.canvas = canvas
+        self.angle = angle
+        self.complexity = complexity
