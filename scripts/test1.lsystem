@@ -23,3 +23,5 @@ canvas micanvasgambas {
 };
 
 add_rule(leaf, F, FF);
+
+draw(leaf, mibrochamucha, micanvasgambas, 20, 60, 5);

@@ -50,7 +50,7 @@ Rule 12    Instruction -> BRUSH ID LBRACE Brush_body RBRACE
 Rule 13    Brush_body -> SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT
 Rule 14    Instruction -> CANVAS ID LBRACE Canvas_body RBRACE
 Rule 15    Canvas_body -> HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS COL
-Rule 16    Instruction -> DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT RPAREN
+Rule 16    Instruction -> DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA INT RPAREN
 
 Terminals, with rules where they appear
 
@@ -64,7 +64,7 @@ BRUSH                : 12
 CANVAS               : 14
 COL                  : 13 15
 COLOR                : 13 15
-COMMA                : 8 9 11 11 13 13 15 15 16 16 16 16
+COMMA                : 8 9 11 11 13 13 15 15 16 16 16 16 16
 DIFFER               : 
 DRAW                 : 16
 ELSE                 : 
@@ -78,7 +78,7 @@ GREATER              :
 HIGH                 : 15
 ID                   : 5 6 7 11 12 14 16 16 16
 IF                   : 
-INT                  : 4 13 13 15 15 16 16
+INT                  : 4 13 13 15 15 16 16 16
 LBRACE               : 5 12 14
 LCOR                 : 
 LEFT                 : 
@@ -135,7 +135,7 @@ state 0
     (11) Instruction -> . ADD_RULE LPAREN ID COMMA STRING COMMA STRING RPAREN
     (12) Instruction -> . BRUSH ID LBRACE Brush_body RBRACE
     (14) Instruction -> . CANVAS ID LBRACE Canvas_body RBRACE
-    (16) Instruction -> . DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT RPAREN
+    (16) Instruction -> . DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA INT RPAREN
 
     LSYS            shift and go to state 4
     ID              shift and go to state 5
@@ -214,7 +214,7 @@ state 9
 
 state 10
 
-    (16) Instruction -> DRAW . LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT RPAREN
+    (16) Instruction -> DRAW . LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA INT RPAREN
 
     LPAREN          shift and go to state 18
 
@@ -231,7 +231,7 @@ state 11
     (11) Instruction -> . ADD_RULE LPAREN ID COMMA STRING COMMA STRING RPAREN
     (12) Instruction -> . BRUSH ID LBRACE Brush_body RBRACE
     (14) Instruction -> . CANVAS ID LBRACE Canvas_body RBRACE
-    (16) Instruction -> . DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT RPAREN
+    (16) Instruction -> . DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA INT RPAREN
 
     $end            reduce using rule 3 (InstructionList -> Instruction END .)
     LSYS            shift and go to state 4
@@ -291,7 +291,7 @@ state 17
 
 state 18
 
-    (16) Instruction -> DRAW LPAREN . ID COMMA ID COMMA ID COMMA INT COMMA INT RPAREN
+    (16) Instruction -> DRAW LPAREN . ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA INT RPAREN
 
     ID              shift and go to state 27
 
@@ -362,7 +362,7 @@ state 26
 
 state 27
 
-    (16) Instruction -> DRAW LPAREN ID . COMMA ID COMMA ID COMMA INT COMMA INT RPAREN
+    (16) Instruction -> DRAW LPAREN ID . COMMA ID COMMA ID COMMA INT COMMA INT COMMA INT RPAREN
 
     COMMA           shift and go to state 36
 
@@ -425,7 +425,7 @@ state 35
 
 state 36
 
-    (16) Instruction -> DRAW LPAREN ID COMMA . ID COMMA ID COMMA INT COMMA INT RPAREN
+    (16) Instruction -> DRAW LPAREN ID COMMA . ID COMMA ID COMMA INT COMMA INT COMMA INT RPAREN
 
     ID              shift and go to state 44
 
@@ -481,7 +481,7 @@ state 43
 
 state 44
 
-    (16) Instruction -> DRAW LPAREN ID COMMA ID . COMMA ID COMMA INT COMMA INT RPAREN
+    (16) Instruction -> DRAW LPAREN ID COMMA ID . COMMA ID COMMA INT COMMA INT COMMA INT RPAREN
 
     COMMA           shift and go to state 49
 
@@ -516,7 +516,7 @@ state 48
 
 state 49
 
-    (16) Instruction -> DRAW LPAREN ID COMMA ID COMMA . ID COMMA INT COMMA INT RPAREN
+    (16) Instruction -> DRAW LPAREN ID COMMA ID COMMA . ID COMMA INT COMMA INT COMMA INT RPAREN
 
     ID              shift and go to state 54
 
@@ -554,7 +554,7 @@ state 53
 
 state 54
 
-    (16) Instruction -> DRAW LPAREN ID COMMA ID COMMA ID . COMMA INT COMMA INT RPAREN
+    (16) Instruction -> DRAW LPAREN ID COMMA ID COMMA ID . COMMA INT COMMA INT COMMA INT RPAREN
 
     COMMA           shift and go to state 60
 
@@ -597,7 +597,7 @@ state 59
 
 state 60
 
-    (16) Instruction -> DRAW LPAREN ID COMMA ID COMMA ID COMMA . INT COMMA INT RPAREN
+    (16) Instruction -> DRAW LPAREN ID COMMA ID COMMA ID COMMA . INT COMMA INT COMMA INT RPAREN
 
     INT             shift and go to state 64
 
@@ -626,7 +626,7 @@ state 63
 
 state 64
 
-    (16) Instruction -> DRAW LPAREN ID COMMA ID COMMA ID COMMA INT . COMMA INT RPAREN
+    (16) Instruction -> DRAW LPAREN ID COMMA ID COMMA ID COMMA INT . COMMA INT COMMA INT RPAREN
 
     COMMA           shift and go to state 68
 
@@ -656,7 +656,7 @@ state 67
 
 state 68
 
-    (16) Instruction -> DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA . INT RPAREN
+    (16) Instruction -> DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA . INT COMMA INT RPAREN
 
     INT             shift and go to state 72
 
@@ -687,9 +687,9 @@ state 71
 
 state 72
 
-    (16) Instruction -> DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT . RPAREN
+    (16) Instruction -> DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT . COMMA INT RPAREN
 
-    RPAREN          shift and go to state 76
+    COMMA           shift and go to state 76
 
 
 state 73
@@ -715,35 +715,49 @@ state 75
 
 state 76
 
-    (16) Instruction -> DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT RPAREN .
+    (16) Instruction -> DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA . INT RPAREN
 
-    END             reduce using rule 16 (Instruction -> DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT RPAREN .)
+    INT             shift and go to state 79
 
 
 state 77
 
     (13) Brush_body -> SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS . INT
 
-    INT             shift and go to state 79
+    INT             shift and go to state 80
 
 
 state 78
 
     (15) Canvas_body -> HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS . COL
 
-    COL             shift and go to state 80
+    COL             shift and go to state 81
 
 
 state 79
+
+    (16) Instruction -> DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA INT . RPAREN
+
+    RPAREN          shift and go to state 82
+
+
+state 80
 
     (13) Brush_body -> SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT .
 
     RBRACE          reduce using rule 13 (Brush_body -> SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT .)
 
 
-state 80
+state 81
 
     (15) Canvas_body -> HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS COL .
 
     RBRACE          reduce using rule 15 (Canvas_body -> HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS COL .)
+
+
+state 82
+
+    (16) Instruction -> DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA INT RPAREN .
+
+    END             reduce using rule 16 (Instruction -> DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA INT RPAREN .)
 

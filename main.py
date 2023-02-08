@@ -1,7 +1,7 @@
 from lang.context import Context
 from lang.visitor import Eval
 from lexer import lexer
-from parser_1 import parser
+from parser import parser
 
 filename = 'test1.lsystem'
 

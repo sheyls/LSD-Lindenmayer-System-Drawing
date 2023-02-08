@@ -85,9 +85,10 @@ class VariableDeclaration(Node):
         self.value = value
 
 class Draw(Node):
-    def __init__(self, lsystem, brush, canvas, angle, complexity) -> None:
+    def __init__(self, lsystem, brush, canvas, step_size, angle, complexity) -> None:
         self.lsystem = lsystem
         self.brush = brush
         self.canvas = canvas
+        self.step_size = step_size
         self.angle = angle
         self.complexity = complexity

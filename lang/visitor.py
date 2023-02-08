@@ -66,10 +66,10 @@ class Eval(Visitor):
         stack = []
         for c in curve:
             if c == 'f':
-                brush.forward(5)
+                brush.forward(draw_node.step_size)
             elif c == 'g':
                 brush.penup()
-                brush.forward(5)
+                brush.forward(draw_node.step_size)
                 brush.pendown()
             elif c == '+':
                 brush.left(draw_node.angle)
