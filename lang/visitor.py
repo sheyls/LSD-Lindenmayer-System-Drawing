@@ -5,7 +5,8 @@ import logging
 import turtle
 from matplotlib.style import context
 
-#from sympy import content
+from datetime import datetime
+from PIL import Image 
 
 from lang.context import Context
 from lang.type import *
@@ -95,6 +96,12 @@ class Eval(Visitor):
                 #brush.pop()
 
 
+        # date = (datetime.now()).strftime("%d%b%Y-%H%M%S") 
+        # fileName = 'posta-' + date
+        # brush.getscreen().getcanvas().postscript(file= fileName+'.eps')
+        # img = Image.open(fileName + '.eps') 
+        # img.save(fileName + '.jpg')  
+ 
         print("qbola")
         window.exitonclick()
 

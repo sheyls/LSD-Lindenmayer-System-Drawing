@@ -1,6 +1,7 @@
 _int a = 3;
 a = 5;
 
+
 lsys leaf{
     axiom : F++F-F++F-F++F-F++F-F++F-F++F,
     F => F+F--F+F--F+F--F+F--F+F--F+F--FFF
@@ -24,4 +25,4 @@ canvas micanvasgambas {
 
 add_rule(leaf, F, FF);
 
-draw(leaf, mibrochamucha, micanvasgambas, 20, 60, 5);
+draw(leaf, mibrochamucha, micanvasgambas, 20, 60, 2);
