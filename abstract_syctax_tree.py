@@ -21,14 +21,6 @@ class Program(Node):
     def __init__(self, instructions: List[Node]) -> None:
         self.instructions = instructions
 
-    def check_semantics(self):
-        collector = TypeCollector()
-        collector.visit(self)
-        builder = TypeBuilder(collector.context)
-        builder.visit(self)
-        checker = TypeChecker(builder.visitor)
-        checker.visit(self)
-
 
 class LsystemDeclaration(Node):
     def __init__(self, name, body_lsys) -> None:
@@ -81,6 +73,11 @@ class VariableAssignment(Node):
         self.name = name
         self.value = value
 
+class Add_rule(Node):
+    def __init__(self, lsys_name, rule) -> None:
+        self.lsys_name = lsys_name
+        self.rule = rule
+
 class VariableDeclaration(Node):
     def __init__(self, type, name, value) -> None:
         self.type = type
@@ -88,9 +85,10 @@ class VariableDeclaration(Node):
         self.value = value
 
 class Draw(Node):
-    def __init__(self, lsystem, brush, canvas, angle, complexity) -> None:
+    def __init__(self, lsystem, brush, canvas, step_size, angle, complexity) -> None:
         self.lsystem = lsystem
         self.brush = brush
         self.canvas = canvas
+        self.step_size = step_size
         self.angle = angle
         self.complexity = complexity

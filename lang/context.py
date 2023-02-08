@@ -7,7 +7,6 @@ class Context:
     def __init__(self, parent: Context = None):
         self.parent: Context = parent
         self.symbols: Dict[str, Any] = {}
-        #self.var_count: int = 0
 
     def make_child(self) -> Context:
         return Context(self)

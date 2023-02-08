@@ -5,7 +5,8 @@ import logging
 import turtle
 from matplotlib.style import context
 
-#from sympy import content
+from datetime import datetime
+from PIL import Image 
 
 from lang.context import Context
 from lang.type import *
@@ -71,12 +72,10 @@ class Eval(Visitor):
         draw_angle = draw_node.angle
         for c in curve:
             if c == 'f':
-                # Move forward by line length drawing a line 
-                brush.forward(forward_value)   
-            elif c == 'g': 
-                # Move forward by line length without drawing a line
+                brush.forward(draw_node.step_size)
+            elif c == 'g':
                 brush.penup()
-                brush.forward(forward_value)
+                brush.forward(draw_node.step_size)
                 brush.pendown()
             elif c == '+': # if meaning_of_plus_and_minus id False that means the meaning of the symbols are turned
                 if meaning_of_plus_and_minus:
@@ -147,8 +146,20 @@ class Eval(Visitor):
 
 
 
+        # date = (datetime.now()).strftime("%d%b%Y-%H%M%S") 
+        # fileName = 'posta-' + date
+        # brush.getscreen().getcanvas().postscript(file= fileName+'.eps')
+        # img = Image.open(fileName + '.eps') 
+        # img.save(fileName + '.jpg')  
+ 
         print("qbola")
         window.exitonclick()
+
+    def visit_add_rule(self,new_rule):
+        lsys = self.context.resolve(new_rule.lsys_name)
+        lsys.body.l_rules.append(new_rule.rule)
+        print('kkk')
+
 
     def visit_variableassignment(self, var_assignment):
         variable = self.context.resolve(var_assignment.name)
@@ -160,6 +171,7 @@ class Eval(Visitor):
         #esto solo pincha si el valor de las variables son tipos puros  
         self.context.define(var_declaration.name, Instance(Type.get(var_declaration.type), var_declaration.value))
         print('aaaa')
+
 
 class TypeCollector(Visitor):
 
