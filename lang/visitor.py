@@ -127,10 +127,10 @@ class Eval(Visitor):
                 d = 9
             elif c == '>':
                 # Multiply the line length by the line length scale factor
-                forward_value = forward_value + 0.3
+                forward_value = forward_value * 1.36
             elif c == '<':
                 # Divide the line length by the line length scale factor
-                forward_value = forward_value - 0.3
+                forward_value = forward_value / 1.36
             elif c == '&':
                 # Swap the meaning of + and -  
                 if meaning_of_plus_and_minus:
