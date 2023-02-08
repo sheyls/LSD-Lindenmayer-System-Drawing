@@ -23,7 +23,8 @@ reserved = {
     'true'       :'TRUE',
     'false'      :'FALSE',
     'break'      :'BREAK',
-    'int'        :'TYPE'
+    'int'        :'TYPE',
+    'string'     :'TYPE'
     
 }
 

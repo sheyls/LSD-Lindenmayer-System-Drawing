@@ -17,7 +17,7 @@ tokens = lexer.tokens
 #                      |   Instruction END  InstructionList
 #
 #   Instruction        : LSYS ID { Lsystem_body } END
-#                      | TYPE ID EQUAL Assignable
+#                      | Type ID EQUAL Assignable
 #                      | ID EQUAL Assignable
 #                      | #All the valid instructions here
 #                                    
@@ -28,6 +28,9 @@ tokens = lexer.tokens
 #                       | Ls_rules
 #                       | Epsilon?
 #
+#   Assigmen            : VALUE
+#
+#   Type                : TYPE
 # -----------------------------------------------------------------------------
 """
 Example:
@@ -56,7 +59,8 @@ def p_instruction_list(p):
     elif (len(p) == 3):
         p[0] = [p[1]]
 
-
+def p_type(p):
+    '''Type : TYPE'''
 
 def p_assignable(p):
     ''' Assignable : VALUE'''
@@ -106,25 +110,18 @@ parser = yacc.yacc(debug=True)
 with open('script.lsystem')as file:
     data = file.read()
 
-# lexer.input(data)
- 
-# while True:
-#     tok = lexer.token()
-#     if not tok: 
-#         break      # No more input
-#     print(tok)
 
 ast = parser.parse(data)
 
-for i in ast.statements:
-    print(i)
-    print()
-    print(i.body.l_rules)
-    print()
-    print(i.body.axiom)
-    print()
-    print()
-    for rule in i.body.l_rules:
-        print(rule.left_part)
-        print(rule.right_part)
+# for i in ast.instructions:
+#     print(i)
+#     print()
+#     print(i.body.l_rules)
+#     print()
+#     print(i.body.axiom)
+#     print()
+#     print()
+#     for rule in i.body.l_rules:
+#         print(rule.left_part)
+#         print(rule.right_part)
 
