@@ -17,11 +17,12 @@ tokens = lexer.tokens
 #                      |   Instruction END  InstructionList
 #
 #   Instruction        : LSYS ID { Lsystem_body } END
-#                      | TYPE ID EQUAL Assignable
+#                      | Type ID EQUAL Assignable
 #                      | ID EQUAL Assignable
 #                      | BRUSH ID { Brush_body } END
 #                      | CANVAS ID { Canvas_body } END
 #                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA int COMMA int RPAREN END
+#                      | ADD_RULE LPAREN ID(lsys) COMMS STRING(left_part) COMMA STRING(right_part) RPAREN END
 #                                    
 #   Lsystem_body        : axiom: axiom_stmt COMMA rule -> replace_stmt
 #
@@ -61,6 +62,9 @@ def p_instruction_list(p):
         p[0] = [p[1]]
 
 
+#def p_type(p):
+#    '''Type : TYPE'''
+#    p[0]=p[1]
 
 def p_assignable(p):
     ''' Assignable : INT'''
@@ -74,7 +78,7 @@ def p_lsystem(p):
     '''
 
     p[0] = LsystemDeclaration(p[2], p[4])
-\
+
 
 def p_variables(p):
     '''
@@ -106,6 +110,11 @@ def p_lsystem_rules(p):
     elif len(p)==6:
         p[0] = [RulesDefinition(left_part=p[1],right_part=p[3])] + p[5]
         
+def p_add_rule(p):
+    '''Instruction : ADD_RULE LPAREN ID COMMA STRING COMMA STRING RPAREN'''
+    
+    p[0] = Add_rule(p[3],RulesDefinition(left_part=p[5],right_part=p[7]))
+
 def p_brush(p):
     '''
     Instruction : BRUSH ID LBRACE Brush_body RBRACE
@@ -142,8 +151,8 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc(debug=True)
 
-with open('script.lsystem')as file:
-    data = file.read()
+#with open('script.lsystem')as file:
+#    data = file.read()
 
 # lexer.input(data)
  
@@ -153,7 +162,7 @@ with open('script.lsystem')as file:
 #         break      # No more input
 #     print(tok)
 
-ast = parser.parse(data)
+#ast = parser.parse(data)
 
 # for i in ast.instructions:
 #     print(i)
