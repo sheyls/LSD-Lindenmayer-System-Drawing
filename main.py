@@ -1,6 +1,6 @@
 from lang.context import Context
 from lang.visitor import Eval
-from parser import parser
+from parser_1 import parser
 
 
 with open('script.lsystem') as file:

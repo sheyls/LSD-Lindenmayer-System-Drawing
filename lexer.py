@@ -28,9 +28,9 @@ reserved = {
     'true'       :'TRUE',
     'false'      :'FALSE',
     'break'      :'BREAK',
-    'int'        :'TYPE',
-    'string'     :'TYPE'
-    
+    '_int'       :'TYPE',
+    'string'     :'TYPE',
+    'add_rule'   :'ADD_RULE'
 }
 
 # List of token names. 

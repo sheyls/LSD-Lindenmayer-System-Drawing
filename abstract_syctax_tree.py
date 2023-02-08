@@ -81,6 +81,11 @@ class VariableAssignment(Node):
         self.name = name
         self.value = value
 
+class Add_rule(Node):
+    def __init__(self, lsys_name, rule) -> None:
+        self.lsys_name = lsys_name
+        self.rule = rule
+
 class VariableDeclaration(Node):
     def __init__(self, type, name, value) -> None:
         self.type = type

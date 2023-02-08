@@ -5,7 +5,7 @@ import logging
 import turtle
 from matplotlib.style import context
 
-from sympy import content
+#from sympy import content
 
 from lang.context import Context
 from lang.type import *
@@ -98,15 +98,21 @@ class Eval(Visitor):
         print("qbola")
         window.exitonclick()
 
+    def visit_add_rule(self,new_rule):
+        lsys = self.context.resolve(new_rule.lsys_name)
+        lsys.body.l_rules.append(new_rule.rule)
+        print('kkk')
+
+
     def visit_variableassignment(self, var_assignment):
         variable = self.context.resolve(var_assignment.name)
         #esto solo pincha si el valor de las variables son tipos puros
         variable.value = var_assignment
         print('bbb')
 
-    def visit_variabledeclaration(self, var_declaration,context):
+    def visit_variabledeclaration(self, var_declaration):
         #esto solo pincha si el valor de las variables son tipos puros  
-        context.define(self.name, var_declaration.value)
+        self.context.define(var_declaration.name, Instance(Type.get(var_declaration.type), var_declaration.value))
         print('aaaa')
 
 
