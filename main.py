@@ -3,7 +3,7 @@ from lang.visitor import Eval
 from lexer import lexer
 from parser import parser
 
-filename = 'test1.lsystem'
+filename = 'test2.lsystem'
 
 with open('scripts/' + filename) as file :
     data = file.read()

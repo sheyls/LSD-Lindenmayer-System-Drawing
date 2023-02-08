@@ -5,8 +5,7 @@ import logging
 import turtle
 from matplotlib.style import context
 
-from datetime import datetime
-from PIL import Image 
+#from sympy import content
 
 from lang.context import Context
 from lang.type import *
@@ -51,11 +50,13 @@ class Eval(Visitor):
 
         curve = lsystem.axiom.axiom.lower()
         for _ in range(draw_node.complexity):
-            print(curve)
+            print("Este es el axioma",curve)
             for rule in lsystem.l_rules:
                 print(curve)
-                print(rule.right)
-                print(rule.left)
+                print("Estoy probando")
+                print()
+                print(rule.left,rule.right)
+                #print(rule.left)
                 curve = curve.replace(rule.left.lower(), rule.right)  
             curve = curve.lower()
         
@@ -65,18 +66,35 @@ class Eval(Visitor):
         print(curve)
 
         stack = []
+        meaning_of_plus_and_minus = True
+        forward_value = 5
+        draw_angle = draw_node.angle
         for c in curve:
             if c == 'f':
-                brush.forward(draw_node.step_size)
-            elif c == 'g':
+                # Move forward by line length drawing a line 
+                brush.forward(forward_value)   
+            elif c == 'g': 
+                # Move forward by line length without drawing a line
                 brush.penup()
-                brush.forward(draw_node.step_size)
+                brush.forward(forward_value)
                 brush.pendown()
-            elif c == '+':
-                brush.left(draw_node.angle)
+            elif c == '+': # if meaning_of_plus_and_minus id False that means the meaning of the symbols are turned
+                if meaning_of_plus_and_minus:
+                    # Turn left by turning angle
+                    brush.left(draw_angle)
+                else:
+                    # the meaning is turned
+                    brush.right(draw_angle)
+                
             elif c == '-':
-                brush.right(draw_node.angle)
+                if meaning_of_plus_and_minus:
+                    # Turn right by turning angle
+                    brush.right(draw_angle)
+                else:    
+                    brush.left(draw_angle)
+                
             elif c == '[':
+                # Push current drawing state onto the stack
                 pos = brush.position()
                 stack.append(pos)
                 ang = brush.heading()
@@ -84,6 +102,7 @@ class Eval(Visitor):
 
                 #brush.push()
             elif c == ']':
+                # Pop current drawing state onto the stack
                 #brush.penup()
                 ang = stack.pop()
                 pos = stack.pop()
@@ -94,6 +113,38 @@ class Eval(Visitor):
                 #brush.setpos(stack[-1])
                 #brush.pendown()
                 #brush.pop()
+            elif c == '#':
+                # Increment the line width by line width increment
+                brush.pensize(brush.pensize() + 0.5)
+            elif c == '!': 
+                # Decrement the line width by line width increment
+                brush.pensize(brush.pensize() - 0.5)
+            elif c == '{':
+                # Open a polygon
+                c = 9
+            elif c == '}':
+                # Close a polygon and fill it with fill colour
+                d = 9
+            elif c == '>':
+                # Multiply the line length by the line length scale factor
+                forward_value = forward_value * 1.36
+            elif c == '<':
+                # Divide the line length by the line length scale factor
+                forward_value = forward_value / 1.36
+            elif c == '&':
+                # Swap the meaning of + and -  
+                if meaning_of_plus_and_minus:
+                    meaning_of_plus_and_minus = False
+                else:
+                    meaning_of_plus_and_minus = True
+            elif c == '%':
+                # Decrement turning angle by turning angle increment 
+                draw_angle = draw_angle + 10
+            elif c =='$':
+                # Increment turning angle by turning angle increment
+                draw_angle = draw_angle - 10                            
+
+
 
 
         # date = (datetime.now()).strftime("%d%b%Y-%H%M%S") 

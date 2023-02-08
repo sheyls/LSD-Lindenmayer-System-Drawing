@@ -70,7 +70,8 @@ tokens = (
 
 # Regular expression rules for simple tokens
 t_ARROW = r'=>'
-t_STRING = r'[A-Z\+\-\<\>\[\]]+'
+# t_STRING = r'[A-Z\+\-\<\>\[\]]+
+t_STRING = r'[A-Z\+\-\<\>\[\]\#\!\&\@\|\%\$]+'
 
 t_PLUS = r'\+'
 t_MINUS = r'\-'
@@ -151,7 +152,7 @@ def t_error(t):
 def find_column(input, token):
     '''
         Compute column.
-        Input is the input text string.
+        p is the input text string.
         Token is a token instance.
     '''
     

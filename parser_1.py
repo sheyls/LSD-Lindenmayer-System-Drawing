@@ -36,7 +36,6 @@ tokens = lexer.tokens
 # -----------------------------------------------------------------------------
 """
 Example:
-
 def p_expression_plus(p):
      'expression : expression PLUS term'
      #   ^            ^        ^    ^
