@@ -93,8 +93,6 @@ t_END= r';'
 t_TWOPOINTS= r':'
 t_LBRACE = r'\{'
 t_RBRACE = r'\}'
-#t_COL = r'\#([a,b,c,d,e,f]|\d){6}'
-
 
 def t_FLOAT(t):
     r'\d+\.\d+'
@@ -163,16 +161,3 @@ def find_column(input, token):
 tokens= list(reserved.values()) + list(tokens)
 
 lexer = lex.lex()
-
-# with open('script.lsystem')as file:
-#     data = file.read()
-
-
-# lexer.input(data)
- 
-# while True:
-#     tok = lexer.token()
-#     if not tok: 
-#         break      # No more input
-#     print(tok)
-
