@@ -25,8 +25,9 @@ reserved = {
     'else'       : 'ELSE',
     'and'        : 'AND',
     'or'         : 'OR',
-    'true'       :'TRUE',
-    'false'      :'FALSE',
+    'bool'       :'BOOLTYPE',
+    'true'       :'BOOL',
+    'false'      :'BOOL',
     'break'      :'BREAK',
     '_int'       :'TYPE',
     'string'     :'TYPE',
@@ -64,7 +65,7 @@ tokens = (
    'TWOPOINTS',
    'LBRACE',
    'RBRACE',
-   'ARROW'
+   'ARROW',
    
 )
 

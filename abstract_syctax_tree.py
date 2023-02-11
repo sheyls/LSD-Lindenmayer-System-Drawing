@@ -93,6 +93,17 @@ class Repeat_Body(Node):
     def __init__(self, instructions) -> None:
         self.instructions = instructions
 
+class If_Statement(Node):
+    def __init__(self,condition, instructions) -> None:
+        self.condition = condition
+        self.instructions = instructions
+
+class BinaryComparer(Node):
+    def __init__(self, left_expr, comparer, right_expr) -> None:
+        self.left_expr = left_expr
+        self.comparer = comparer
+        self.right_expr = right_expr        
+
 class Draw(Node):
     def __init__(self, lsystem, brush, canvas, step_size, angle, complexity) -> None:
         self.lsystem = lsystem

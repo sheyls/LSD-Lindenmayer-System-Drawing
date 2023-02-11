@@ -24,6 +24,7 @@ tokens = lexer.tokens
 #                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA int COMMA int COMMA int RPAREN END
 #                      | ADD_RULE LPAREN ID(lsys) COMMS STRING(left_part) COMMA STRING(right_part) RPAREN END
 #                      | REPEAT int { InstructionList } END
+#                      | IF ( Condition ) { InstructionList } END
 #                                    
 #   Lsystem_body        : axiom: axiom_stmt COMMA rule -> replace_stmt
 #
@@ -34,7 +35,12 @@ tokens = lexer.tokens
 #
 #   Canvas_body          : size: int COMMA int COMMA color: color
 #
-#   Repeat_body          : InstrcutionList
+#   Condition            : Assignable GEQUAL Assignable
+#                        | Assignable LEQUAL Assignable
+#                        | Assignable EQUALEQUAL Assignable
+#                        | Assignable GRATER Assignable
+#                        | Assignable LESS Assignable
+#                        | BOOL
 # -----------------------------------------------------------------------------
 """
 Example:
@@ -150,6 +156,25 @@ def p_draw(p):
 def p_repeat(p):
     '''Instruction : REPEAT INT LBRACE InstructionList RBRACE'''
     p[0] = RepeatDeclaration(p[2],p[4])
+
+def p_if(p):
+    '''Instruction : IF LPAREN Condition RPAREN LBRACE InstructionList RBRACE END'''    
+    p[0] = If_Statement(p[3],p[6])
+
+def p_condition(p):
+    '''
+    Condition : Assignable GEQUAL Assignable
+              | Assignable LEQUAL Assignable
+              | Assignable EQUALEQUAL Assignable
+              | Assignable GRATER Assignable
+              | Assignable LESS Assignable
+              | BOOL
+    '''    
+    if len(p[0] == 1):
+        p[0] = p[1]
+
+    else:
+        p[0] = BinaryComparer(p[1],p[2],p[3])     
 
 
 def p_error(p):

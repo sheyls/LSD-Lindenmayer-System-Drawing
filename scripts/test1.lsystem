@@ -93,3 +93,7 @@ brush mibrocha {
 
 };
 
+IF (True) {
+draw(leaf, mibrocha, micanvas, 5 ,90, 8);
+};
+

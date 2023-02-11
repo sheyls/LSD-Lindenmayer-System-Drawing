@@ -23,6 +23,16 @@ class Eval(Visitor):
         for instruction in program.instructions:
             instruction.accept(Eval(self.context))
 
+    def visit_if_statement(self,if_declaration):
+        if if_declaration.condition:
+            for instruction in if_declaration:
+                instruction.acceot(Eval(self.context))
+
+    def visit_binary_comparer(self,left_expr, comparer, roght_expr):
+        return             
+
+
+
     def visit_repeatdeclaration(self, repeat_declaration):
         times = repeat_declaration.times_to_repeat
         instructions = repeat_declaration.instructions
