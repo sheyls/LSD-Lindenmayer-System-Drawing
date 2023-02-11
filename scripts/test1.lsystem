@@ -1,10 +1,34 @@
 _int a = 3;
 a = 5;
 
+_int test = 60;
 
 lsys star{
     axiom : F++F-F++F-F++F-F++F-F++F-F++F,
     F => F+F--F+F--F+F--F+F--F+F--F+F--FFF
+};
+
+
+
+lsys square_sierpinski{
+    axiom : F+XF+F+XF,
+    X => XF-F+F-XF+F+XF-F+F-X%$
+};
+
+lsys bush {
+    axiom : F,
+    F => FF+[+F-F-F]-[-F+F+F]
+};
+
+
+
+
+
+repeat 2 {
+    lsys hexagonal_gosper{
+    axiom : XF,
+    X => X+YF++YF-FX--FXFX-YF+,
+    Y => -FX+YFYF++YF+FX--FX-Y
 };
 
 lsys leaf {
@@ -15,18 +39,6 @@ lsys leaf {
     X => A,
     Y => B
 };
-
-lsys square_sierpinski{
-    axiom : F+XF+F+XF,
-    X => XF-F+F-XF+F+XF-F+F-X%$
-};
-
-lsys bush {
-    axiom : F,
-    F => F[-F]F[+F][F]
-};
-
-
 brush mibrochamucha {
 
     size: 1,
@@ -41,11 +53,43 @@ canvas micanvasgambas {
     width: 4000,
     color: #ffffff
 };
-lsys hexagonal_gosper{
-    axiom : XF,
-    X => X+YF++YF-FX--FXFX-YF+,
-    Y => -FX+YFYF++YF+FX--FX-Y
+    
 };
 
+draw(leaf, mibrochamucha, micanvasgambas, 5, 45, 8);
 
-draw(leaf, mibrochamucha, micanvasgambas, 5, 45, 10);
+lsys star{
+    axiom : F++F-F++F-F++F-F++F-F++F-F++F,
+    F => F+F--F+F--F+F--F+F--F+F--F+F--FFF
+};
+
+brush mibrocha {
+
+    size: 1,
+    color: #c93c20,
+    speed: 500
+
+};
+
+canvas micanvas {
+
+    high: 4000,
+    width: 4000,
+    color: #ffffff
+};
+
+repeat 2 {
+
+draw(leaf, mibrocha, micanvas, 5 ,60, 8);
+a = 10;
+test = 70;
+brush mibrocha {
+
+    size: 1,
+    color: #808080,
+    speed: 500
+
+};
+
+};
+

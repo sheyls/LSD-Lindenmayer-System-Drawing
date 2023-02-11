@@ -23,12 +23,14 @@ class Eval(Visitor):
         for instruction in program.instructions:
             instruction.accept(Eval(self.context))
 
-    def visit_repeat(self, repeat_declaration):
+    def visit_repeatdeclaration(self, repeat_declaration):
         times = repeat_declaration.times_to_repeat
         instructions = repeat_declaration.instructions
         for i in range(times):
+            print("ESTA ES LA VEZ", i +1, "DEL REPEAT..................................................................................................")
             for instruction in instructions:
                 instruction.accept(Eval(self.context))
+        print("SE ACABO EL REPEAT....................................................................................................................")        
 
 
 
@@ -159,7 +161,8 @@ class Eval(Visitor):
         # img.save(fileName + '.jpg')  
  
         print("qbola")
-        window.exitonclick()
+        #window.exitonclick()
+        
 
     def visit_add_rule(self,new_rule):
         lsys = self.context.resolve(new_rule.lsys_name)
