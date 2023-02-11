@@ -23,6 +23,15 @@ class Eval(Visitor):
         for instruction in program.instructions:
             instruction.accept(Eval(self.context))
 
+    def visit_repeat(self, repeat_declaration):
+        times = repeat_declaration.times_to_repeat
+        instructions = repeat_declaration.instructions
+        for i in range(times):
+            for instruction in instructions:
+                instruction.accept(Eval(self.context))
+
+
+
     def visit_lsystemdeclaration(self, lsystem_declaration):
         self.context.define(lsystem_declaration.name, LsystemInstance(self.context, lsystem_declaration.body)), #self.type))
         #print(self.context.symbols[lsystem_declaration.name].body.l_rules[0].right_part)
@@ -68,14 +77,14 @@ class Eval(Visitor):
 
         stack = []
         meaning_of_plus_and_minus = True
-        forward_value = 5
+        forward_value = draw_node.step_size
         draw_angle = draw_node.angle
         for c in curve:
             if c == 'f':
-                brush.forward(draw_node.step_size)
+                brush.forward(forward_value)
             elif c == 'g':
                 brush.penup()
-                brush.forward(draw_node.step_size)
+                brush.forward(forward_value)
                 brush.pendown()
             elif c == '+': # if meaning_of_plus_and_minus id False that means the meaning of the symbols are turned
                 if meaning_of_plus_and_minus:
@@ -132,10 +141,7 @@ class Eval(Visitor):
                 forward_value = forward_value / 1.36
             elif c == '&':
                 # Swap the meaning of + and -  
-                if meaning_of_plus_and_minus:
-                    meaning_of_plus_and_minus = False
-                else:
-                    meaning_of_plus_and_minus = True
+                meaning_of_plus_and_minus = not meaning_of_plus_and_minus
             elif c == '%':
                 # Decrement turning angle by turning angle increment 
                 draw_angle = draw_angle + 10

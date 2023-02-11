@@ -85,9 +85,9 @@ class VariableDeclaration(Node):
         self.value = value
 
 class RepeatDeclaration(Node):
-    def __init__(self, cant, body ) -> None:
-        self.times_to_repeat = cant
-        self.repeat_body = body 
+    def __init__(self, times_to_repeat, instructions ) -> None:
+        self.times_to_repeat = times_to_repeat
+        self.instruction = instructions 
 
 class Repeat_Body(Node):
     def __init__(self, instructions) -> None:
