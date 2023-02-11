@@ -23,6 +23,7 @@ tokens = lexer.tokens
 #                      | CANVAS ID { Canvas_body } END
 #                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA int COMMA int COMMA int RPAREN END
 #                      | ADD_RULE LPAREN ID(lsys) COMMS STRING(left_part) COMMA STRING(right_part) RPAREN END
+#                      | REPEAT int { InstructionList } END
 #                                    
 #   Lsystem_body        : axiom: axiom_stmt COMMA rule -> replace_stmt
 #
@@ -33,6 +34,7 @@ tokens = lexer.tokens
 #
 #   Canvas_body          : size: int COMMA int COMMA color: color
 #
+#   Repeat_body          : InstrcutionList
 # -----------------------------------------------------------------------------
 """
 Example:
@@ -144,6 +146,10 @@ def p_draw(p):
     Instruction : DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA INT RPAREN
     '''
     p[0] = Draw(p[3], p[5], p[7], p[9], p[11], p[13])
+
+def p_repeat(p):
+    '''Instruction : REPEAT INT LBRACE InstructionList RBRACE'''
+    p[0] = RepeatDeclaration(p[2],p[4])
 
 
 def p_error(p):

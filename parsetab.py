@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ADD_RULE AND ANGLE ARROW AXIOM BREAK BRUSH CANVAS COL COLOR COMMA DIFFER DRAW ELSE END EQUAL EQUALEQUAL FALSE FLOAT GEQUAL GREATER HIGH ID IF INT LBRACE LCOR LEFT LEQUAL LESS LINE LPAREN LSYS MINUS MULTIPLY NILL NOT OR PLUS POP PUSH RBRACE RCOR RIGHT RPAREN RULE SIZE SPEED STRING TRUE TWOPOINTS TYPE TYPE WHILE WIDTH\n    Program : InstructionList\n    \n    InstructionList : Instruction END InstructionList\n                   | Instruction END\n     Assignable : INT\n    Instruction : LSYS ID LBRACE Lsystem_body RBRACE\n    \n    \n    Instruction : ID EQUAL Assignable \n                | TYPE ID EQUAL Assignable\n    \n    Lsystem_body : AXIOM TWOPOINTS STRING COMMA Ls_rules\n                \n    \n    Ls_rules : STRING ARROW STRING COMMA Ls_rules\n             | STRING ARROW STRING\n    Instruction : ADD_RULE LPAREN ID COMMA STRING COMMA STRING RPAREN\n    Instruction : BRUSH ID LBRACE Brush_body RBRACE\n    \n    Brush_body : SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT    \n    \n    Instruction : CANVAS ID LBRACE Canvas_body RBRACE\n    \n    Canvas_body : HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS COL    \n    \n    Instruction : DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA INT RPAREN\n    '
+_lr_signature = 'ADD_RULE AND ANGLE ARROW AXIOM BREAK BRUSH CANVAS COL COLOR COMMA DIFFER DRAW ELSE END EQUAL EQUALEQUAL FALSE FLOAT GEQUAL GREATER HIGH ID IF INT LBRACE LCOR LEFT LEQUAL LESS LINE LPAREN LSYS MINUS MULTIPLY NILL NOT OR PLUS POP PUSH RBRACE RCOR REPEAT RIGHT RPAREN RULE SIZE SPEED STRING TRUE TWOPOINTS TYPE TYPE WHILE WIDTH\n    Program : InstructionList\n    \n    InstructionList : Instruction END InstructionList\n                   | Instruction END\n     Assignable : INT\n    Instruction : LSYS ID LBRACE Lsystem_body RBRACE\n    \n    \n    Instruction : ID EQUAL Assignable \n                | TYPE ID EQUAL Assignable\n    \n    Lsystem_body : AXIOM TWOPOINTS STRING COMMA Ls_rules\n                \n    \n    Ls_rules : STRING ARROW STRING COMMA Ls_rules\n             | STRING ARROW STRING\n    Instruction : ADD_RULE LPAREN ID COMMA STRING COMMA STRING RPAREN\n    Instruction : BRUSH ID LBRACE Brush_body RBRACE\n    \n    Brush_body : SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT    \n    \n    Instruction : CANVAS ID LBRACE Canvas_body RBRACE\n    \n    Canvas_body : HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS COL    \n    \n    Instruction : DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA INT RPAREN\n    Instruction : REPEAT INT LBRACE InstructionList RBRACE'
     
-_lr_action_items = {'LSYS':([0,11,],[4,4,]),'ID':([0,4,6,8,9,11,15,18,36,49,],[5,12,14,16,17,5,24,27,44,54,]),'TYPE':([0,11,],[6,6,]),'ADD_RULE':([0,11,],[7,7,]),'BRUSH':([0,11,],[8,8,]),'CANVAS':([0,11,],[9,9,]),'DRAW':([0,11,],[10,10,]),'$end':([1,2,11,19,],[0,-1,-3,-2,]),'END':([3,21,22,30,37,40,42,57,82,],[11,-6,-4,-7,-5,-12,-14,-11,-16,]),'EQUAL':([5,14,],[13,23,]),'LPAREN':([7,10,],[15,18,]),'LBRACE':([12,16,17,],[20,25,26,]),'INT':([13,23,41,43,60,63,68,76,77,],[22,22,47,48,64,67,72,79,80,]),'AXIOM':([20,],[29,]),'COMMA':([24,27,39,44,45,47,48,54,64,65,66,67,72,],[31,36,46,49,50,52,53,60,68,69,70,71,76,]),'SIZE':([25,],[33,]),'HIGH':([26,],[35,]),'RBRACE':([28,32,34,56,65,73,80,81,],[37,40,42,-8,-10,-9,-13,-15,]),'TWOPOINTS':([29,33,35,58,59,74,75,],[38,41,43,62,63,77,78,]),'STRING':([31,38,46,50,61,69,],[39,45,51,55,65,55,]),'RPAREN':([51,79,],[57,82,]),'COLOR':([52,71,],[58,75,]),'WIDTH':([53,],[59,]),'ARROW':([55,],[61,]),'COL':([62,78,],[66,81,]),'SPEED':([70,],[74,]),}
+_lr_action_items = {'LSYS':([0,12,30,],[4,4,4,]),'ID':([0,4,6,8,9,12,16,19,30,39,54,],[5,13,15,17,18,5,26,29,5,48,59,]),'TYPE':([0,12,30,],[6,6,6,]),'ADD_RULE':([0,12,30,],[7,7,7,]),'BRUSH':([0,12,30,],[8,8,8,]),'CANVAS':([0,12,30,],[9,9,9,]),'DRAW':([0,12,30,],[10,10,10,]),'REPEAT':([0,12,30,],[11,11,11,]),'$end':([1,2,12,21,],[0,-1,-3,-2,]),'END':([3,23,24,33,41,44,46,49,62,87,],[12,-6,-4,-7,-5,-12,-14,-17,-11,-16,]),'EQUAL':([5,15,],[14,25,]),'LPAREN':([7,10,],[16,19,]),'INT':([11,14,25,45,47,65,68,73,81,82,],[20,24,24,52,53,69,72,77,84,85,]),'RBRACE':([12,21,31,35,37,40,61,70,78,85,86,],[-3,-2,41,44,46,49,-8,-10,-9,-13,-15,]),'LBRACE':([13,17,18,20,],[22,27,28,30,]),'AXIOM':([22,],[32,]),'COMMA':([26,29,43,48,50,52,53,59,69,70,71,72,77,],[34,39,51,54,55,57,58,65,73,74,75,76,81,]),'SIZE':([27,],[36,]),'HIGH':([28,],[38,]),'TWOPOINTS':([32,36,38,63,64,79,80,],[42,45,47,67,68,82,83,]),'STRING':([34,42,51,55,66,74,],[43,50,56,60,70,60,]),'RPAREN':([56,84,],[62,87,]),'COLOR':([57,76,],[63,80,]),'WIDTH':([58,],[64,]),'ARROW':([60,],[66,]),'COL':([67,83,],[71,86,]),'SPEED':([75,],[79,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'Program':([0,],[1,]),'InstructionList':([0,11,],[2,19,]),'Instruction':([0,11,],[3,3,]),'Assignable':([13,23,],[21,30,]),'Lsystem_body':([20,],[28,]),'Brush_body':([25,],[32,]),'Canvas_body':([26,],[34,]),'Ls_rules':([50,69,],[56,73,]),}
+_lr_goto_items = {'Program':([0,],[1,]),'InstructionList':([0,12,30,],[2,21,40,]),'Instruction':([0,12,30,],[3,3,3,]),'Assignable':([14,25,],[23,33,]),'Lsystem_body':([22,],[31,]),'Brush_body':([27,],[35,]),'Canvas_body':([28,],[37,]),'Ls_rules':([55,74,],[61,78,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,20 +27,21 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> Program","S'",1,None,None,None),
-  ('Program -> InstructionList','Program',1,'p_program','parser.py',50),
-  ('InstructionList -> Instruction END InstructionList','InstructionList',3,'p_instruction_list','parser.py',56),
-  ('InstructionList -> Instruction END','InstructionList',2,'p_instruction_list','parser.py',57),
-  ('Assignable -> INT','Assignable',1,'p_assignable','parser.py',70),
-  ('Instruction -> LSYS ID LBRACE Lsystem_body RBRACE','Instruction',5,'p_lsystem','parser.py',76),
-  ('Instruction -> ID EQUAL Assignable','Instruction',3,'p_variables','parser.py',85),
-  ('Instruction -> TYPE ID EQUAL Assignable','Instruction',4,'p_variables','parser.py',86),
-  ('Lsystem_body -> AXIOM TWOPOINTS STRING COMMA Ls_rules','Lsystem_body',5,'p_lsystem_body','parser.py',97),
-  ('Ls_rules -> STRING ARROW STRING COMMA Ls_rules','Ls_rules',5,'p_lsystem_rules','parser.py',104),
-  ('Ls_rules -> STRING ARROW STRING','Ls_rules',3,'p_lsystem_rules','parser.py',105),
-  ('Instruction -> ADD_RULE LPAREN ID COMMA STRING COMMA STRING RPAREN','Instruction',8,'p_add_rule','parser.py',114),
-  ('Instruction -> BRUSH ID LBRACE Brush_body RBRACE','Instruction',5,'p_brush','parser.py',120),
-  ('Brush_body -> SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT','Brush_body',11,'p_brush_body','parser.py',126),
-  ('Instruction -> CANVAS ID LBRACE Canvas_body RBRACE','Instruction',5,'p_canvas','parser.py',132),
-  ('Canvas_body -> HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS COL','Canvas_body',11,'p_canvas_body','parser.py',138),
-  ('Instruction -> DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA INT RPAREN','Instruction',14,'p_draw','parser.py',144),
+  ('Program -> InstructionList','Program',1,'p_program','parser.py',52),
+  ('InstructionList -> Instruction END InstructionList','InstructionList',3,'p_instruction_list','parser.py',58),
+  ('InstructionList -> Instruction END','InstructionList',2,'p_instruction_list','parser.py',59),
+  ('Assignable -> INT','Assignable',1,'p_assignable','parser.py',72),
+  ('Instruction -> LSYS ID LBRACE Lsystem_body RBRACE','Instruction',5,'p_lsystem','parser.py',78),
+  ('Instruction -> ID EQUAL Assignable','Instruction',3,'p_variables','parser.py',87),
+  ('Instruction -> TYPE ID EQUAL Assignable','Instruction',4,'p_variables','parser.py',88),
+  ('Lsystem_body -> AXIOM TWOPOINTS STRING COMMA Ls_rules','Lsystem_body',5,'p_lsystem_body','parser.py',99),
+  ('Ls_rules -> STRING ARROW STRING COMMA Ls_rules','Ls_rules',5,'p_lsystem_rules','parser.py',106),
+  ('Ls_rules -> STRING ARROW STRING','Ls_rules',3,'p_lsystem_rules','parser.py',107),
+  ('Instruction -> ADD_RULE LPAREN ID COMMA STRING COMMA STRING RPAREN','Instruction',8,'p_add_rule','parser.py',116),
+  ('Instruction -> BRUSH ID LBRACE Brush_body RBRACE','Instruction',5,'p_brush','parser.py',122),
+  ('Brush_body -> SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT','Brush_body',11,'p_brush_body','parser.py',128),
+  ('Instruction -> CANVAS ID LBRACE Canvas_body RBRACE','Instruction',5,'p_canvas','parser.py',134),
+  ('Canvas_body -> HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS COL','Canvas_body',11,'p_canvas_body','parser.py',140),
+  ('Instruction -> DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA INT RPAREN','Instruction',14,'p_draw','parser.py',146),
+  ('Instruction -> REPEAT INT LBRACE InstructionList RBRACE','Instruction',5,'p_repeat','parser.py',151),
 ]

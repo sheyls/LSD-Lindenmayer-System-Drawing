@@ -84,6 +84,15 @@ class VariableDeclaration(Node):
         self.name = name
         self.value = value
 
+class RepeatDeclaration(Node):
+    def __init__(self, cant, body ) -> None:
+        self.times_to_repeat = cant
+        self.repeat_body = body 
+
+class Repeat_Body(Node):
+    def __init__(self, instructions) -> None:
+        self.instructions = instructions
+
 class Draw(Node):
     def __init__(self, lsystem, brush, canvas, step_size, angle, complexity) -> None:
         self.lsystem = lsystem

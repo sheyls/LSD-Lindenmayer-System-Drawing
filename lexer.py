@@ -30,7 +30,8 @@ reserved = {
     'break'      :'BREAK',
     '_int'       :'TYPE',
     'string'     :'TYPE',
-    'add_rule'   :'ADD_RULE'
+    'add_rule'   :'ADD_RULE',
+    'repeat'     :"REPEAT"
 }
 
 # List of token names. 
