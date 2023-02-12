@@ -4,6 +4,7 @@ from lexer import lexer
 from parser_2 import parser
 
 filename = 'myscript.lsystem'
+filename = 'test.lsystem'
 
 with open('scripts/' + filename) as file :
     data = file.read()

@@ -98,6 +98,7 @@ t_TWOPOINTS= r':'
 t_LBRACE = r'\{'
 t_RBRACE = r'\}'
 
+
 def t_FLOAT(t):
     r'\d+\.\d+'
     try:
@@ -111,6 +112,7 @@ def t_INT(t):
     r'\d+'
     t.value = int(t.value)
     return t
+
 
 def t_ANGLE(t):
     r'\d+\.\d+'
@@ -165,3 +167,14 @@ def find_column(input, token):
 tokens= list(reserved.values()) + list(tokens)
 
 lexer = lex.lex()
+
+with open('scripts/test.lsystem')as file:
+   data = file.read()
+
+lexer.input(data)
+ 
+while True:
+    tok = lexer.token()
+    if not tok: 
+        break      # No more input
+    print(tok)

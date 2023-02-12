@@ -54,7 +54,6 @@ canvas micanvasgambas {
     color: #ffffff
 };
     
-};
 
 draw(leaf, mibrochamucha, micanvasgambas, 5, 45, 8);
 
@@ -80,20 +79,19 @@ canvas micanvas {
 
 repeat 2 {
 
-draw(leaf, mibrocha, micanvas, 5 ,60, 8);
-a = 10;
-test = 70;
-brush mibrocha {
+    draw(leaf, mibrocha, micanvas, 5 ,60, 8);
+    a = 10;
+    test = 70;
+    brush mibrocha {
 
-    size: 1,
-    color: #808080,
-    speed: 500
+        size: 1,
+        color: #808080,
+        speed: 500
+
+    };
 
 };
 
+if (true) {
+    draw(leaf, mibrocha, micanvas, 5 ,90, 8);
 };
-
-IF (True) {
-draw(leaf, mibrocha, micanvas, 5 ,90, 8);
-};
-

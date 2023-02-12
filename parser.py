@@ -166,24 +166,26 @@ def p_repeat(p):
     '''Instruction : REPEAT INT LBRACE InstructionList RBRACE'''
     p[0] = RepeatDeclaration(p[2],p[4])
 
-# def p_if(p):
-#    '''Instruction : IF LPAREN Condition RPAREN LBRACE InstructionList RBRACE'''    
-#    p[0] = If_Statement(p[3],p[6])
+def p_if(p):
+   '''
+   Instruction : IF LPAREN Condition RPAREN LBRACE InstructionList RBRACE
+   '''    
+   p[0] = If_Statement(p[3],p[6])
 
-# def p_condition(p):
-#     '''
-#     Condition : Assignable GEQUAL Assignable
-#               | Assignable LEQUAL Assignable
-#               | Assignable EQUALEQUAL Assignable
-#               | Assignable GRATER Assignable
-#               | Assignable LESS Assignable
-#               | BOOL
-#     '''    
-#     if len(p[0] == 1):
-#         p[0] = p[1]
+def p_condition(p):
+    '''
+    Condition : Assignable GEQUAL Assignable
+              | Assignable LEQUAL Assignable
+              | Assignable EQUALEQUAL Assignable
+              | Assignable GREATER Assignable
+              | Assignable LESS Assignable
+              | BOOL
+    '''    
+    if len(p)==2:
+        p[0] = p[1]
 
-#     else:
-#         p[0] = BinaryComparer(p[1],p[2],p[3])     
+    else:
+        p[0] = BinaryComparer(p[1],p[2],p[3])     
 
 
 def p_error(p):

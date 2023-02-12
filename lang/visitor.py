@@ -10,6 +10,10 @@ from PIL import Image
 
 from lang.context import Context
 from lang.type import *
+
+from tools import *
+
+
 class Visitor(object):
     def __init__(self, context) -> None:
         self.context = context
@@ -36,6 +40,8 @@ class Eval(Visitor):
     def visit_repeatdeclaration(self, repeat_declaration):
         times = repeat_declaration.times_to_repeat
         instructions = repeat_declaration.instructions
+        child_context: Context = self.context.make_child()
+
         for i in range(times):
             print("ESTA ES LA VEZ", i +1, "DEL REPEAT..................................................................................................")
             for instruction in instructions:
@@ -289,6 +295,18 @@ class Eval(Visitor):
         self.context.define(var_declaration.name, Instance(Type.get(var_declaration.type), var_declaration.value))
         print('aaaa')
 
+    def visit_if_statement(self, if_statement):
+        if not if_statement.condition.__class__ is str:
+            if not if_statement.condition.accept(Eval(self.context)):
+                return
+        elif if_statement.condition=='false':
+            return
+        child_context: Context = self.context.make_child()
+        for line in if_statement.instructions:
+            line.accept(Eval(child_context))
+
+    def visit_binarycomparer(self, binary_comparer):
+        return Bool_Operations[binary_comparer.comparer](binary_comparer.left_expr,binary_comparer.right_expr)
 
 class TypeCollector(Visitor):
 
