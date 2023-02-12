@@ -1,7 +1,6 @@
 from lang.context import Context
 from lang.visitor import Eval
 from lexer import lexer
-from parser_2 import parser
 from parser_1 import parser
 
 filename = 'myscript.lsystem'

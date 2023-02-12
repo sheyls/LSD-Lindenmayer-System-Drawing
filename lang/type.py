@@ -53,13 +53,9 @@ class LsystemInstance:
         self.body = body
 
 class BrushInstance:
-    def __init__(self, context: Context, body, brush) -> None:
     def __init__(self, context: Context, speed,size,color, brush) -> None:
         self.context = context
 
-        brush.speed(body.speed)
-        brush.pensize(body.size)
-        brush.color(body.color)
         brush.speed(speed)
         brush.pensize(size)
         brush.color(color)
@@ -69,12 +65,9 @@ class BrushInstance:
         self.brush = brush
 
 class CanvasInstance:
-    def __init__(self, context: Context, body, canvas) -> None:
     def __init__(self, context: Context, color, width, high, canvas) -> None:
         self.context = context
 
-        canvas.bgcolor(body.color)
-        canvas.screensize(body.width, body.high)
         canvas.bgcolor(color)
         canvas.screensize(width, high)
         

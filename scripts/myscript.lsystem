@@ -16,7 +16,6 @@ _int a = 5;
 
 brush mibrochamucha {
 
-    size: 1,
     size: a,
     color: #ffffff,
     speed: 300
@@ -26,16 +25,13 @@ brush mibrochamucha {
 _int k = 4000;
 canvas micanvasgambas {
 
-    high: 4000,
     high: k,
     width: 4000,
     color: #000000
 };
 
-_int a = 5;
 _int b = 90;
 _int c = 3;
-repeat 2 {
 repeat a {
 draw(square_sierpinski, mibrochamucha, micanvasgambas, a, b, c);
 a = 4;
