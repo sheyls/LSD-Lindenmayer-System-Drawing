@@ -112,3 +112,12 @@ class Draw(Node):
         self.step_size = step_size
         self.angle = angle
         self.complexity = complexity
+
+class Draw_ID(Node):
+    def __init__(self, lsystem, brush, canvas, step_size, angle, complexity) -> None:
+        self.lsystem = lsystem
+        self.brush = brush
+        self.canvas = canvas
+        self.step_size = step_size
+        self.angle = angle
+        self.complexity = complexity

@@ -22,6 +22,7 @@ tokens = lexer.tokens
 #                      | BRUSH ID { Brush_body } END
 #                      | CANVAS ID { Canvas_body } END
 #                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA int COMMA int COMMA int RPAREN END
+#                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA ID COMMA ID COMMA ID RPAREN END
 #                      | ADD_RULE LPAREN ID(lsys) COMMS STRING(left_part) COMMA STRING(right_part) RPAREN END
 #                      | REPEAT int { InstructionList } END
 #                      | IF ( Condition ) { InstructionList } END
@@ -123,6 +124,7 @@ def p_add_rule(p):
     
     p[0] = Add_rule(p[3],RulesDefinition(left_part=p[5],right_part=p[7]))
 
+
 def p_brush(p):
     '''
     Instruction : BRUSH ID LBRACE Brush_body RBRACE
@@ -147,6 +149,13 @@ def p_canvas_body(p):
     '''
     p[0] = CanvasBody(p[3], p[7], p[11])
 
+def p_draw_id(p):
+    '''
+    Instruction : DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA ID COMMA ID RPAREN 
+    '''
+
+    p[0] = Draw_ID(p[3], p[5], p[7], p[9], p[11], p[13])
+
 def p_draw(p):
     '''
     Instruction : DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA INT RPAREN
@@ -157,24 +166,24 @@ def p_repeat(p):
     '''Instruction : REPEAT INT LBRACE InstructionList RBRACE'''
     p[0] = RepeatDeclaration(p[2],p[4])
 
-def p_if(p):
-    '''Instruction : IF LPAREN Condition RPAREN LBRACE InstructionList RBRACE END'''    
-    p[0] = If_Statement(p[3],p[6])
+# def p_if(p):
+#    '''Instruction : IF LPAREN Condition RPAREN LBRACE InstructionList RBRACE'''    
+#    p[0] = If_Statement(p[3],p[6])
 
-def p_condition(p):
-    '''
-    Condition : Assignable GEQUAL Assignable
-              | Assignable LEQUAL Assignable
-              | Assignable EQUALEQUAL Assignable
-              | Assignable GRATER Assignable
-              | Assignable LESS Assignable
-              | BOOL
-    '''    
-    if len(p[0] == 1):
-        p[0] = p[1]
+# def p_condition(p):
+#     '''
+#     Condition : Assignable GEQUAL Assignable
+#               | Assignable LEQUAL Assignable
+#               | Assignable EQUALEQUAL Assignable
+#               | Assignable GRATER Assignable
+#               | Assignable LESS Assignable
+#               | BOOL
+#     '''    
+#     if len(p[0] == 1):
+#         p[0] = p[1]
 
-    else:
-        p[0] = BinaryComparer(p[1],p[2],p[3])     
+#     else:
+#         p[0] = BinaryComparer(p[1],p[2],p[3])     
 
 
 def p_error(p):

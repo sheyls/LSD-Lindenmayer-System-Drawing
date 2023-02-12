@@ -66,6 +66,9 @@ canvas micanvasgambas {
     color: #000000
 };
 
-draw(leaf, mibrochamucha, micanvasgambas, 45,10);
-draw(hexagonal_gosper, mibrochamucha, micanvasgambas, 60, 5);
-draw(block, mibrochamucha, micanvasgambas, 90, 5);
+_int b = 90;
+_int c = 10;
+
+draw(leaf, mibrochamucha, micanvasgambas, a, b, c);
+draw(hexagonal_gosper, mibrochamucha, micanvasgambas, 5, 60, 5);
+draw(block, mibrochamucha, micanvasgambas, 5, 90, 5);
