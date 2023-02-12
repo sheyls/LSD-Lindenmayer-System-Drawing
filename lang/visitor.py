@@ -39,6 +39,10 @@ class Eval(Visitor):
 
     def visit_repeatdeclaration(self, repeat_declaration):
         times = repeat_declaration.times_to_repeat
+        if repeat_declaration.times_to_repeat.__class__ is str:
+            times = self.context.resolve(repeat_declaration.times_to_repeat).value
+        else:
+            times = repeat_declaration.times_to_repeat
         instructions = repeat_declaration.instructions
         child_context: Context = self.context.make_child()
 
@@ -59,6 +63,15 @@ class Eval(Visitor):
     def visit_brushdeclaration(self, brush_declaration):
         brush = turtle.Turtle()
         self.context.define(brush_declaration.name, BrushInstance(self.context, brush_declaration.body, brush)), #self.type))
+        if brush_declaration.body.speed.__class__ is str:
+            speed = self.context.resolve(brush_declaration.body.speed).value
+        else:
+            speed = brush_declaration.body.speed
+        if brush_declaration.body.size.__class__ is str:
+            size = self.context.resolve(brush_declaration.body.size).value
+        else:
+            size = brush_declaration.body.size
+        self.context.define(brush_declaration.name, BrushInstance(self.context, speed, size, brush_declaration.body.color, brush)), #self.type))
         
        # print(self.context.symbols[brush_declaration.name].body.size)
         print("ddd")
@@ -66,6 +79,15 @@ class Eval(Visitor):
     def visit_canvasdeclaration(self, canvas_declaration):
         canvas = turtle.Screen()
         self.context.define(canvas_declaration.name, CanvasInstance(self.context, canvas_declaration.body, canvas)), #self.type))
+        if canvas_declaration.body.width.__class__ is str:
+            width = self.context.resolve(canvas_declaration.body.width).value
+        else:
+            width = canvas_declaration.body.width
+        if canvas_declaration.body.high.__class__ is str:
+            high = self.context.resolve(canvas_declaration.body.high).value
+        else:
+            high = canvas_declaration.body.high
+        self.context.define(canvas_declaration.name, CanvasInstance(self.context, canvas_declaration.body.color,width,high, canvas)), #self.type))
         
         #print(self.context.symbols[brush_declaration.name].body.size)
         print("eee")
@@ -76,8 +98,10 @@ class Eval(Visitor):
         lsystem = self.context.resolve(draw_node.lsystem).body
         brush = self.context.resolve(draw_node.brush).brush
 
+    def auxiliar(sel, window, lsystem,brush,complexity,forward_value, draw_angle):
         curve = lsystem.axiom.axiom.lower()
         for _ in range(draw_node.complexity):
+        for _ in range(complexity):
             print("Este es el axioma",curve)
             for rule in lsystem.l_rules:
                 print(curve)
@@ -180,6 +204,7 @@ class Eval(Visitor):
         #window.exitonclick()
         
     def visit_draw_id(self, draw_node):
+    def visit_draw(self, draw_node):
 
         window = self.context.resolve(draw_node.canvas).canvas
         lsystem = self.context.resolve(draw_node.lsystem).body
@@ -198,11 +223,15 @@ class Eval(Visitor):
                 print(rule.left,rule.right)
                 curve = curve.replace(rule.left.lower(), rule.right)  
             curve = curve.lower()
+        complexity = draw_node.complexity
+        forward_value = draw_node.step_size
+        draw_angle = draw_node.angle
         
         for rule in lsystem.l_rules:
                 curve = curve.replace(rule.right, "")
                 print(curve)
         print(curve)
+        self.auxiliar(window,lsystem,brush,complexity,forward_value,draw_angle)
 
         stack = []
         meaning_of_plus_and_minus = True
@@ -234,6 +263,7 @@ class Eval(Visitor):
                 stack.append(pos)
                 ang = brush.heading()
                 stack.append(ang)
+    def visit_draw_id(self, draw_node):
 
             elif c == ']':
                 # Pop current drawing state onto the stack
@@ -274,10 +304,28 @@ class Eval(Visitor):
             elif c =='$':
                 # Increment turning angle by turning angle increment
                 draw_angle = draw_angle - 10                            
+        window = self.context.resolve(draw_node.canvas).canvas
+        lsystem = self.context.resolve(draw_node.lsystem).body
+        brush = self.context.resolve(draw_node.brush).brush
 
         print("qbola")
         #window.exitonclick()
+        if draw_node.complexity.__class__ is str:
+            complexity = self.context.resolve(draw_node.complexity).value
+        else:
+            complexity = draw_node.complexity
+        if draw_node.step_size.__class__ is str:
+            forward_value = self.context.resolve(draw_node.step_size).value
+        else:
+            forward_value = draw_node.step_size
+        if draw_node.angle.__class__ is str:
+            draw_angle = self.context.resolve(draw_node.angle).value
+        else: 
+            draw_angle = draw_node.angle
         
+        self.auxiliar(window,lsystem,brush,complexity,forward_value,draw_angle)
+
+
     def visit_add_rule(self,new_rule):
         lsys = self.context.resolve(new_rule.lsys_name)
         lsys.body.l_rules.append(new_rule.rule)

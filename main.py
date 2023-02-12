@@ -2,9 +2,11 @@ from lang.context import Context
 from lang.visitor import Eval
 from lexer import lexer
 from parser_2 import parser
+from parser_1 import parser
 
 filename = 'myscript.lsystem'
 filename = 'test.lsystem'
+#filename = 'test.lsystem'
 
 with open('scripts/' + filename) as file :
     data = file.read()
