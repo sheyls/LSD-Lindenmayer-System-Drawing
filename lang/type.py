@@ -49,7 +49,7 @@ class Instance:
 class LsystemInstance:
     def __init__(self, context: Context, body) -> None:
         self.context = context
-        #self.type = type lsystem
+        self.type = Type('lsystem')
         self.body = body
 
 class BrushInstance:
@@ -83,3 +83,5 @@ _brush = Type('brush')
 _canvas = Type('canvas')
 _color = Type('color')
 _angle = Type('angle')
+_bool = Type('bool')
+_void = Type('void')

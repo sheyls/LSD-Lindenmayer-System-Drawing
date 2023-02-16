@@ -21,14 +21,12 @@ lsys bush {
 };
 
 
-
-
-
 repeat 2 {
     lsys hexagonal_gosper{
     axiom : XF,
     X => X+YF++YF-FX--FXFX-YF+,
     Y => -FX+YFYF++YF+FX--FX-Y
+    };
 };
 
 lsys leaf {
@@ -92,6 +90,7 @@ repeat 2 {
 
 };
 
+
 if (true) {
-    draw(leaf, mibrocha, micanvas, 5 ,90, 8);
+    draw(leaf, mibrocha, micanvas, 5 ,45, 8);
 };

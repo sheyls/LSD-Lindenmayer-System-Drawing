@@ -12,7 +12,7 @@ from lang.context import Context
 from lang.type import *
 
 from tools import *
-
+from abstract_syctax_tree import *
 
 class Visitor(object):
     def __init__(self, context) -> None:
@@ -27,16 +27,6 @@ class Eval(Visitor):
         for instruction in program.instructions:
             instruction.accept(Eval(self.context))
 
-    def visit_if_statement(self,if_declaration):
-        if if_declaration.condition:
-            for instruction in if_declaration:
-                instruction.acceot(Eval(self.context))
-
-    def visit_binary_comparer(self,left_expr, comparer, roght_expr):
-        return             
-
-
-
     def visit_repeatdeclaration(self, repeat_declaration):
         times = repeat_declaration.times_to_repeat
         if repeat_declaration.times_to_repeat.__class__ is str:
@@ -49,7 +39,7 @@ class Eval(Visitor):
         for i in range(times):
             print("ESTA ES LA VEZ", i +1, "DEL REPEAT..................................................................................................")
             for instruction in instructions:
-                instruction.accept(Eval(self.context))
+                instruction.accept(Eval(child_context))
         print("SE ACABO EL REPEAT....................................................................................................................")        
 
 
@@ -252,48 +242,136 @@ class Eval(Visitor):
             line.accept(Eval(child_context))
 
     def visit_binarycomparer(self, binary_comparer):
-        return Bool_Operations[binary_comparer.comparer](binary_comparer.left_expr,binary_comparer.right_expr)
+        return Bool_Operations[binary_comparer.comparer](binary_comparer.left_expr.value,binary_comparer.right_expr.value)
+
 
 class TypeCollector(Visitor):
 
-    context: Context
+    def __init__(self, context) -> None:
+        super().__init__(context)
 
     def visit_program(self, program):
-        self.context = Context()
-
-        for classDef in program.classes:
-            self.visit(classDef)
+        for instruction in program.instructions:
+            instruction.accept(TypeCollector(self.context))
     
     
     def visit_lsystemdefinition(self, lsystem_definition):
-        self.context.create_type(lsystem_definition.name)
-
-class TypeBuilder:
-    
-    context: Context
-    current_type: Type
-
-    def visit_program(self, program):
-        for classDef in program.classes:
-            self.visit(classDef)
-
-    def visit_lsystemdefinition(self, lsystem_definition):
-        self.currentType = self.context.get_type(lsystem_definition.name)
-        
-        for attrDef in lsystem_definition.attributes:
-            self.visit(attrDef)
-
-        for methodDef in lsystem_definition.methods:
-            self.visit(methodDef)
-
-class TypeChecker:
-    context: Context
-
-    def visit(self, node):
-        self.visit(node.left)
-        self.visit(node.right)
-        if node.left.computed_type != node.right.computed_type:
-            logging.error("Type mismatch")
-            node.computed_type = None
+        lsystem = self.context.resolve(lsystem_definition.name)
+        if lsystem: 
+            raise Exception(f"Defined lsystem '{lsystem_definition.name}'.")
         else:
-            node.computed_type = node.left.computed_type
+            self.context.define(lsystem_definition.name,LsystemInstance)
+        
+        lsystem_definition.computed_type = self.context.symbols[lsystem_definition.name]
+
+    def visit_lsystemdeclaration(self,lsystem_declaration):
+        lsystem = self.context.resolve(lsystem_declaration.name)
+        if lsystem: 
+            raise Exception(f"Defined lsystem '{lsystem_declaration.name}'.")
+        
+        axiom = lsystem_declaration.body.axiom.axiom
+        rules = lsystem_declaration.body.l_rules
+
+        contain = False
+        for i in range(len(axiom)):
+            for rule in rules:
+                if axiom[i] == rule.left:
+                    contain = True 
+        if not contain:
+            raise Exception(f"Wrong definition of lsystem '{lsystem_declaration.name}'.")
+
+        self.context.define(lsystem_declaration.name,LsystemInstance)
+        lsystem_declaration.computed_type = self.context.symbols[lsystem_declaration.name]
+        
+
+
+    def visit_if_statement(self,if_declaration):
+        # if_declaration.condition.accept(TypeCollector(self.context))
+        # if if_declaration.condition.computed_type is not Type.get('bool'):
+        #     raise Exception(f"Given condition is not boolean.")
+        
+        # child_context: Context = self.context.make_child()
+        # child_semantic_checker = TypeCollector(child_context)
+        
+        # if_declaration.computed_type= Type.get('void')
+        
+        # for line in if_declaration.instructions:
+        #     line.accept(child_semantic_checker)
+        #     cond = isinstance(line,If_Statement) or isinstance(line,RepeatDeclaration)
+        #     if cond:
+        #         if if_declaration.computed_type is not Type.get('void') and line.computed_type is not Type.get('void') :
+        #             if if_declaration.computed_type is not line.computed_type:
+        #                 raise Exception('Return type not valid')
+        #         elif line.computed_type is not Type.get('void'):
+        #             if_declaration.computed_type= line.computed_type
+        #         #if isinstance(line,ReturnStatement): return
+        pass
+    
+    
+    def visit_repeatdeclaration(self, repeat_declaration):
+        pass
+    
+    def visit_brushdeclaration(self, brush_declaration):
+        brush = self.context.resolve(brush_declaration.name)
+        if brush: 
+            raise Exception(f"Defined lsystem '{brush_declaration.name}'.")
+        else:
+            self.context.define(brush_declaration.name,BrushInstance)
+        brush_declaration.computed_type = self.context.symbols[brush_declaration.name]
+
+    def visit_canvasdeclaration(self, canvas_declaration):
+        canvas = self.context.resolve(canvas_declaration.name)
+        if canvas: 
+            raise Exception(f"Defined lsystem '{canvas_declaration.name}'.")
+        else:
+            self.context.define(canvas_declaration.name,CanvasInstance)
+        canvas_declaration.computed_type = self.context.symbols[canvas_declaration.name]
+
+    def visit_draw(self, draw_node):
+        pass
+
+    def visit_draw_id(self, draw_node):
+        pass
+
+    def visit_add_rule(self,new_rule):
+        pass
+    
+    def visit_variableassignment(self, var_assignment):
+        var_assignment.value.accept(TypeCollector(self.context))
+        var_type = self.context.resolve(var_assignment.name)
+        if var_type is None:
+            raise Exception(f"Variable '{var_assignment.name}' not defined.")
+        if var_type.name != var_assignment.value.computed_type:
+            raise Exception(f"Can't assign value {var_assignment.value} to variable '{var_assignment.name}'. Type '{var_type}' different to '{var_assignment.value.computed_type}'.")
+        var_assignment.computed_type = var_type
+
+    def visit_variabledeclaration(self, var_declaration):
+        var_type = Type.get(var_declaration.type)
+        var_declaration.value.accept(TypeCollector(self.context))
+
+        if var_declaration.name in self.context.symbols.keys():
+            raise Exception(f"Defined variable '{var_declaration.name}'.")
+        else:
+            self.context.define(var_declaration.name, var_type)
+        if var_declaration.value.computed_type != var_type.name:
+            raise Exception(f"{var_declaration.value.type} not expected.")
+        
+        var_declaration.computed_type = var_type
+        
+    def visit_assignable(self, assignable):
+        assignable.computed_type = assignable.type
+
+    def visit_binarycomparer(self, binary_comparer):
+        binary_comparer.left_expr.accept(TypeCollector(self.context))
+        binary_comparer.right_expr.accept(TypeCollector(self.context))
+        
+        if binary_comparer.left_expr.computed_type == Type.get('void') or binary_comparer.right_expr.computed_type == Type.get('void'):
+            raise Exception(f"{'void'} expression not admissible for comparison.")
+        
+        if binary_comparer.left_expr.computed_type != binary_comparer.right_expr.computed_type:
+            raise Exception("Expressions to compare must be the same type.")
+        
+        if binary_comparer.comparer in ['>', '<', '>=', '<='] and binary_comparer.left_expr.computed_type is not Type.get('_int'):
+            raise Exception(f"Invalid expression type for '{binary_comparer.comparer}' comparer.")
+        
+        binary_comparer.computed_type = Type.get('bool')

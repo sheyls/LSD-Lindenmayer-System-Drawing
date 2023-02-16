@@ -23,6 +23,6 @@ lsys leaf {
 };
 _int a = 3;
 
-if (5 == 5) {
-    draw(leaf, mibrocha, micanvas, 5 ,90, 8);
+if (4 == 4) {
+    draw(leaf, mibrocha, micanvas, 5 ,45, 8);
 };

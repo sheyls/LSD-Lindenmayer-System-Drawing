@@ -1,0 +1,22 @@
+lsys quedratic_gosper {
+    axiom : -YF,
+    X => XFX-YF-YF+FX+FX-YF-YFFX+YF+FXFXYF-FX+YF+FXFX+YF-FXYF-YF-FX+FX+YFYF-,
+    Y => +FXFX-YF-YF+FX+FXYF+FX-YFYF-FX-YF+FXYFYF-FX-YFFX+FX+YF-YF-FX+FX+YFY
+};
+
+brush mibrocha {
+
+    size: 1,
+    color: #c93c20,
+    speed: 500
+
+};
+
+canvas micanvas {
+
+    high: 4000,
+    width: 4000,
+    color: #ffffff
+};
+
+draw(quedratic_gosper, mibrocha, micanvas, 2 ,45, 3);

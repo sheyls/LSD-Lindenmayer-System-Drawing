@@ -4,7 +4,7 @@ from typing import List
 from lang.context import Context
 from lang.type import *
 from lang.visitor import *
-
+from tools import *
 
 
 class Node(ABC):
@@ -121,3 +121,8 @@ class Draw_ID(Node):
         self.step_size = step_size
         self.angle = angle
         self.complexity = complexity
+
+class Assignable(Node):
+    def __init__(self,value,type):
+        self.value = value
+        self.type = Token_to_types[type]
