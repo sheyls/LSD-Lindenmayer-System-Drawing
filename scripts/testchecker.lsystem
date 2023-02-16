@@ -14,7 +14,7 @@ brush mibrocha {
 
 canvas micanvas {
 
-    high: 4000,
+    high: a,
     width: 4000,
     color: #ffffff
 };

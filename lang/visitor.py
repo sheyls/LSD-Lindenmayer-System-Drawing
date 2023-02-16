@@ -53,14 +53,14 @@ class Eval(Visitor):
     def visit_brushdeclaration(self, brush_declaration):
         brush = turtle.Turtle()
         if brush_declaration.body.speed.__class__ is str:
-            speed = self.context.resolve(brush_declaration.body.speed).value
+            speed = self.context.resolve(brush_declaration.body.speed).value.value
         else:
             speed = brush_declaration.body.speed
         if brush_declaration.body.size.__class__ is str:
-            size = self.context.resolve(brush_declaration.body.size).value
+            size = self.context.resolve(brush_declaration.body.size).value.value
         else:
             size = brush_declaration.body.size
-        self.context.define(brush_declaration.name, BrushInstance(self.context, speed, size, brush_declaration.body.color, brush)), #self.type))
+        self.context.define(brush_declaration.name, BrushInstance(self.context, speed = speed,size= size,color= brush_declaration.body.color,brush= brush)), #self.type))
         
        # print(self.context.symbols[brush_declaration.name].body.size)
         print("ddd")
@@ -68,11 +68,11 @@ class Eval(Visitor):
     def visit_canvasdeclaration(self, canvas_declaration):
         canvas = turtle.Screen()
         if canvas_declaration.body.width.__class__ is str:
-            width = self.context.resolve(canvas_declaration.body.width).value
+            width = self.context.resolve(canvas_declaration.body.width).value.value
         else:
             width = canvas_declaration.body.width
         if canvas_declaration.body.high.__class__ is str:
-            high = self.context.resolve(canvas_declaration.body.high).value
+            high = self.context.resolve(canvas_declaration.body.high).value.value
         else:
             high = canvas_declaration.body.high
         self.context.define(canvas_declaration.name, CanvasInstance(self.context, canvas_declaration.body.color,width,high, canvas)), #self.type))
@@ -245,22 +245,22 @@ class Eval(Visitor):
         return Bool_Operations[binary_comparer.comparer](binary_comparer.left_expr.value,binary_comparer.right_expr.value)
 
 
-class TypeCollector(Visitor):
+class SemanticChecker(Visitor):
 
     def __init__(self, context) -> None:
         super().__init__(context)
 
     def visit_program(self, program):
         for instruction in program.instructions:
-            instruction.accept(TypeCollector(self.context))
+            instruction.accept(SemanticChecker(self.context))
     
     
     def visit_lsystemdefinition(self, lsystem_definition):
         lsystem = self.context.resolve(lsystem_definition.name)
         if lsystem: 
             raise Exception(f"Defined lsystem '{lsystem_definition.name}'.")
-        else:
-            self.context.define(lsystem_definition.name,LsystemInstance)
+        
+        self.context.define(lsystem_definition.name,LsystemInstance)
         
         lsystem_definition.computed_type = self.context.symbols[lsystem_definition.name]
 
@@ -314,30 +314,139 @@ class TypeCollector(Visitor):
     def visit_brushdeclaration(self, brush_declaration):
         brush = self.context.resolve(brush_declaration.name)
         if brush: 
-            raise Exception(f"Defined lsystem '{brush_declaration.name}'.")
-        else:
-            self.context.define(brush_declaration.name,BrushInstance)
+            raise Exception(f"Defined brush '{brush_declaration.name}'.")
+
+        if brush_declaration.body.speed.__class__ is str:
+            try:
+                speed_type = self.context.resolve(brush_declaration.body.speed).name
+                if speed_type != '_int':
+                    raise Exception(f"Expected type _int for speed.")
+            except:
+                raise Exception(f"Variable '{brush_declaration.body.speed}' not defined.")
+
+        if brush_declaration.body.size.__class__ is str:
+            try:
+                size_type = self.context.resolve(brush_declaration.body.size).name
+                if size_type != '_int':
+                    raise Exception(f"Expected type _int for size.")
+            except:
+                raise Exception(f"Variable '{brush_declaration.body.size}' not defined.")
+
+
+        self.context.define(brush_declaration.name,BrushInstance)
         brush_declaration.computed_type = self.context.symbols[brush_declaration.name]
 
     def visit_canvasdeclaration(self, canvas_declaration):
         canvas = self.context.resolve(canvas_declaration.name)
         if canvas: 
             raise Exception(f"Defined lsystem '{canvas_declaration.name}'.")
-        else:
-            self.context.define(canvas_declaration.name,CanvasInstance)
+        
+        if canvas_declaration.body.high.__class__ is str:
+            try :
+                high_type = self.context.resolve(canvas_declaration.body.high).name
+                if high_type != '_int':
+                    raise Exception(f"Expected type _int for high.")
+            except:
+                raise Exception(f"Variable '{canvas_declaration.body.high}' not defined.")
+
+        if canvas_declaration.body.width.__class__ is str:
+            try:
+                width_type = self.context.resolve(canvas_declaration.body.width).name
+                if width_type != '_int':
+                    raise Exception(f"Expected type _int for width.")
+            except:
+                raise Exception(f"Variable '{canvas_declaration.body.width}' not defined.")
+
+        self.context.define(canvas_declaration.name,CanvasInstance)
         canvas_declaration.computed_type = self.context.symbols[canvas_declaration.name]
 
     def visit_draw(self, draw_node):
-        pass
+        try:
+            lsystem_type = self.context.resolve(draw_node.lsystem)
+            if lsystem_type is not LsystemInstance:
+                raise Exception(f"Expected type lsys.")
+        except:
+                raise Exception(f"Variable '{draw_node.lsystem}' not defined.")
+        
+        try:
+            brush_type = self.context.resolve(draw_node.brush)
+            if brush_type is not BrushInstance:
+                raise Exception(f"Expected type brush.")
+        except:
+            raise Exception(f"Variable'{draw_node.brush}' not defined.")
+
+        try:
+            canvas_type = self.context.resolve(draw_node.canvas)
+            if canvas_type is not CanvasInstance:
+                raise Exception(f"Expected type canvas")
+        except:
+            raise Exception(f"Variable'{draw_node.canvas}' not defined.")
+        
+        #esto hay que pensarlo mejor
+        draw_node.computed_type = Type('void')
+
 
     def visit_draw_id(self, draw_node):
-        pass
+        try:
+            lsystem_type = self.context.resolve(draw_node.lsystem)
+            if lsystem_type is not LsystemInstance:
+                raise Exception(f"Expected type lsys.")
+        except:
+                raise Exception(f"Variable '{draw_node.lsystem}' not defined.")
+        
+        try:
+            brush_type = self.context.resolve(draw_node.brush)
+            if brush_type is not BrushInstance:
+                raise Exception(f"Expected type brush.")
+        except:
+            raise Exception(f"Variable'{draw_node.brush}' not defined.")
+
+        try:
+            canvas_type = self.context.resolve(draw_node.canvas)
+            if canvas_type is not CanvasInstance:
+                raise Exception(f"Expected type canvas")
+        except:
+            raise Exception(f"Variable'{draw_node.canvas}' not defined.")
+        
+
+        if draw_node.step_size.__class__ is str:
+            try:
+                size_type = self.context.resolve(draw_node.step_size).name
+                if size_type != '_int':
+                    raise Exception(f"Expected type _int for size.")
+            except:
+                raise Exception(f"Variable '{draw_node.step_size}' not defined.")
+
+        if draw_node.angle.__class__ is str:
+            try:
+                angle_type = self.context.resolve(draw_node.angle).name
+                if angle_type != '_int':
+                    raise Exception(f"Expected type _int for angle.")
+            except:
+                raise Exception(f"Variable '{draw_node.angle}' not defined.")
+
+        if draw_node.complexity.__class__ is str:
+            try:
+                complexity_type = self.context.resolve(draw_node.complexity).name
+                if complexity_type != '_int':
+                    raise Exception(f"Expected type _int for complexity.")
+            except:
+                raise Exception(f"Variable '{draw_node.complexity}' not defined.")
+
+        #esto hay que pensarlo mejor
+        draw_node.computed_type = Type('void')
 
     def visit_add_rule(self,new_rule):
-        pass
+        lsys = self.context.resolve(new_rule.lsys_name)
+        if lsys is None:
+            raise Exception(f"Lsystem '{new_rule.lsys_name}' not defined.")
+
+        #esto hay que pensarlo mejor
+        new_rule.computed_type = Type('void')
+
     
     def visit_variableassignment(self, var_assignment):
-        var_assignment.value.accept(TypeCollector(self.context))
+        var_assignment.value.accept(SemanticChecker(self.context))
         var_type = self.context.resolve(var_assignment.name)
         if var_type is None:
             raise Exception(f"Variable '{var_assignment.name}' not defined.")
@@ -347,7 +456,7 @@ class TypeCollector(Visitor):
 
     def visit_variabledeclaration(self, var_declaration):
         var_type = Type.get(var_declaration.type)
-        var_declaration.value.accept(TypeCollector(self.context))
+        var_declaration.value.accept(SemanticChecker(self.context))
 
         if var_declaration.name in self.context.symbols.keys():
             raise Exception(f"Defined variable '{var_declaration.name}'.")
@@ -362,8 +471,8 @@ class TypeCollector(Visitor):
         assignable.computed_type = assignable.type
 
     def visit_binarycomparer(self, binary_comparer):
-        binary_comparer.left_expr.accept(TypeCollector(self.context))
-        binary_comparer.right_expr.accept(TypeCollector(self.context))
+        binary_comparer.left_expr.accept(SemanticChecker(self.context))
+        binary_comparer.right_expr.accept(SemanticChecker(self.context))
         
         if binary_comparer.left_expr.computed_type == Type.get('void') or binary_comparer.right_expr.computed_type == Type.get('void'):
             raise Exception(f"{'void'} expression not admissible for comparison.")
