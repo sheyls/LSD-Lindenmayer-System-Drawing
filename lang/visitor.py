@@ -30,7 +30,7 @@ class Eval(Visitor):
     def visit_repeatdeclaration(self, repeat_declaration):
         times = repeat_declaration.times_to_repeat
         if repeat_declaration.times_to_repeat.__class__ is str:
-            times = self.context.resolve(repeat_declaration.times_to_repeat).value
+            times = self.context.resolve(repeat_declaration.times_to_repeat).value.value
         else:
             times = repeat_declaration.times_to_repeat
         instructions = repeat_declaration.instructions
@@ -283,33 +283,34 @@ class SemanticChecker(Visitor):
         self.context.define(lsystem_declaration.name,LsystemInstance)
         lsystem_declaration.computed_type = self.context.symbols[lsystem_declaration.name]
         
-
-
     def visit_if_statement(self,if_declaration):
-        # if_declaration.condition.accept(TypeCollector(self.context))
-        # if if_declaration.condition.computed_type is not Type.get('bool'):
-        #     raise Exception(f"Given condition is not boolean.")
+        if isinstance(if_declaration.condition,BinaryComparer):
+            if_declaration.condition.accept(SemanticChecker(self.context))
+            if if_declaration.condition.computed_type is not Type.get('bool'):
+                raise Exception(f"Given condition is not boolean.")
+ 
+        child_context: Context = self.context.make_child()
+        child_semantic_checker = SemanticChecker(child_context)
         
-        # child_context: Context = self.context.make_child()
-        # child_semantic_checker = TypeCollector(child_context)
+        if_declaration.computed_type= Type.get('void')
         
-        # if_declaration.computed_type= Type.get('void')
-        
-        # for line in if_declaration.instructions:
-        #     line.accept(child_semantic_checker)
-        #     cond = isinstance(line,If_Statement) or isinstance(line,RepeatDeclaration)
-        #     if cond:
-        #         if if_declaration.computed_type is not Type.get('void') and line.computed_type is not Type.get('void') :
-        #             if if_declaration.computed_type is not line.computed_type:
-        #                 raise Exception('Return type not valid')
-        #         elif line.computed_type is not Type.get('void'):
-        #             if_declaration.computed_type= line.computed_type
-        #         #if isinstance(line,ReturnStatement): return
-        pass
-    
+        for line in if_declaration.instructions:
+            line.accept(child_semantic_checker)
     
     def visit_repeatdeclaration(self, repeat_declaration):
-        pass
+        if isinstance(repeat_declaration.times_to_repeat,str):
+            _type = self.context.resolve(repeat_declaration.times_to_repeat)
+            if _type.name != '_int':
+                raise Exception(f"Given condition is not _int.")
+        
+        repeat_declaration.computed_type = Type.get('void')
+       
+        child_context: Context = self.context.make_child()
+        child_semantic_checker = SemanticChecker(child_context)
+       
+        for line in repeat_declaration.instructions:
+          line.accept(child_semantic_checker)
+            
     
     def visit_brushdeclaration(self, brush_declaration):
         brush = self.context.resolve(brush_declaration.name)

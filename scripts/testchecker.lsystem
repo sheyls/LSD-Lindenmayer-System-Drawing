@@ -14,9 +14,13 @@ brush mibrocha {
 
 canvas micanvas {
 
-    high: a,
+    high: 4000,
     width: 4000,
     color: #ffffff
 };
 
-draw(quedratic_gosper, mibrocha, micanvas, 2 ,45, 3);
+_int a = 2;
+repeat a{
+draw(quedratic_gosper, mibrocha, micanvas, 2 ,90, 2);
+
+};
