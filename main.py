@@ -1,11 +1,11 @@
 from lang.context import Context
 from lang.visitor import Eval, SemanticChecker
 from lexer import lexer
-from parser_1 import parser
+from parser import parser
 
 filename = 'myscript.lsystem'
-filename = 'test.lsystem'
-filename = 'testchecker.lsystem'
+#filename = 'test.lsystem'
+#filename = 'testchecker.lsystem'
 
 with open('scripts/' + filename) as file :
     data = file.read()

@@ -1,14 +1,12 @@
 from __future__ import annotations
 from curses import window
-from distutils.log import error
 
 import logging
 import turtle
 from matplotlib.style import context
 
 from datetime import datetime
-from PIL import Image
-from numpy import False_ 
+from PIL import Image 
 
 from lang.context import Context
 from lang.type import *
@@ -253,32 +251,26 @@ class SemanticChecker(Visitor):
         super().__init__(context)
 
     def visit_program(self, program):
-        errors = []
         for instruction in program.instructions:
-            errors += instruction.accept(SemanticChecker(self.context))
-        return errors
+            instruction.accept(SemanticChecker(self.context))
+    
+    
+    def visit_lsystemdefinition(self, lsystem_definition):
+        lsystem = self.context.resolve(lsystem_definition.name)
+        if lsystem: 
+            raise Exception(f"Defined lsystem '{lsystem_definition.name}'.")
+        
+        self.context.define(lsystem_definition.name,LsystemInstance)
+        
+        lsystem_definition.computed_type = self.context.symbols[lsystem_definition.name]
 
-
-    # Lsystems
-    def visit_lsystemdeclaration(self, lsystem_declaration):
-        # name, body
-        errors = []
+    def visit_lsystemdeclaration(self,lsystem_declaration):
         lsystem = self.context.resolve(lsystem_declaration.name)
-        if lsystem:
-            errors += (f"Defined lsystem '{lsystem_declaration.name}'.")
-
-        self.context.define(lsystem_declaration.name, LsystemInstance(self.context,lsystem_declaration.body)) # ver si esto esta bien
-        lsystem_declaration.type = self.context.symbols[lsystem_declaration.name]
-
-        lsysbody = lsystem_declaration.body
-        errors += lsysbody.accept(SemanticChecker(self.context))
-        return errors
-
-    def visit_lsysbody(self, lsystem_definition) : # LsysBody es el nodo que se esta usando en el AST , no LsystemDefinition
-        # axiom, rules
-        errors = []
-        axiom = lsystem_definition.axiom.axiom # el primero devuelve un Axiomdefinition
-        rules = lsystem_definition.l_rules
+        if lsystem: 
+            raise Exception(f"Defined lsystem '{lsystem_declaration.name}'.")
+        
+        axiom = lsystem_declaration.body.axiom.axiom
+        rules = lsystem_declaration.body.l_rules
 
         contain = False
         for i in range(len(axiom)):
@@ -286,7 +278,7 @@ class SemanticChecker(Visitor):
                 if axiom[i] == rule.left:
                     contain = True 
         if not contain:
-            errors += (f"Wrong definition of lsystem '{lsystem_definition}'.") # ver como accedo al nombre
+            raise Exception(f"Wrong definition of lsystem '{lsystem_declaration.name}'.")
 
         self.context.define(lsystem_declaration.name,LsystemInstance)
         lsystem_declaration.computed_type = self.context.symbols[lsystem_declaration.name]
@@ -324,249 +316,172 @@ class SemanticChecker(Visitor):
         brush = self.context.resolve(brush_declaration.name)
         if brush: 
             raise Exception(f"Defined brush '{brush_declaration.name}'.")
-        return errors                
+
+        if brush_declaration.body.speed.__class__ is str:
+            try:
+                speed_type = self.context.resolve(brush_declaration.body.speed).name
+                if speed_type != '_int':
+                    raise Exception(f"Expected type _int for speed.")
+            except:
+                raise Exception(f"Variable '{brush_declaration.body.speed}' not defined.")
+
+        if brush_declaration.body.size.__class__ is str:
+            try:
+                size_type = self.context.resolve(brush_declaration.body.size).name
+                if size_type != '_int':
+                    raise Exception(f"Expected type _int for size.")
+            except:
+                raise Exception(f"Variable '{brush_declaration.body.size}' not defined.")
+
+
+        self.context.define(brush_declaration.name,BrushInstance)
+        brush_declaration.computed_type = self.context.symbols[brush_declaration.name]
 
     def visit_canvasdeclaration(self, canvas_declaration):
-        # name, body
-        errors = []
         canvas = self.context.resolve(canvas_declaration.name)
+        if canvas: 
+            raise Exception(f"Defined lsystem '{canvas_declaration.name}'.")
+        
+        if canvas_declaration.body.high.__class__ is str:
+            try :
+                high_type = self.context.resolve(canvas_declaration.body.high).name
+                if high_type != '_int':
+                    raise Exception(f"Expected type _int for high.")
+            except:
+                raise Exception(f"Variable '{canvas_declaration.body.high}' not defined.")
 
-        if canvas:
-            errors += (f"Defined canvas '{canvas_declaration.name}'.")
+        if canvas_declaration.body.width.__class__ is str:
+            try:
+                width_type = self.context.resolve(canvas_declaration.body.width).name
+                if width_type != '_int':
+                    raise Exception(f"Expected type _int for width.")
+            except:
+                raise Exception(f"Variable '{canvas_declaration.body.width}' not defined.")
 
-        body = canvas_declaration.body    
-
-        high = body.high
-        width = body.width
-        color = body.high    
-
-        self.context.define(canvas_declaration.name, CanvasInstance(self.context,color,width,high))  
+        self.context.define(canvas_declaration.name,CanvasInstance)
         canvas_declaration.computed_type = self.context.symbols[canvas_declaration.name]
 
-        errors += body.accept(SemanticChecker(self.context))
-        return errors
+    def visit_draw(self, draw_node):
+        try:
+            lsystem_type = self.context.resolve(draw_node.lsystem)
+            if lsystem_type is not LsystemInstance:
+                raise Exception(f"Expected type lsys.")
+        except:
+                raise Exception(f"Variable '{draw_node.lsystem}' not defined.")
+        
+        try:
+            brush_type = self.context.resolve(draw_node.brush)
+            if brush_type is not BrushInstance:
+                raise Exception(f"Expected type brush.")
+        except:
+            raise Exception(f"Variable'{draw_node.brush}' not defined.")
 
-    def visit_canvasbody(self, canvas_body):
-        errors = []
-        high = canvas_body.high
-        width = canvas_body.width
-        color = canvas_body.color
-
-        if high.__class__ is str:
-            high_type = self.context.resolve(high).name
-            if high_type != None : # revisar esto
-                if high_type != '_int':
-                    errors += (f"Expected type _int for high.")
-            else: errors += (f"Variable '{high}' not defined.")
-
-        if width.__class__ is str:
-            width_type = self.context.resolve(width).name
-            if width_type != None : # revisar esto
-                if width_type != '_int':
-                    errors += (f"Expected type _int for width.")
-            else: errors += (f"Variable '{width}' not defined.")
-
-        # El color no se pone ???
-
-        return errors
+        try:
+            canvas_type = self.context.resolve(draw_node.canvas)
+            if canvas_type is not CanvasInstance:
+                raise Exception(f"Expected type canvas")
+        except:
+            raise Exception(f"Variable'{draw_node.canvas}' not defined.")
+        
+        #esto hay que pensarlo mejor
+        draw_node.computed_type = Type('void')
 
 
+    def visit_draw_id(self, draw_node):
+        try:
+            lsystem_type = self.context.resolve(draw_node.lsystem)
+            if lsystem_type is not LsystemInstance:
+                raise Exception(f"Expected type lsys.")
+        except:
+                raise Exception(f"Variable '{draw_node.lsystem}' not defined.")
+        
+        try:
+            brush_type = self.context.resolve(draw_node.brush)
+            if brush_type is not BrushInstance:
+                raise Exception(f"Expected type brush.")
+        except:
+            raise Exception(f"Variable'{draw_node.brush}' not defined.")
 
-    def visit_brushdeclaration(self,brush_declaration):
-        # name, body
-        errors = []
-        brush = self.context.resolve(brush_declaration.name)
-        if brush: 
-            errors += (f"Defined brush '{brush_declaration.name}'.")
+        try:
+            canvas_type = self.context.resolve(draw_node.canvas)
+            if canvas_type is not CanvasInstance:
+                raise Exception(f"Expected type canvas")
+        except:
+            raise Exception(f"Variable'{draw_node.canvas}' not defined.")
+        
 
-        brush_body = brush_declaration.body
-        size = brush_body.size
-        color = brush_body.color
-        speed = brush_body.speed    
-
-        self.context.define(brush_declaration.name, BrushInstance(self.context,speed,size,color,brush))    
-        brush_declaration.type = self.context.symbols[brush_declaration.name]
-
-        errors += brush_body.accept(SemanticChecker(self.context)) 
-        return errors
-
-    def visit_brushbody(self, brush_body):
-        # size, color, spped    
-        errors = []
-        size = brush_body.size
-        speed = brush_body.speed
-        color = brush_body.color 
-
-        if size.__class__ is str:
-            size_type = self.context.resolve(size).name
-            if size_type != None : # revisar esto
+        if draw_node.step_size.__class__ is str:
+            try:
+                size_type = self.context.resolve(draw_node.step_size).name
                 if size_type != '_int':
-                    errors += (f"Expected type _int for size.")
-            else: errors += (f"Variable '{size}' not defined.")
+                    raise Exception(f"Expected type _int for size.")
+            except:
+                raise Exception(f"Variable '{draw_node.step_size}' not defined.")
 
-        if speed.__class__ is str:
-            speed_type = self.context.resolve(speed).name
-            if speed_type != None : # revisar esto
-                if speed_type != '_int':
-                    errors += (f"Expected type _int for speed.")
-            else: errors += (f"Variable '{speed}' not defined.")
+        if draw_node.angle.__class__ is str:
+            try:
+                angle_type = self.context.resolve(draw_node.angle).name
+                if angle_type != '_int':
+                    raise Exception(f"Expected type _int for angle.")
+            except:
+                raise Exception(f"Variable '{draw_node.angle}' not defined.")
 
-        return errors    
+        if draw_node.complexity.__class__ is str:
+            try:
+                complexity_type = self.context.resolve(draw_node.complexity).name
+                if complexity_type != '_int':
+                    raise Exception(f"Expected type _int for complexity.")
+            except:
+                raise Exception(f"Variable '{draw_node.complexity}' not defined.")
 
-    def visit_draw(self, draw_node): # ver si aqui hay que mandar a revisar todo de nuevo
-        # lsystem, brush, canvas, step_size, angle,complexity
+        #esto hay que pensarlo mejor
+        draw_node.computed_type = Type('void')
 
-        errors = []
-
-        lsystem_type = self.context.resolve(draw_node.lsystem)
-        if lsystem_type is not LsystemInstance:
-            errors += (f"Expected type lsys.")
-        else:
-            errors += (f"Variable '{draw_node.lsystem}' not defined.")
-
-        brush_type = self.context.resolve(draw_node.brush)
-        if brush_type is not BrushInstance:
-            errors += (f"Expected type brush.")
-        else : 
-            errors += (f"Variable'{draw_node.brush}' not defined.")  
-
-        canvas_type = self.context.resolve(draw_node.canvas)
-        if canvas_type is not CanvasInstance:
-            errors += (f"Expected type canvas")
-        else :
-            errors += (f"Variable'{draw_node.canvas}' not defined.") 
-
-        if draw_node.step_size.__class__ is str :
-            size_type = self.context.resolve(draw_node.step_size).name
-            if size_type != '_int':
-                errors += (f"Expected type _int for size.")
-            else:
-                errors += (f"Variable '{draw_node.step_size}' not defined.")    
-
-        if draw_node.angle.__class__ is str :
-            size_type = self.context.resolve(draw_node.angle).name
-            if size_type != '_int':
-                errors += (f"Expected type _int for angle.")
-            else:
-                errors += (f"Variable '{draw_node.angle}' not defined.")  
-
-        if draw_node.complexity.__class__ is str :
-            size_type = self.context.resolve(draw_node.complexity).name
-            if size_type != '_int':
-                errors += (f"Expected type _int for complexity.")
-            else:
-                errors += (f"Variable '{draw_node.complexity}' not defined.")                    
-                
-
-        draw_node.computed_type = Type('void')             
-        return errors
-
-    def visit_add_rule(self, new_rule):
-        # lsys_name, rule    
-        errors = []
+    def visit_add_rule(self,new_rule):
         lsys = self.context.resolve(new_rule.lsys_name)
         if lsys is None:
-            errors += (f"Lsystem '{new_rule.lsys_name}' not defined.")
-        
-        new_rule.computed_type = Type('void')
-        return errors
+            raise Exception(f"Lsystem '{new_rule.lsys_name}' not defined.")
 
+        #esto hay que pensarlo mejor
+        new_rule.computed_type = Type('void')
+
+    
     def visit_variableassignment(self, var_assignment):
-        # name, value
-        errors = []
-        errors += var_assignment.value.accept(SemanticChecker(self.context))
+        var_assignment.value.accept(SemanticChecker(self.context))
         var_type = self.context.resolve(var_assignment.name)
         if var_type is None:
-            errors += (f"Variable '{var_assignment.name}' not defined.")
-        else :
-            if var_type.name != var_assignment.value.computed_type:
-                errors += (f"Can't assign value {var_assignment.value} to variable '{var_assignment.name}'. Type '{var_type}' different to '{var_assignment.value.computed_type}'.")   
-
-        var_assignment.computed_type = var_type  
-        return errors       
+            raise Exception(f"Variable '{var_assignment.name}' not defined.")
+        if var_type.name != var_assignment.value.computed_type:
+            raise Exception(f"Can't assign value {var_assignment.value} to variable '{var_assignment.name}'. Type '{var_type}' different to '{var_assignment.value.computed_type}'.")
+        var_assignment.computed_type = var_type
 
     def visit_variabledeclaration(self, var_declaration):
-        # type, name , value
-        errors = []
         var_type = Type.get(var_declaration.type)
-        errors += var_declaration.value.accept(SemanticChecker(self.context)) # ver si esta hecho el visit para esto y si esto sotve pa algo
+        var_declaration.value.accept(SemanticChecker(self.context))
 
         if var_declaration.name in self.context.symbols.keys():
-            errors += (f"Defined variable '{var_declaration.name}'.")
+            raise Exception(f"Defined variable '{var_declaration.name}'.")
         else:
             self.context.define(var_declaration.name, var_type)
         if var_declaration.value.computed_type != var_type.name:
-            errors += (f"{var_declaration.value.type} not expected.")
-                    
+            raise Exception(f"{var_declaration.value.type} not expected.")
+        
         var_declaration.computed_type = var_type
-        return errors 
-
+        
     def visit_assignable(self, assignable):
         assignable.computed_type = assignable.type
 
-
     def visit_binarycomparer(self, binary_comparer):
-        errors += []
-        errors += binary_comparer.left_expr.accept(SemanticChecker(self.context))
-        errors += binary_comparer.right_expr.accept(SemanticChecker(self.context))
+        binary_comparer.left_expr.accept(SemanticChecker(self.context))
+        binary_comparer.right_expr.accept(SemanticChecker(self.context))
         
         if binary_comparer.left_expr.computed_type == Type.get('void') or binary_comparer.right_expr.computed_type == Type.get('void'):
-            errors += (f"{'void'} expression not admissible for comparison.")
+            raise Exception(f"{'void'} expression not admissible for comparison.")
         
         if binary_comparer.left_expr.computed_type != binary_comparer.right_expr.computed_type:
-            errors += ("Expressions to compare must be the same type.")
+            raise Exception("Expressions to compare must be the same type.")
         
         if binary_comparer.comparer in ['>', '<', '>=', '<='] and binary_comparer.left_expr.computed_type is not Type.get('_int'):
-            errors += (f"Invalid expression type for '{binary_comparer.comparer}' comparer.")
+            raise Exception(f"Invalid expression type for '{binary_comparer.comparer}' comparer.")
         
         binary_comparer.computed_type = Type.get('bool')
-        return errors
-
-
-                
-
-            
-
-
-    def visit_if_statement(self,if_declaration):
-        # if_declaration.condition.accept(TypeCollector(self.context))
-        # if if_declaration.condition.computed_type is not Type.get('bool'):
-        #     raise Exception(f"Given condition is not boolean.")
-        
-        # child_context: Context = self.context.make_child()
-        # child_semantic_checker = TypeCollector(child_context)
-        
-        # if_declaration.computed_type= Type.get('void')
-        
-        # for line in if_declaration.instructions:
-        #     line.accept(child_semantic_checker)
-        #     cond = isinstance(line,If_Statement) or isinstance(line,RepeatDeclaration)
-        #     if cond:
-        #         if if_declaration.computed_type is not Type.get('void') and line.computed_type is not Type.get('void') :
-        #             if if_declaration.computed_type is not line.computed_type:
-        #                 raise Exception('Return type not valid')
-        #         elif line.computed_type is not Type.get('void'):
-        #             if_declaration.computed_type= line.computed_type
-        #         #if isinstance(line,ReturnStatement): return
-        pass
-    
-    
-    def visit_repeatdeclaration(self, repeat_declaration):
-        # times_to_repeat, instructions
-        errors = []
-        times = repeat_declaration.times_to_repeat
-        instructions = repeat_declaration.instructions
-
-        times_type = self.context.resolve(times)
-        if times_type != '_int':
-            errors += (f"Type expected _int, not '{times_type}' ")
-        
-        for instruction in instructions:
-            errors += instruction.accept(SemanticChecker(self.context))
-        return errors
-
-
-
-
-        
-
