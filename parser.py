@@ -55,6 +55,9 @@ tokens = lexer.tokens
 #                        | Assignable GRATER Assignable
 #                        | Assignable LESS Assignable
 #                        | BOOL
+# 
+#    Assignable          : INT
+#                        | STRING
 # -----------------------------------------------------------------------------
 """
 Example:
@@ -89,9 +92,11 @@ def p_instruction_list(p):
 #    p[0]=p[1]
 
 def p_assignable(p):
-    ''' Assignable : INT'''
+    ''' Assignable : INT
+                   | STRING    
+    '''
     
-    p[0]=p[1]
+    p[0]=Assignable(p[1], p.slice[1].type)
 
 def p_lsystem(p):
     '''
@@ -146,7 +151,6 @@ def p_brush(p):
 
 def p_brush_body(p):
     '''
-    Brush_body : SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT    
     Brush_body : SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT 
                | SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS ID
                | SIZE TWOPOINTS ID COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT
@@ -162,7 +166,6 @@ def p_canvas(p):
 
 def p_canvas_body(p):
     '''
-    Canvas_body : HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS COL    
     Canvas_body : HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS COL 
                 | HIGH TWOPOINTS ID COMMA WIDTH TWOPOINTS ID COMMA COLOR TWOPOINTS COL
                 | HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS ID COMMA COLOR TWOPOINTS COL
@@ -190,7 +193,6 @@ def p_draw(p):
     p[0] = Draw(p[3], p[5], p[7], p[9], p[11], p[13])
 
 def p_repeat(p):
-    '''Instruction : REPEAT INT LBRACE InstructionList RBRACE'''
     '''
     Instruction : REPEAT INT LBRACE InstructionList RBRACE
                 | REPEAT ID LBRACE InstructionList RBRACE    
