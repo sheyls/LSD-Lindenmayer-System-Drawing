@@ -20,3 +20,4 @@ class Context:
         if self.parent:
             return self.parent.resolve(name)
         return None
+

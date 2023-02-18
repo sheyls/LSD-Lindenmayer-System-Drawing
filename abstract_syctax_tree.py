@@ -4,7 +4,7 @@ from typing import List
 from lang.context import Context
 from lang.type import *
 from lang.visitor import *
-
+from tools import *
 
 
 class Node(ABC):
@@ -84,6 +84,26 @@ class VariableDeclaration(Node):
         self.name = name
         self.value = value
 
+class RepeatDeclaration(Node):
+    def __init__(self, times_to_repeat, instructions ) -> None:
+        self.times_to_repeat = times_to_repeat
+        self.instructions = instructions 
+
+class Repeat_Body(Node):
+    def __init__(self, instructions) -> None:
+        self.instructions = instructions
+
+class If_Statement(Node):
+    def __init__(self,condition, instructions) -> None:
+        self.condition = condition
+        self.instructions = instructions
+
+class BinaryComparer(Node):
+    def __init__(self, left_expr, comparer, right_expr) -> None:
+        self.left_expr = left_expr
+        self.comparer = comparer
+        self.right_expr = right_expr        
+
 class Draw(Node):
     def __init__(self, lsystem, brush, canvas, step_size, angle, complexity) -> None:
         self.lsystem = lsystem
@@ -92,3 +112,17 @@ class Draw(Node):
         self.step_size = step_size
         self.angle = angle
         self.complexity = complexity
+
+class Draw_ID(Node):
+    def __init__(self, lsystem, brush, canvas, step_size, angle, complexity) -> None:
+        self.lsystem = lsystem
+        self.brush = brush
+        self.canvas = canvas
+        self.step_size = step_size
+        self.angle = angle
+        self.complexity = complexity
+
+class Assignable(Node):
+    def __init__(self,value,type):
+        self.value = value
+        self.type = Token_to_types[type]

@@ -22,7 +22,17 @@ tokens = lexer.tokens
 #                      | BRUSH ID { Brush_body } END
 #                      | CANVAS ID { Canvas_body } END
 #                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA int COMMA int COMMA int RPAREN END
+#                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA ID COMMA int COMMA int RPAREN END
+#                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA int COMMA ID COMMA int RPAREN END
+#                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA int COMMA int COMMA ID RPAREN END
+#                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA ID COMMA ID COMMA int RPAREN END
+#                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA ID COMMA int COMMA ID RPAREN END
+#                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA int COMMA ID COMMA ID RPAREN END
+#                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA ID COMMA ID COMMA ID RPAREN END
 #                      | ADD_RULE LPAREN ID(lsys) COMMS STRING(left_part) COMMA STRING(right_part) RPAREN END
+#                      | REPEAT int { InstructionList } END
+#                      | REAPEAT ID { InstructionList} END
+#                      | IF ( Condition ) { InstructionList } END
 #                                    
 #   Lsystem_body        : axiom: axiom_stmt COMMA rule -> replace_stmt
 #
@@ -30,9 +40,21 @@ tokens = lexer.tokens
 #                       | rule -> replace_stmt
 #
 #   Brush_body          : size: int COMMA color: color COMMA speed: int
+#                       | size: ID COMMA color: color COMMA speed: ID
+#                       | size: ID COMMA color: color COMMA speed: int
+#                       | size: int COMMA color: color COMMA speed: ID
 #
 #   Canvas_body          : size: int COMMA int COMMA color: color
+#                        | size: ID COMMA int COMMA color: color
+#                        | size: int COMMA ID COMMA color: color
+#                        | size: ID COMMA ID COMMA color: color
 #
+#   Condition            : Assignable GEQUAL Assignable
+#                        | Assignable LEQUAL Assignable
+#                        | Assignable EQUALEQUAL Assignable
+#                        | Assignable GRATER Assignable
+#                        | Assignable LESS Assignable
+#                        | BOOL
 # -----------------------------------------------------------------------------
 """
 Example:
@@ -115,6 +137,7 @@ def p_add_rule(p):
     
     p[0] = Add_rule(p[3],RulesDefinition(left_part=p[5],right_part=p[7]))
 
+
 def p_brush(p):
     '''
     Instruction : BRUSH ID LBRACE Brush_body RBRACE
@@ -124,6 +147,10 @@ def p_brush(p):
 def p_brush_body(p):
     '''
     Brush_body : SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT    
+    Brush_body : SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT 
+               | SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS ID
+               | SIZE TWOPOINTS ID COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT
+               | SIZE TWOPOINTS ID COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS ID  
     '''
     p[0] = BrushBody(p[3], p[7], p[11])
 
@@ -136,14 +163,61 @@ def p_canvas(p):
 def p_canvas_body(p):
     '''
     Canvas_body : HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS COL    
+    Canvas_body : HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS COL 
+                | HIGH TWOPOINTS ID COMMA WIDTH TWOPOINTS ID COMMA COLOR TWOPOINTS COL
+                | HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS ID COMMA COLOR TWOPOINTS COL
+                | HIGH TWOPOINTS ID COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS COL   
     '''
     p[0] = CanvasBody(p[3], p[7], p[11])
+
+def p_draw_id(p):
+    '''
+    Instruction : DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA ID COMMA ID RPAREN 
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA INT COMMA INT RPAREN 
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA ID COMMA INT RPAREN 
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA ID RPAREN 
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA ID COMMA INT RPAREN 
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA INT COMMA ID RPAREN 
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA ID COMMA ID RPAREN 
+    '''
+
+    p[0] = Draw_ID(p[3], p[5], p[7], p[9], p[11], p[13])
 
 def p_draw(p):
     '''
     Instruction : DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA INT RPAREN
     '''
     p[0] = Draw(p[3], p[5], p[7], p[9], p[11], p[13])
+
+def p_repeat(p):
+    '''Instruction : REPEAT INT LBRACE InstructionList RBRACE'''
+    '''
+    Instruction : REPEAT INT LBRACE InstructionList RBRACE
+                | REPEAT ID LBRACE InstructionList RBRACE    
+    '''
+
+    p[0] = RepeatDeclaration(p[2],p[4])
+
+def p_if(p):
+   '''
+   Instruction : IF LPAREN Condition RPAREN LBRACE InstructionList RBRACE
+   '''    
+   p[0] = If_Statement(p[3],p[6])
+
+def p_condition(p):
+    '''
+    Condition : Assignable GEQUAL Assignable
+              | Assignable LEQUAL Assignable
+              | Assignable EQUALEQUAL Assignable
+              | Assignable GREATER Assignable
+              | Assignable LESS Assignable
+              | BOOL
+    '''    
+    if len(p)==2:
+        p[0] = p[1]
+
+    else:
+        p[0] = BinaryComparer(p[1],p[2],p[3])     
 
 
 def p_error(p):
