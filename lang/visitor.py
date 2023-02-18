@@ -305,7 +305,7 @@ class SemanticChecker(Visitor):
         color = body.high    
 
         self.context.define(canvas_declaration.name, CanvasInstance(self.context,color,width,high))  
-        canvas_declaration.type = self.context.symbols[canvas_declaration.name]
+        canvas_declaration.computed_type = self.context.symbols[canvas_declaration.name]
 
         errors += body.accept(SemanticChecker(self.context))
         return errors
@@ -422,11 +422,71 @@ class SemanticChecker(Visitor):
                 errors += (f"Variable '{draw_node.complexity}' not defined.")                    
                 
 
-        draw_node.type = Type('void')             
+        draw_node.computed_type = Type('void')             
         return errors
-    
 
-    # Hasta aqui 
+    def visit_add_rule(self, new_rule):
+        # lsys_name, rule    
+        errors = []
+        lsys = self.context.resolve(new_rule.lsys_name)
+        if lsys is None:
+            errors += (f"Lsystem '{new_rule.lsys_name}' not defined.")
+        
+        new_rule.computed_type = Type('void')
+        return errors
+
+    def visit_variableassignment(self, var_assignment):
+        # name, value
+        errors = []
+        errors += var_assignment.value.accept(SemanticChecker(self.context))
+        var_type = self.context.resolve(var_assignment.name)
+        if var_type is None:
+            errors += (f"Variable '{var_assignment.name}' not defined.")
+        else :
+            if var_type.name != var_assignment.value.computed_type:
+                errors += (f"Can't assign value {var_assignment.value} to variable '{var_assignment.name}'. Type '{var_type}' different to '{var_assignment.value.computed_type}'.")   
+
+        var_assignment.computed_type = var_type  
+        return errors       
+
+    def visit_variabledeclaration(self, var_declaration):
+        # type, name , value
+        errors = []
+        var_type = Type.get(var_declaration.type)
+        errors += var_declaration.value.accept(SemanticChecker(self.context)) # ver si esta hecho el visit para esto y si esto sotve pa algo
+
+        if var_declaration.name in self.context.symbols.keys():
+            errors += (f"Defined variable '{var_declaration.name}'.")
+        else:
+            self.context.define(var_declaration.name, var_type)
+        if var_declaration.value.computed_type != var_type.name:
+            errors += (f"{var_declaration.value.type} not expected.")
+                    
+        var_declaration.computed_type = var_type
+        return errors 
+
+    def visit_assignable(self, assignable):
+        assignable.computed_type = assignable.type
+
+
+    def visit_binarycomparer(self, binary_comparer):
+        errors += []
+        errors += binary_comparer.left_expr.accept(SemanticChecker(self.context))
+        errors += binary_comparer.right_expr.accept(SemanticChecker(self.context))
+        
+        if binary_comparer.left_expr.computed_type == Type.get('void') or binary_comparer.right_expr.computed_type == Type.get('void'):
+            errors += (f"{'void'} expression not admissible for comparison.")
+        
+        if binary_comparer.left_expr.computed_type != binary_comparer.right_expr.computed_type:
+            errors += ("Expressions to compare must be the same type.")
+        
+        if binary_comparer.comparer in ['>', '<', '>=', '<='] and binary_comparer.left_expr.computed_type is not Type.get('_int'):
+            errors += (f"Invalid expression type for '{binary_comparer.comparer}' comparer.")
+        
+        binary_comparer.computed_type = Type.get('bool')
+        return errors
+
+
                 
 
             
@@ -456,57 +516,21 @@ class SemanticChecker(Visitor):
     
     
     def visit_repeatdeclaration(self, repeat_declaration):
-        pass
-
-
-    def visit_add_rule(self,new_rule):
+        # times_to_repeat, instructions
         errors = []
-        lsys = self.context.resolve(new_rule.lsys_name)
-        if lsys is None:
-            errors.append(f"Lsystem '{new_rule.lsys_name}' not defined.")
-            #raise Exception(f"Lsystem '{new_rule.lsys_name}' not defined.")
+        times = repeat_declaration.times_to_repeat
+        instructions = repeat_declaration.instructions
 
-        #esto hay que pensarlo mejor
-        new_rule.computed_type = Type('void')
+        times_type = self.context.resolve(times)
+        if times_type != '_int':
+            errors += (f"Type expected _int, not '{times_type}' ")
+        
+        for instruction in instructions:
+            errors += instruction.accept(SemanticChecker(self.context))
         return errors
 
-    
-    def visit_variableassignment(self, var_assignment):
-        var_assignment.value.accept(SemanticChecker(self.context))
-        var_type = self.context.resolve(var_assignment.name)
-        if var_type is None:
-            raise Exception(f"Variable '{var_assignment.name}' not defined.")
-        if var_type.name != var_assignment.value.computed_type:
-            raise Exception(f"Can't assign value {var_assignment.value} to variable '{var_assignment.name}'. Type '{var_type}' different to '{var_assignment.value.computed_type}'.")
-        var_assignment.computed_type = var_type
 
-    def visit_variabledeclaration(self, var_declaration):
-        var_type = Type.get(var_declaration.type)
-        var_declaration.value.accept(SemanticChecker(self.context))
 
-        if var_declaration.name in self.context.symbols.keys():
-            raise Exception(f"Defined variable '{var_declaration.name}'.")
-        else:
-            self.context.define(var_declaration.name, var_type)
-        if var_declaration.value.computed_type != var_type.name:
-            raise Exception(f"{var_declaration.value.type} not expected.")
-        
-        var_declaration.computed_type = var_type
-        
-    def visit_assignable(self, assignable):
-        assignable.computed_type = assignable.type
 
-    def visit_binarycomparer(self, binary_comparer):
-        binary_comparer.left_expr.accept(SemanticChecker(self.context))
-        binary_comparer.right_expr.accept(SemanticChecker(self.context))
         
-        if binary_comparer.left_expr.computed_type == Type.get('void') or binary_comparer.right_expr.computed_type == Type.get('void'):
-            raise Exception(f"{'void'} expression not admissible for comparison.")
-        
-        if binary_comparer.left_expr.computed_type != binary_comparer.right_expr.computed_type:
-            raise Exception("Expressions to compare must be the same type.")
-        
-        if binary_comparer.comparer in ['>', '<', '>=', '<='] and binary_comparer.left_expr.computed_type is not Type.get('_int'):
-            raise Exception(f"Invalid expression type for '{binary_comparer.comparer}' comparer.")
-        
-        binary_comparer.computed_type = Type.get('bool')
+
