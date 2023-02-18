@@ -199,15 +199,15 @@ class Eval(Visitor):
         brush = self.context.resolve(draw_node.brush).brush
 
         if draw_node.complexity.__class__ is str:
-            complexity = self.context.resolve(draw_node.complexity).value
+            complexity = self.context.resolve(draw_node.complexity).value.value
         else:
             complexity = draw_node.complexity
         if draw_node.step_size.__class__ is str:
-            forward_value = self.context.resolve(draw_node.step_size).value
+            forward_value = self.context.resolve(draw_node.step_size).value.value
         else:
             forward_value = draw_node.step_size
         if draw_node.angle.__class__ is str:
-            draw_angle = self.context.resolve(draw_node.angle).value
+            draw_angle = self.context.resolve(draw_node.angle).value.value
         else: 
             draw_angle = draw_node.angle
         
