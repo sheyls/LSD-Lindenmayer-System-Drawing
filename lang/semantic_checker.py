@@ -245,20 +245,34 @@ class SemanticChecker(Visitor):
     def visit_arithmeticop(self, arithmeticOp):
         # left, operator, right
         errors = []
+        if arithmeticOp.left.__class__ is str:
+            left_type = self.context.resolve(arithmeticOp.left).value
+            if left_type is not float and left_type is not int:
+                errors.append(f"{left_type.name}'not expected.'") 
+        else:
+            errors.append(arithmeticOp.left.accept(SemanticChecker(self.context)))
+            left_type = arithmeticOp.left.computed_type
+        
+        if arithmeticOp.right.__class__ is str:
+            right_type = self.context.resolve(arithmeticOp.right).value
+            if right_type is not float and right_type is not int:
+                errors.append(f"{left_type.name}'not expected.'")
+        else:
+            errors.append(arithmeticOp.right.accept(SemanticChecker(self.context)))
+            right_type = arithmeticOp.right.computed_type
 
-        # que pasa si left o right son Aop
-
-        left_type = self.context.resolve(arithmeticOp.left)
-        right_type = self.context.resolve(arithmeticOp.right)
-
+        if left_type.name == 'float' or right_type.name == 'float':
+            arithmeticOp.computed_type = Type('float')
+        
         arithmeticOp.computed_type = Type('int')
-        return ''
+        
+        return errors
 
     def visit_if_else_statement(self, if_else_statement):
         # condition, instructions_true, instructions_false
         errors = []
-        if isinstance(if_else_statement.condition, BinaryComparer):
-            if_else_statement.condition.accept(SemanticChecker(self.context)) # que hace esto
+        if not isinstance(if_else_statement.condition, str):
+            errors.append(if_else_statement.condition.accept(SemanticChecker(self.context))) # que hace esto
             if if_else_statement.condition.computed_type is not Type.get('bool'):
                 errors.apped(f"Given condition is not boolean")
 
@@ -267,20 +281,19 @@ class SemanticChecker(Visitor):
 
         if_else_statement.computed_type = Type.get('void')  
 
-        if if_else_statement.condition:
-            for line in if_else_statement.instructions_true:
-                errors.append(line.accept(child_semantic_checker))
-        else :
-            for line in if_else_statement.instructions_false:
-                errors.append(line.accept(child_semantic_checker))        
+        for line in if_else_statement.instructions_true:
+            errors.append(line.accept(child_semantic_checker))
+
+        for line in if_else_statement.instructions_false:
+            errors.append(line.accept(child_semantic_checker))        
         return errors
             
 
 
     def visit_if_statement(self,if_declaration):
         errors = []
-        if isinstance(if_declaration.condition, BinaryComparer):
-            if_declaration.condition.accept(SemanticChecker(self.context))
+        if not isinstance(if_declaration.condition, str):
+            errors.append(if_declaration.condition.accept(SemanticChecker(self.context)))
             if if_declaration.condition.computed_type is not Type.get('bool'):
                 errors.append(f"Given condition is not boolean.")
 

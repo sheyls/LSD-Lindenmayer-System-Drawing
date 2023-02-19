@@ -23,7 +23,7 @@ ast = parser.parse(data)
 
 #type_checker = Eval(Context())
 c =  Context()
-errors = ast.accept(SemanticChecker(c))
-print(errors)
+#errors = ast.accept(SemanticChecker(c))
+#print(errors)
 ast.accept(Eval(c))
 

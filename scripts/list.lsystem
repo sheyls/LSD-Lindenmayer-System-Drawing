@@ -1,11 +1,12 @@
 string a = A;
 float b = 10.5;
+int c = 10 (*) 1 (+) 2;
 
 lsys levy_curve {
     axiom: F,
     F => -F++F-
 };
 
-repeat v {
+repeat c {
     a = 10;
 };
