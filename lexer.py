@@ -4,7 +4,6 @@ import ply.lex as lex
 reserved = {
     'canvas'     : 'CANVAS',
     'draw'       : 'DRAW',
-   
     'brush'      : 'BRUSH',
     'lsys'       : 'LSYS',
     'left'       : 'LEFT',
