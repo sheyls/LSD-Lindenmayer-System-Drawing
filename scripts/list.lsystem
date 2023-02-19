@@ -16,15 +16,32 @@ brush mibrochamucha {
 
 };
 
+brush small_blue {
+
+    size: 2,
+    color: #40e0d0,
+    speed: 300
+
+};
+
+brush big_red {
+
+    size: 5,
+    color: #ff0000,
+    speed: 300
+
+};
+
+
 int k = 4000;
-canvas micanvasgambas {
+canvas micanvasga_mbas {
 
     high: 4000,
     width: 4000,
-    color: #000000
+    color: 	#ffebcd
 };
 
 change_axiom( leaf, AC );
-add_rule(leaf, C => &+F#F );
-draw(leaf, mibrochamucha, micanvasgambas, 5, 35, 5);
+add_rule(leaf, C => FF );
+draw(leaf, small_blue, micanvasga_mbas, 5, 35, 5);
 

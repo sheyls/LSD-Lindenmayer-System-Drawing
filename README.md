@@ -83,6 +83,20 @@ lsys leaf {
 | %            |  Aumenta el ángulo de giro |
 | $            |  Decrementa el ángulo de giro |
 
+### Cambiar el axioma de un Sistema-L ya defido
+
+**Definición:**
+
+```
+change_axiom( <nombre_del_sistema>, <nuevo_axioma>);
+
+```
+**Ejemplo:**
+
+```
+change_axiom( leaf, AC );
+
+```
 ### Agregar una regla a un Sistema-L ya defido
 
 **Definición:**
@@ -94,6 +108,81 @@ add_rule( <nombre_del_sistema>, <parte_derecha_de_la_regla> => <parte_izquierda_
 **Ejemplo:**
 
 ```
-#add_rule(leaf, A => &-F++F- );
+add_rule(leaf, C => FF );
 
 ```
+
+### Declaración de brochas
+
+**Definición:**
+
+```
+brush <nombre_de_la_brocha> {
+    size: <int>,
+    color: <color>,
+    speed: <int>
+
+}
+```
+**Ejemplo:**
+
+```
+
+brush small_blue {
+
+    size: 1,
+    color: #40e0d0,
+    speed: 300
+
+};
+
+brush big_red {
+
+    size: 5,
+    color: #ff0000,
+    speed: 300
+
+};
+
+
+```
+
+### Declaración de lienzos
+
+**Definición:**
+
+```
+canvas <nombre_de_la_brocha> {
+
+    high: <int>,
+    width: <int>,
+    color: <color>
+
+}
+```
+**Ejemplo:**
+
+```
+canvas soft_orange {
+
+    high: 4000,
+    width: 4000,
+    color: #ffebcd
+};
+
+```
+
+### Para dibujar Sistemas-L!
+
+**Definición:**
+
+```
+draw( <lsys>, <brush>, <canvas>, <int>, <float>, <int>)
+```
+**Ejemplo:**
+
+```
+draw(leaf, small_blue, soft_orange, 5, 35, 5);
+
+```
+
