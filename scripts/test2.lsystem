@@ -1,4 +1,4 @@
-_int a = 3;
+int a = 3;
 a = 5;
 
 lsys leaf {

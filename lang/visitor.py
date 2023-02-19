@@ -187,17 +187,6 @@ class Eval(Visitor):
         window = self.context.resolve(draw_node.canvas).canvas
         lsystem = self.context.resolve(draw_node.lsystem).body
         brush = self.context.resolve(draw_node.brush).brush
-        complexity = draw_node.complexity
-        forward_value = draw_node.step_size
-        draw_angle = draw_node.angle
-
-        self.auxiliar(window,lsystem,brush,complexity,forward_value,draw_angle)
-
-    def visit_draw_id(self, draw_node):
-        window = self.context.resolve(draw_node.canvas).canvas
-        lsystem = self.context.resolve(draw_node.lsystem).body
-        brush = self.context.resolve(draw_node.brush).brush
-
         if draw_node.complexity.__class__ is str:
             complexity = self.context.resolve(draw_node.complexity).value.value
         else:
@@ -210,7 +199,7 @@ class Eval(Visitor):
             draw_angle = self.context.resolve(draw_node.angle).value.value
         else: 
             draw_angle = draw_node.angle
-        
+
         self.auxiliar(window,lsystem,brush,complexity,forward_value,draw_angle)
 
 

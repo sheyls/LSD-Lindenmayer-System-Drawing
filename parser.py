@@ -16,7 +16,7 @@ tokens = lexer.tokens
 #   InstructionList    :   Instruction END
 #                      |   Instruction END  InstructionList
 #
-#   Instruction        : LSYS ID { Lsystem_body } END
+#   Instruction        : TYPE ID { Lsystem_body } END
 #                      | Type ID EQUAL Assignable
 #                      | ID EQUAL Assignable
 #                      | BRUSH ID { Brush_body } END
@@ -55,7 +55,7 @@ tokens = lexer.tokens
 #                        | Assignable GRATER Assignable
 #                        | Assignable LESS Assignable
 #                        | BOOL
-# 
+#
 #    Assignable          : INT
 #                        | STRING
 # -----------------------------------------------------------------------------
@@ -100,7 +100,7 @@ def p_assignable(p):
 
 def p_lsystem(p):
     '''
-    Instruction : LSYS ID LBRACE Lsystem_body RBRACE
+    Instruction : TYPE ID LBRACE Lsystem_body RBRACE
     
     '''
 
@@ -116,7 +116,6 @@ def p_variables(p):
         p[0] = VariableDeclaration(p[1],p[2],p[4])
     elif len(p)==4:
         p[0] = VariableAssignment(p[1],p[3])
-
 
 
 def p_lsystem_body(p):
@@ -145,7 +144,7 @@ def p_add_rule(p):
 
 def p_brush(p):
     '''
-    Instruction : BRUSH ID LBRACE Brush_body RBRACE
+    Instruction : TYPE ID LBRACE Brush_body RBRACE
     '''
     p[0] = BrushDeclaration(p[2], p[4])
 
@@ -160,7 +159,7 @@ def p_brush_body(p):
 
 def p_canvas(p):
     '''
-    Instruction : CANVAS ID LBRACE Canvas_body RBRACE
+    Instruction : TYPE ID LBRACE Canvas_body RBRACE
     '''
     p[0] = CanvasDeclaration(p[2], p[4])
 
@@ -173,22 +172,18 @@ def p_canvas_body(p):
     '''
     p[0] = CanvasBody(p[3], p[7], p[11])
 
-def p_draw_id(p):
-    '''
-    Instruction : DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA ID COMMA ID RPAREN 
-                | DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA INT COMMA INT RPAREN 
-                | DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA ID COMMA INT RPAREN 
-                | DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA ID RPAREN 
-                | DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA ID COMMA INT RPAREN 
-                | DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA INT COMMA ID RPAREN 
-                | DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA ID COMMA ID RPAREN 
-    '''
 
-    p[0] = Draw_ID(p[3], p[5], p[7], p[9], p[11], p[13])
 
 def p_draw(p):
     '''
-    Instruction : DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA INT RPAREN
+    Instruction : DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA FLOAT COMMA INT RPAREN
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA ID COMMA ID RPAREN 
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA FLOAT COMMA INT RPAREN 
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA ID COMMA INT RPAREN 
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA FLOAT COMMA ID RPAREN 
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA ID COMMA INT RPAREN 
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA FLOAT COMMA ID RPAREN 
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA ID COMMA ID RPAREN 
     '''
     p[0] = Draw(p[3], p[5], p[7], p[9], p[11], p[13])
 
