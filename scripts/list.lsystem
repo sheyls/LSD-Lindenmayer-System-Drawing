@@ -6,3 +6,6 @@ lsys levy_curve {
     F => -F++F-
 };
 
+repeat v {
+    a = 10;
+};

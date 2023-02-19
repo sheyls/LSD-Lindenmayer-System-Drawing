@@ -8,8 +8,8 @@ Operator={
 }
 Bool_Operator={
     '==' : lambda x,y : x==y,
-    '>' : lambda x,y : x>y,
-    '<' : lambda x,y : x<y,
+    '(>)' : lambda x,y : x>y,
+    '(<)' : lambda x,y : x<y,
     '>=' : lambda x,y : x>=y,
     '<=' : lambda x,y : x<=y,
     '!=' : lambda x,y : x!=y,
