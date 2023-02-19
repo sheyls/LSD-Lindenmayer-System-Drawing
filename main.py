@@ -4,9 +4,9 @@ from lang.semantic_checker import SemanticChecker
 from lexer import lexer
 from parser import parser
 
-filename = 'myscript.lsystem'
 filename = 'test.lsystem'
 filename = 'testchecker.lsystem'
+filename = 'myscript.lsystem'
 
 with open('scripts/' + filename) as file :
     data = file.read()

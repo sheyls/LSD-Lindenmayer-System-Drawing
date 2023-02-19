@@ -55,6 +55,9 @@ tokens = lexer.tokens
 #                        | Assignable GRATER Assignable
 #                        | Assignable LESS Assignable
 #                        | BOOL
+# 
+#    Assignable          : INT
+#                        | STRING
 # -----------------------------------------------------------------------------
 """
 Example:
@@ -89,9 +92,11 @@ def p_instruction_list(p):
 #    p[0]=p[1]
 
 def p_assignable(p):
-    ''' Assignable : INT'''
+    ''' Assignable : INT
+                   | STRING    
+    '''
     
-    p[0]=p[1]
+    p[0]=Assignable(p[1], p.slice[1].type)
 
 def p_lsystem(p):
     '''
@@ -188,7 +193,6 @@ def p_draw(p):
     p[0] = Draw(p[3], p[5], p[7], p[9], p[11], p[13])
 
 def p_repeat(p):
-    '''Instruction : REPEAT INT LBRACE InstructionList RBRACE'''
     '''
     Instruction : REPEAT INT LBRACE InstructionList RBRACE
                 | REPEAT ID LBRACE InstructionList RBRACE    
