@@ -10,3 +10,7 @@ lsys levy_curve {
     axiom: F,
     F => -F++F-
 };
+
+repeat v {
+    a = 10;
+};
