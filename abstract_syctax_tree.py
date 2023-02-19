@@ -126,3 +126,9 @@ class Assignable(Node):
     def __init__(self,value,type):
         self.value = value
         self.type = Token_to_types[type]
+
+class ArithmeticOp(Node):
+    def __init__(self, left, op, right) -> None:
+        self.left = left
+        self.op = op
+        self.right = right

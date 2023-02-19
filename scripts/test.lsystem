@@ -16,13 +16,13 @@ canvas micanvas {
 lsys leaf {
     axiom : A,
     F => >F<,
-    A => F[+X]FB,
-    B => F[-Y]FA,
+    A => F[~X]FB,
+    B => F[^Y]FA,
     X => A,
     Y => B
 };
-_int a = 3;
+_int a = 2+1;
 
-if (4 == 4) {
+if ((4 * 1 + 1) == 5) {
     draw(leaf, mibrocha, micanvas, 5 ,45, 8);
 };

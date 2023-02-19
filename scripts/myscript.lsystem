@@ -1,16 +1,16 @@
 lsys triangle {
-    axiom : F+F+F,
-    F => F-F+F
+    axiom : F~F~F,
+    F => F^F~F
 };
 lsys quedratic_gosper {
-    axiom : -YF,
-    X => XFX-YF-YF+FX+FX-YF-YFFX+YF+FXFXYF-FX+YF+FXFX+YF-FXYF-YF-FX+FX+YFYF-,
-    Y => +FXFX-YF-YF+FX+FXYF+FX-YFYF-FX-YF+FXYFYF-FX-YFFX+FX+YF-YF-FX+FX+YFY
+    axiom : ^YF,
+    X => XFX^YF^YF~FX~FX^YF^YFFX~YF~FXFXYF^FX~YF~FXFX~YF^FXYF^YF^FX~FX~YFYF^,
+    Y => ~FXFX^YF^YF~FX~FXYF~FX^YFYF^FX^YF~FXYFYF^FX^YFFX~FX~YF^YF^FX~FX~YFY
 };
 
 lsys square_sierpinski{
-    axiom : F+XF+F+XF,
-    X => XF-F+F-XF+F+XF-F+F-X%$
+    axiom : F~XF~F~XF,
+    X => XF^F~F^XF~F~XF^F~F^X%$
 };
 _int a = 1;
 
@@ -33,8 +33,8 @@ canvas micanvasgambas {
 a=2;
 _int b = 90;
 _int c = 3;
-repeat 2 {
+repeat 4 {
 draw(square_sierpinski, mibrochamucha, micanvasgambas, a, b, c);
-a = 4;
+a = 3 + 1;
 c = 4; 
-};
+}; 

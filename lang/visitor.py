@@ -50,6 +50,11 @@ class Eval(Visitor):
         print("ccc")
 
 
+    def visit_arithmeticop(self, arith):
+        l = arith.left.accept(Eval(self.context))
+        r = arith.right.accept(Eval(self.context))
+        return Operations[arith.op](l,r)
+
     def visit_brushdeclaration(self, brush_declaration):
         brush = turtle.Turtle()
         if brush_declaration.body.speed.__class__ is str:
@@ -107,7 +112,7 @@ class Eval(Visitor):
                 brush.penup()
                 brush.forward(forward_value)
                 brush.pendown()
-            elif c == '+': # if meaning_of_plus_and_minus id False that means the meaning of the symbols are turned
+            elif c == '~': # if meaning_of_plus_and_minus id False that means the meaning of the symbols are turned
                 if meaning_of_plus_and_minus:
                     # Turn left by turning angle
                     brush.left(draw_angle)
@@ -115,7 +120,7 @@ class Eval(Visitor):
                     # the meaning is turned
                     brush.right(draw_angle)
                 
-            elif c == '-':
+            elif c == '^':
                 if meaning_of_plus_and_minus:
                     # Turn right by turning angle
                     brush.right(draw_angle)
@@ -199,15 +204,15 @@ class Eval(Visitor):
         brush = self.context.resolve(draw_node.brush).brush
 
         if draw_node.complexity.__class__ is str:
-            complexity = self.context.resolve(draw_node.complexity).value.value
+            complexity = self.context.resolve(draw_node.complexity).value.accept(Eval(self.context))
         else:
             complexity = draw_node.complexity
         if draw_node.step_size.__class__ is str:
-            forward_value = self.context.resolve(draw_node.step_size).value.value
+            forward_value = self.context.resolve(draw_node.step_size).value.accept(Eval(self.context))
         else:
             forward_value = draw_node.step_size
         if draw_node.angle.__class__ is str:
-            draw_angle = self.context.resolve(draw_node.angle).value.value
+            draw_angle = self.context.resolve(draw_node.angle).value.accept(Eval(self.context))
         else: 
             draw_angle = draw_node.angle
         
@@ -242,7 +247,13 @@ class Eval(Visitor):
             line.accept(Eval(child_context))
 
     def visit_binarycomparer(self, binary_comparer):
-        return Bool_Operations[binary_comparer.comparer](binary_comparer.left_expr.value,binary_comparer.right_expr.value)
+        left = binary_comparer.left_expr.accept(Eval(self.context))
+        right = binary_comparer.right_expr.accept(Eval(self.context))
+        return Bool_Operations[binary_comparer.comparer](left,right)
+
+    def visit_assignable(self, assignable):
+        return assignable.value
+
 
 
 class SemanticChecker(Visitor):
@@ -284,7 +295,7 @@ class SemanticChecker(Visitor):
         lsystem_declaration.computed_type = self.context.symbols[lsystem_declaration.name]
         
     def visit_if_statement(self,if_declaration):
-        if isinstance(if_declaration.condition,BinaryComparer):
+        if isinstance(if_declaration.condition, BinaryComparer):
             if_declaration.condition.accept(SemanticChecker(self.context))
             if if_declaration.condition.computed_type is not Type.get('bool'):
                 raise Exception(f"Given condition is not boolean.")
@@ -485,3 +496,6 @@ class SemanticChecker(Visitor):
             raise Exception(f"Invalid expression type for '{binary_comparer.comparer}' comparer.")
         
         binary_comparer.computed_type = Type.get('bool')
+
+    def visit_arithmeticop(self, arith):
+        pass
