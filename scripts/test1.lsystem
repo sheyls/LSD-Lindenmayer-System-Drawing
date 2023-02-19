@@ -1,7 +1,7 @@
-_int a = 3;
-a = 5;
+int a = 3;
+a = 5 (+) 1;
 
-_int test = 60;
+int test = 60;
 
 lsys star{
     axiom : F++F-F++F-F++F-F++F-F++F-F++F,
@@ -20,14 +20,6 @@ lsys bush {
     F => FF+[+F-F-F]-[-F+F+F]
 };
 
-
-repeat 2 {
-    lsys hexagonal_gosper{
-    axiom : XF,
-    X => X+YF++YF-FX--FXFX-YF+,
-    Y => -FX+YFYF++YF+FX--FX-Y
-    };
-};
 
 lsys leaf {
     axiom : A,
@@ -53,8 +45,6 @@ canvas micanvasgambas {
 };
     
 
-draw(leaf, mibrochamucha, micanvasgambas, 5, 45, 8);
-
 lsys star{
     axiom : F++F-F++F-F++F-F++F-F++F-F++F,
     F => F+F--F+F--F+F--F+F--F+F--F+F--FFF
@@ -75,22 +65,8 @@ canvas micanvas {
     color: #ffffff
 };
 
-repeat 2 {
-
-    draw(leaf, mibrocha, micanvas, 5 ,60, 8);
-    a = 10;
-    test = 70;
-    brush mibrocha {
-
-        size: 1,
-        color: #808080,
-        speed: 500
-
-    };
-
-};
 
 
-if (true) {
+if ( a (+) 1 == 9 ) {
     draw(leaf, mibrocha, micanvas, 5 ,45, 8);
-};
+} else { draw(star, mibrocha, micanvas, 5 ,45, 3); };

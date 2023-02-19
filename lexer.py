@@ -58,11 +58,6 @@ tokens = (
 )
 
 
-t_PLUS = r'\++'
-t_MINUS = r'\--'
-t_MULTIPLY = r'\*'
-t_DIFFER = r'\\'
-
 t_EQUALEQUAL = r'=='
 t_GEQUAL = r'>='
 t_LEQUAL = r'<='
@@ -87,6 +82,22 @@ t_TWOPOINTS= r':'
 t_LBRACE = r'\{'
 t_RBRACE = r'\}'
 
+
+def t_PLUS(t):
+    r'\(\+\)'
+    return t
+
+def t_MINUS(t):
+    r'\(-\)'
+    return t
+
+def t_MULTIPLY(t):
+    r'\(\*\)'
+    return t
+
+def t_DIFFER(t):
+    r'\(/\)'
+    return t
 
 def t_FLOAT(t):
     r'\d+\.\d+'
@@ -146,7 +157,6 @@ def find_column(input, token):
 
 tokens= list(reserved.values()) + list(tokens)
 
+
 lexer = lex.lex()
-
-
 

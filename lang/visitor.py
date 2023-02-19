@@ -27,6 +27,21 @@ class Eval(Visitor):
         for instruction in program.instructions:
             instruction.accept(Eval(self.context))
 
+    def visit_assignable(self, assignable):
+        return assignable.value
+
+    def visit_arithmeticop(self, arithmetic_node):
+        if arithmetic_node.left.__class__ is str:
+            left = self.context.resolve(arithmetic_node.left).value
+        else:
+            left = arithmetic_node.left.accept(Eval(self.context))
+
+        if  arithmetic_node.right.__class__ is str:
+            right = self.context.resolve(arithmetic_node.right).value
+        else:
+            right = arithmetic_node.right.accept(Eval(self.context))
+        return Operator[arithmetic_node.operator](left, right)
+
     def visit_repeatdeclaration(self, repeat_declaration):
         times = repeat_declaration.times_to_repeat
         if repeat_declaration.times_to_repeat.__class__ is str:
@@ -53,11 +68,11 @@ class Eval(Visitor):
     def visit_brushdeclaration(self, brush_declaration):
         brush = turtle.Turtle()
         if brush_declaration.body.speed.__class__ is str:
-            speed = self.context.resolve(brush_declaration.body.speed).value.value
+            speed = self.context.resolve(brush_declaration.body.speed).value
         else:
             speed = brush_declaration.body.speed
         if brush_declaration.body.size.__class__ is str:
-            size = self.context.resolve(brush_declaration.body.size).value.value
+            size = self.context.resolve(brush_declaration.body.size).value
         else:
             size = brush_declaration.body.size
         self.context.define(brush_declaration.name, BrushInstance(self.context, speed = speed,size= size,color= brush_declaration.body.color,brush= brush)), #self.type))
@@ -68,11 +83,11 @@ class Eval(Visitor):
     def visit_canvasdeclaration(self, canvas_declaration):
         canvas = turtle.Screen()
         if canvas_declaration.body.width.__class__ is str:
-            width = self.context.resolve(canvas_declaration.body.width).value.value
+            width = self.context.resolve(canvas_declaration.body.width).value
         else:
             width = canvas_declaration.body.width
         if canvas_declaration.body.high.__class__ is str:
-            high = self.context.resolve(canvas_declaration.body.high).value.value
+            high = self.context.resolve(canvas_declaration.body.high).value
         else:
             high = canvas_declaration.body.high
         self.context.define(canvas_declaration.name, CanvasInstance(self.context, canvas_declaration.body.color,width,high, canvas)), #self.type))
@@ -188,15 +203,15 @@ class Eval(Visitor):
         lsystem = self.context.resolve(draw_node.lsystem).body
         brush = self.context.resolve(draw_node.brush).brush
         if draw_node.complexity.__class__ is str:
-            complexity = self.context.resolve(draw_node.complexity).value.value
+            complexity = self.context.resolve(draw_node.complexity).value
         else:
             complexity = draw_node.complexity
         if draw_node.step_size.__class__ is str:
-            forward_value = self.context.resolve(draw_node.step_size).value.value
+            forward_value = self.context.resolve(draw_node.step_size).value
         else:
             forward_value = draw_node.step_size
         if draw_node.angle.__class__ is str:
-            draw_angle = self.context.resolve(draw_node.angle).value.value
+            draw_angle = self.context.resolve(draw_node.angle).value
         else: 
             draw_angle = draw_node.angle
 
@@ -212,12 +227,12 @@ class Eval(Visitor):
     def visit_variableassignment(self, var_assignment):
         variable = self.context.resolve(var_assignment.name)
         #esto solo pincha si el valor de las variables son tipos puros
-        variable.value = var_assignment.value
+        variable.value = var_assignment.value.accept(Eval(self.context))
         print('bbb')
 
     def visit_variabledeclaration(self, var_declaration):
         #esto solo pincha si el valor de las variables son tipos puros  
-        self.context.define(var_declaration.name, Instance(Type.get(var_declaration.type), var_declaration.value))
+        self.context.define(var_declaration.name, Instance(Type.get(var_declaration.type), var_declaration.value.accept(Eval(self.context))))
         print('aaaa')
 
     def visit_if_statement(self, if_statement):
@@ -229,9 +244,29 @@ class Eval(Visitor):
         child_context: Context = self.context.make_child()
         for line in if_statement.instructions:
             line.accept(Eval(child_context))
+    
+
+    def visit_if_else_statement(self, if_statement):
+        child_context: Context = self.context.make_child()
+
+        if not if_statement.condition.__class__ is str:
+            if not if_statement.condition.accept(Eval(self.context)):
+                for line in if_statement.instructions_false:
+                    line.accept(Eval(child_context))
+                return
+
+        elif if_statement.condition=='false':
+            for line in if_statement.instructions_false:
+                line.accept(Eval(child_context))
+            return
+
+        for line in if_statement.instructions_true:
+            line.accept(Eval(child_context))
 
     def visit_binarycomparer(self, binary_comparer):
-        return Bool_Operations[binary_comparer.comparer](binary_comparer.left_expr.value,binary_comparer.right_expr.value)
+        left = binary_comparer.left_expr.accept(Eval(self.context))
+        right = binary_comparer.right_expr.accept(Eval(self.context))
+        return Bool_Operator[binary_comparer.comparer](left, right)
 
 
 class SemanticChecker(Visitor):
@@ -273,7 +308,7 @@ class SemanticChecker(Visitor):
         lsystem_declaration.computed_type = self.context.symbols[lsystem_declaration.name]
         
     def visit_if_statement(self,if_declaration):
-        if isinstance(if_declaration.condition,BinaryComparer):
+        if isinstance(if_declaration.condition, BinaryComparer):
             if_declaration.condition.accept(SemanticChecker(self.context))
             if if_declaration.condition.computed_type is not Type.get('bool'):
                 raise Exception(f"Given condition is not boolean.")

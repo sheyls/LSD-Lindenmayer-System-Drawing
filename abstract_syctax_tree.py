@@ -21,7 +21,11 @@ class Program(Node):
     def __init__(self, instructions: List[Node]) -> None:
         self.instructions = instructions
 
-
+class ArithmeticOp(Node):
+    def __init__(self, left, operator, right) -> None:
+        self.left = left
+        self.operator = operator
+        self.right = right
 class LsystemDeclaration(Node):
     def __init__(self, name, body_lsys) -> None:
         self.name = name
@@ -97,6 +101,12 @@ class If_Statement(Node):
     def __init__(self,condition, instructions) -> None:
         self.condition = condition
         self.instructions = instructions
+
+class If_Else_Statement(Node):
+    def __init__(self,condition, instructions_true, instructions_false) -> None:
+        self.condition = condition
+        self.instructions_true = instructions_true
+        self.instructions_false = instructions_false
 
 class BinaryComparer(Node):
     def __init__(self, left_expr, comparer, right_expr) -> None:
