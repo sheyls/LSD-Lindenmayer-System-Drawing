@@ -21,4 +21,4 @@ canvas micanvasgambas {
 
 
 
-draw(levy_curve, mibrochamucha, micanvasgambas, 10, 45, 40);
+draw(levy_curve, mibrochamucha, micanvasgambas, 3, 45, 19);

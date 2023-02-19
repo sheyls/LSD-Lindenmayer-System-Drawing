@@ -5,7 +5,7 @@ from parser import parser
 
 filename = 'myscript.lsystem'
 filename = 'testchecker.lsystem'
-#filename = 'script.lsystem'
+filename = 'script.lsystem'
 
 with open('scripts/' + filename) as file :
     data = file.read()
