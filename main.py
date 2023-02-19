@@ -1,7 +1,8 @@
 from lang.context import Context
-from lang.visitor import Eval, SemanticChecker
+from lang.visitor import Eval
+from lang.semantic_checker import SemanticChecker
 from lexer import lexer
-from parser_1 import parser
+from parser import parser
 
 filename = 'myscript.lsystem'
 filename = 'test.lsystem'
@@ -15,6 +16,6 @@ ast = parser.parse(data)
 
 #type_checker = Eval(Context())
 c =  Context()
-ast.accept(SemanticChecker(c))
+#ast.accept(SemanticChecker(c))
 ast.accept(Eval(c))
 
