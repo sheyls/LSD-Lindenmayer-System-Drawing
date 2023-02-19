@@ -213,10 +213,15 @@ class Eval(Visitor):
         self.auxiliar(window,lsystem,brush,complexity,forward_value,draw_angle)
 
 
-    def visit_add_rule(self,new_rule):
+    def visit_add_rule(self, new_rule):
         lsys = self.context.resolve(new_rule.lsys_name)
         lsys.body.l_rules.append(new_rule.rule)
         print('kkk')
+
+    def visit_change_axiom(self, new_axiom):
+        lsys = self.context.resolve(new_axiom.lsys_name)
+        lsys.body.axiom = new_axiom.axiom
+        print('popopo')
 
 
     def visit_variableassignment(self, var_assignment):

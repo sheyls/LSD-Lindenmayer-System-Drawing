@@ -9,7 +9,7 @@ filename = 'script.lsystem'
 filename = 'myscript.lsystem'
 filename = 'list.lsystem'
 
-with open('scripts/' + filename) as file :
+with open('scripts/' + filename) as file:
     data = file.read()
     lexer.input(data)
 

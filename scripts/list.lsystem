@@ -1,6 +1,6 @@
 
 lsys leaf {
-    axiom : AC,
+    axiom : A,
     F => >F<,
     A => F[+X]FB,
     B => F[-Y]FA,
@@ -24,6 +24,7 @@ canvas micanvasgambas {
     color: #000000
 };
 
-add_rule(leaf, FB => F#F );
+change_axiom( leaf, AC );
+add_rule(leaf, C => &+F#F );
 draw(leaf, mibrochamucha, micanvasgambas, 5, 35, 5);
 
