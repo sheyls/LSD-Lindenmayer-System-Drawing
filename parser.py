@@ -29,7 +29,7 @@ tokens = lexer.tokens
 #                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA ID COMMA int COMMA ID RPAREN END
 #                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA int COMMA ID COMMA ID RPAREN END
 #                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA ID COMMA ID COMMA ID RPAREN END
-#                      | ADD_RULE LPAREN ID(lsys) COMMS STRING(left_part) COMMA STRING(right_part) RPAREN END
+#                      | ADD_RULE LPAREN ID(lsys) COMMS STRING(left_part) ARROW STRING(right_part) RPAREN END
 #                      | REPEAT int { InstructionList } END
 #                      | REAPEAT ID { InstructionList} END
 #                      | IF ( Condition ) { InstructionList } END
@@ -200,7 +200,7 @@ def p_lsystem_rules(p):
         p[0] = [RulesDefinition(left_part=p[1],right_part=p[3])] + p[5]
         
 def p_add_rule(p):
-    '''Instruction : ADD_RULE LPAREN ID COMMA STRING COMMA STRING RPAREN'''
+    '''Instruction : ADD_RULE LPAREN ID COMMA STRING ARROW STRING RPAREN'''
     
     p[0] = Add_rule(p[3],RulesDefinition(left_part=p[5],right_part=p[7]))
 

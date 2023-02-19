@@ -138,7 +138,7 @@ class Eval(Visitor):
                     brush.left(draw_angle)
                 
             elif c == '[':
-                # Push current drawing state onto the stack
+                # Push current drawing state into the stack
                 pos = brush.position()
                 stack.append(pos)
                 ang = brush.heading()
@@ -146,7 +146,7 @@ class Eval(Visitor):
 
                 #brush.push()
             elif c == ']':
-                # Pop current drawing state onto the stack
+                # Pop current drawing state into the stack
                 #brush.penup()
                 ang = stack.pop()
                 pos = stack.pop()
@@ -163,12 +163,7 @@ class Eval(Visitor):
             elif c == '!': 
                 # Decrement the line width by line width increment
                 brush.pensize(brush.pensize() - 0.5)
-            elif c == '{':
-                # Open a polygon
-                c = 9
-            elif c == '}':
-                # Close a polygon and fill it with fill colour
-                d = 9
+
             elif c == '>':
                 # Multiply the line length by the line length scale factor
                 forward_value = forward_value * 1.36
@@ -179,10 +174,10 @@ class Eval(Visitor):
                 # Swap the meaning of + and -  
                 meaning_of_plus_and_minus = not meaning_of_plus_and_minus
             elif c == '%':
-                # Decrement turning angle by turning angle increment 
+                #  Increment turning angle by turning angle increment 
                 draw_angle = draw_angle + 10
             elif c =='$':
-                # Increment turning angle by turning angle increment
+                # Decrement turning angle by turning angle increment
                 draw_angle = draw_angle - 10                            
 
 

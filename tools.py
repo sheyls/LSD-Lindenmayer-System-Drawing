@@ -17,5 +17,8 @@ Bool_Operator={
 
 Token_to_types={
     'STRING' : 'string',
-    'INT'    : '_int'
+    'INT'    : 'int',
+    'CANVAS' : 'canvas',
+    'BRUSH' : 'brush',
+    'LSYS' : 'lsys',
 }

@@ -1,16 +1,29 @@
-int a = A;
-b = 10;
 
-lsys levy_curve {
-    axiom: A,
-    F => -F++F-
+lsys leaf {
+    axiom : AC,
+    F => >F<,
+    A => F[+X]FB,
+    B => F[-Y]FA,
+    X => A,
+    Y => B
 };
 
-lsys levy_curve {
-    axiom: F,
-    F => -F++F-
+brush mibrochamucha {
+
+    size: 2,
+    color: #ffffff,
+    speed: 300
+
 };
 
-repeat v {
-    a = 10;
+int k = 4000;
+canvas micanvasgambas {
+
+    high: 4000,
+    width: 4000,
+    color: #000000
 };
+
+add_rule(leaf, FB => F#F );
+draw(leaf, mibrochamucha, micanvasgambas, 5, 35, 5);
+
