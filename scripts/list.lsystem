@@ -1,12 +1,8 @@
-int a = A;
-b = 10;
-
-lsys levy_curve {
-    axiom: A,
-    F => -F++F-
-};
+string a = A;
+float b = 10.5;
 
 lsys levy_curve {
     axiom: F,
     F => -F++F-
 };
+

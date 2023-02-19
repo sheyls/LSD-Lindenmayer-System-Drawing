@@ -17,5 +17,6 @@ Bool_Operator={
 
 Token_to_types={
     'STRING' : 'string',
-    'INT'    : '_int'
+    'INT'    : '_int',
+    'FLOAT'  : 'float',
 }

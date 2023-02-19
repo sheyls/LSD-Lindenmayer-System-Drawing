@@ -2,7 +2,7 @@ from lang.context import Context
 from lang.visitor import Eval
 from lang.semantic_checker import SemanticChecker
 from lexer import lexer
-from parser import parser
+from parser_1 import parser
 
 filename = 'testchecker.lsystem'
 filename = 'script.lsystem'

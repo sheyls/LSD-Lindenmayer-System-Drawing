@@ -19,6 +19,7 @@ reserved = {
     'false'      : 'BOOL',
     'int'        : 'TYPE',
     'string'     : 'TYPE',
+    'float'      : 'TYPE',
     'add_rule'   : 'ADD_RULE',
     'repeat'     : 'REPEAT'
 }
