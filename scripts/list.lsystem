@@ -8,5 +8,5 @@ lsys levy_curve {
 };
 
 repeat c {
-    a = 10;
+    b = 10.2;
 };

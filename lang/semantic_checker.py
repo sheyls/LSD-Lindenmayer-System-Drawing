@@ -1,5 +1,6 @@
 from unicodedata import name
 from .visitor import *
+from tools import *
 
 class SemanticChecker(Visitor):
 
@@ -19,20 +20,13 @@ class SemanticChecker(Visitor):
         errors = []
         lsystem = self.context.resolve(lsystem_declaration.name)
         if lsystem:
-            errors.append(f"Defined lsystem '{lsystem_declaration.name}'.")
+            update_errs(errors, (f"Defined lsystem '{lsystem_declaration.name}'.")) 
 
-        self.context.define(lsystem_declaration.name, LsystemInstance(self.context,lsystem_declaration.body)) # ver si esto esta bien
+        self.context.define(lsystem_declaration.name, Type('lsys')) # ver si esto esta bien
         lsystem_declaration.type = self.context.symbols[lsystem_declaration.name]
 
-        lsysbody = lsystem_declaration.body
-        errors.append(lsysbody.accept(SemanticChecker(self.context)))
-        return errors
-
-    def visit_lsysbody(self, lsystem_body) : # LsysBody es el nodo que se esta usando en el AST , no LsystemDefinition
-        # axiom, rules
-        errors = []
-        axiom = lsystem_body.axiom.axiom # el primero devuelve un Axiomdefinition
-        rules = lsystem_body.l_rules
+        axiom = lsystem_declaration.body.axiom.axiom # el primero devuelve un Axiomdefinition
+        rules = lsystem_declaration.body.l_rules
 
         contain = False
         for i in range(len(axiom)):
@@ -40,9 +34,10 @@ class SemanticChecker(Visitor):
                 if axiom[i] == rule.left:
                     contain = True 
         if not contain:
-            errors.append(f"Wrong definition of lsystem'.") # ver como accedo al nombre
-
-        return errors                
+            update_errs(errors,(f"Wrong definition of lsystem'.")) # ver como accedo al nombre     
+      
+        return errors
+               
 
     def visit_canvasdeclaration(self, canvas_declaration):
         # name, body
@@ -50,7 +45,7 @@ class SemanticChecker(Visitor):
         canvas = self.context.resolve(canvas_declaration.name)
 
         if canvas:
-            errors += (f"Defined canvas '{canvas_declaration.name}'.")
+            errors.append(f"Defined canvas '{canvas_declaration.name}'.")
 
         body = canvas_declaration.body    
 
@@ -61,7 +56,7 @@ class SemanticChecker(Visitor):
         self.context.define(canvas_declaration.name, Type('canvas'))  
         canvas_declaration.computed_type = self.context.symbols[canvas_declaration.name]
 
-        errors += body.accept(SemanticChecker(self.context))
+        update_errs(errors,body.accept(SemanticChecker(self.context)))
         return errors
 
     def visit_canvasbody(self, canvas_body):
@@ -74,15 +69,15 @@ class SemanticChecker(Visitor):
             high_type = self.context.resolve(high).name
             if high_type != None : # revisar esto
                 if high_type != '_int':
-                    errors += (f"Expected type _int for high.")
-            else: errors += (f"Variable '{high}' not defined.")
+                    update_errs(errors, f"Expected type _int for high.")
+            else: update_errs(errors,(f"Variable '{high}' not defined."))
 
         if width.__class__ is str:
             width_type = self.context.resolve(width).name
             if width_type != None : # revisar esto
                 if width_type != '_int':
-                    errors += (f"Expected type _int for width.")
-            else: errors += (f"Variable '{width}' not defined.")
+                    update_errs(errors,f"Expected type _int for width.")
+            else: update_errs(errors,f"Variable '{width}' not defined.")
 
         # El color no se pone ???
 
@@ -95,7 +90,7 @@ class SemanticChecker(Visitor):
         errors = []
         brush = self.context.resolve(brush_declaration.name)
         if brush: 
-            errors += (f"Defined brush '{brush_declaration.name}'.")
+            update_errs(errors, f"Defined brush '{brush_declaration.name}'.")
 
         brush_body = brush_declaration.body
         size = brush_body.size
@@ -105,7 +100,7 @@ class SemanticChecker(Visitor):
         self.context.define(brush_declaration.name, Type('brush'))    
         brush_declaration.type = self.context.symbols[brush_declaration.name]
 
-        errors += brush_body.accept(SemanticChecker(self.context)) 
+        update_errs(errors, brush_body.accept(SemanticChecker(self.context))) 
         return errors
 
     def visit_brushbody(self, brush_body):
@@ -119,15 +114,17 @@ class SemanticChecker(Visitor):
             size_type = self.context.resolve(size).name
             if size_type != None : # revisar esto
                 if size_type != 'int':
-                    errors.append(f"Expected type int for size.")
-            else: errors.append(f"Variable '{size}' not defined.")
+                    update_errs(errors,f"Expected type int for size.")
+            else: 
+                update_errs(errors,f"Variable '{size}' not defined.")
 
         if speed.__class__ is str:
             speed_type = self.context.resolve(speed).name
             if speed_type != None : # revisar esto
                 if speed_type != 'int':
-                    errors.append(f"Expected type int for speed.")
-            else: errors.append(f"Variable '{speed}' not defined.")
+                    update_errs(errors,f"Expected type int for speed.")
+            else: 
+                update_errs(errors,f"Variable '{speed}' not defined.")
 
         return errors    
 
@@ -138,42 +135,42 @@ class SemanticChecker(Visitor):
 
         lsystem_type = self.context.resolve(draw_node.lsystem)
         if lsystem_type is not LsystemInstance:
-            errors.append(f"Expected type lsys.")
+            update_errs(errors,f"Expected type lsys.")
         else:
-            errors.append(f"Variable '{draw_node.lsystem}' not defined.")
+            update_errs(errors,f"Variable '{draw_node.lsystem}' not defined.")
 
         brush_type = self.context.resolve(draw_node.brush)
         if brush_type is not BrushInstance:
-            errors.append(f"Expected type brush.")
+            update_errs(errors,f"Expected type brush.")
         else : 
-            errors.append(f"Variable'{draw_node.brush}' not defined.")  
+            update_errs(errors,f"Variable'{draw_node.brush}' not defined.")  
 
         canvas_type = self.context.resolve(draw_node.canvas)
         if canvas_type is not CanvasInstance:
-            errors.append(f"Expected type canvas")
+            update_errs(errors,f"Expected type canvas")
         else :
-            errors.append(f"Variable'{draw_node.canvas}' not defined.") 
+            update_errs(errors,f"Variable'{draw_node.canvas}' not defined.") 
 
         if draw_node.step_size.__class__ is str :
             size_type = self.context.resolve(draw_node.step_size).name
             if size_type != 'int':
-                errors.append(f"Expected type _int for size.")
+                update_errs(errors,f"Expected type int for size.")
             else:
-                errors.append(f"Variable '{draw_node.step_size}' not defined.")    
+                update_errs(errors,f"Variable '{draw_node.step_size}' not defined.")    
 
         if draw_node.angle.__class__ is str :
             size_type = self.context.resolve(draw_node.angle).name
             if size_type != 'int':
-                errors.append(f"Expected type _int for angle.")
+                update_errs(errors,f"Expected type int for angle.")
             else:
-                errors.append(f"Variable '{draw_node.angle}' not defined.")  
+                update_errs(errors,f"Variable '{draw_node.angle}' not defined.")  
 
         if draw_node.complexity.__class__ is str :
             size_type = self.context.resolve(draw_node.complexity).name
             if size_type != 'int':
-                errors.append(f"Expected type _int for complexity.")
+                update_errs(errors,f"Expected type int for complexity.")
             else:
-                errors.append(f"Variable '{draw_node.complexity}' not defined.")                    
+                update_errs(errors,f"Variable '{draw_node.complexity}' not defined.")                    
                 
 
         draw_node.computed_type = Type('void')             
@@ -184,7 +181,7 @@ class SemanticChecker(Visitor):
         errors = []
         lsys = self.context.resolve(new_rule.lsys_name)
         if lsys is None:
-            errors.append(f"Lsystem '{new_rule.lsys_name}' not defined.")
+            update_errs(errors,f"Lsystem '{new_rule.lsys_name}' not defined.")
         
         new_rule.computed_type = Type('void')
         return errors
@@ -192,13 +189,13 @@ class SemanticChecker(Visitor):
     def visit_variableassignment(self, var_assignment):
         # name, value
         errors = []
-        errors += var_assignment.value.accept(SemanticChecker(self.context))
+        update_errs(errors,var_assignment.value.accept(SemanticChecker(self.context)))
         var_type = self.context.resolve(var_assignment.name)
         if var_type is None:
-            errors.append(f"Variable '{var_assignment.name}' not defined.")
+            update_errs(errors,f"Variable '{var_assignment.name}' not defined.")
         else :
-            if var_type.name != var_assignment.value.computed_type:
-                errors.append(f"Can't assign value {var_assignment.value} to variable '{var_assignment.name}'. Type '{var_type}' different to '{var_assignment.value.computed_type}'.")   
+            if var_type.name != var_assignment.value.computed_type.name:
+                update_errs(errors,f"Can't assign value {var_assignment.value.value} to variable '{var_assignment.name}'. Type '{var_type}' different to '{var_assignment.value.computed_type}'.")   
 
         var_assignment.computed_type = var_type  
         return errors       
@@ -207,36 +204,36 @@ class SemanticChecker(Visitor):
         # type, name , value
         errors = []
         var_type = Type.get(var_declaration.type)
-        errors.append( var_declaration.value.accept(SemanticChecker(self.context))) # ver si esta hecho el visit para esto y si esto sotve pa algo
+        update_errs(errors, var_declaration.value.accept(SemanticChecker(self.context))) # ver si esta hecho el visit para esto y si esto sotve pa algo
 
         if var_declaration.name in self.context.symbols.keys():
-            errors.append(f"Defined variable '{var_declaration.name}'.")
+            update_errs(errors, f"Defined variable '{var_declaration.name}'.")
         else:
             self.context.define(var_declaration.name, var_type)
-        if var_declaration.value.computed_type != var_type.name:
-            errors.append(f"{var_declaration.value.type} not expected.")
+        if var_declaration.value.computed_type.name != var_type.name:
+            update_errs(errors, f"{var_declaration.value.computed_type} not expected.")
                     
         var_declaration.computed_type = var_type
         return errors 
 
     def visit_assignable(self, assignable):
         assignable.computed_type = assignable.type
-        return ''
+        return None
 
 
     def visit_binarycomparer(self, binary_comparer):
         errors = []
-        errors.append(binary_comparer.left_expr.accept(SemanticChecker(self.context)))
-        errors.append(binary_comparer.right_expr.accept(SemanticChecker(self.context)))
+        update_errs(errors, binary_comparer.left_expr.accept(SemanticChecker(self.context)))
+        update_errs(errors,binary_comparer.right_expr.accept(SemanticChecker(self.context)))
         
         if binary_comparer.left_expr.computed_type == Type.get('void') or binary_comparer.right_expr.computed_type == Type.get('void'):
-            errors.append(f"{'void'} expression not admissible for comparison.")
+            update_errs(errors, f"{'void'} expression not admissible for comparison.")
         
         if binary_comparer.left_expr.computed_type != binary_comparer.right_expr.computed_type:
-            errors.append("Expressions to compare must be the same type.")
+            update_errs(errors, f"Expressions to compare must be the same type.")
         
         if binary_comparer.comparer in ['(>)', '(<)', '>=', '<='] and binary_comparer.left_expr.computed_type is not Type.get('_int'):
-            errors.append(f"Invalid expression type for '{binary_comparer.comparer}' comparer.")
+            update_errs(errors,f"Invalid expression type for '{binary_comparer.comparer}' comparer.")
         
         binary_comparer.computed_type = Type.get('bool')
         return errors
@@ -248,20 +245,20 @@ class SemanticChecker(Visitor):
         if arithmeticOp.left.__class__ is str:
             left_type = self.context.resolve(arithmeticOp.left).value
             if left_type is not float and left_type is not int:
-                errors.append(f"{left_type.name}'not expected.'") 
+                update_errs(errors,f"{left_type.name}'not expected.'") 
         else:
-            errors.append(arithmeticOp.left.accept(SemanticChecker(self.context)))
+            update_errs(errors, arithmeticOp.left.accept(SemanticChecker(self.context)))
             left_type = arithmeticOp.left.computed_type
         
         if arithmeticOp.right.__class__ is str:
             right_type = self.context.resolve(arithmeticOp.right).value
             if right_type is not float and right_type is not int:
-                errors.append(f"{left_type.name}'not expected.'")
+                update_errs(errors,f"{left_type.name}'not expected.'")
         else:
-            errors.append(arithmeticOp.right.accept(SemanticChecker(self.context)))
+            update_errs(errors,arithmeticOp.right.accept(SemanticChecker(self.context)))
             right_type = arithmeticOp.right.computed_type
 
-        if left_type.name == 'float' or right_type.name == 'float':
+        if left_type == 'float' or right_type == 'float':
             arithmeticOp.computed_type = Type('float')
         
         arithmeticOp.computed_type = Type('int')
@@ -272,9 +269,9 @@ class SemanticChecker(Visitor):
         # condition, instructions_true, instructions_false
         errors = []
         if not isinstance(if_else_statement.condition, str):
-            errors.append(if_else_statement.condition.accept(SemanticChecker(self.context))) # que hace esto
+            update_errs(errors, if_else_statement.condition.accept(SemanticChecker(self.context))) # que hace esto
             if if_else_statement.condition.computed_type is not Type.get('bool'):
-                errors.apped(f"Given condition is not boolean")
+                update_errs(errors, f"Given condition is not boolean")
 
         child_context:Context = self.context.make_child()
         child_semantic_checker = SemanticChecker(child_context)      
@@ -282,10 +279,10 @@ class SemanticChecker(Visitor):
         if_else_statement.computed_type = Type.get('void')  
 
         for line in if_else_statement.instructions_true:
-            errors.append(line.accept(child_semantic_checker))
+            update_errs(errors, line.accept(child_semantic_checker))
 
         for line in if_else_statement.instructions_false:
-            errors.append(line.accept(child_semantic_checker))        
+            update_errs(errors, line.accept(child_semantic_checker))        
         return errors
             
 
@@ -293,9 +290,9 @@ class SemanticChecker(Visitor):
     def visit_if_statement(self,if_declaration):
         errors = []
         if not isinstance(if_declaration.condition, str):
-            errors.append(if_declaration.condition.accept(SemanticChecker(self.context)))
+            update_errs(errors, if_declaration.condition.accept(SemanticChecker(self.context)))
             if if_declaration.condition.computed_type is not Type.get('bool'):
-                errors.append(f"Given condition is not boolean.")
+                update_errs(errors, f"Given condition is not boolean.")
 
         child_context:Context = self.context.make_child()
         child_semantic_checker = SemanticChecker(child_context)
@@ -303,7 +300,7 @@ class SemanticChecker(Visitor):
         if_declaration.computed_type = Type.get('void')
 
         for line in if_declaration.instructions:
-            errors.append(line.accept(child_semantic_checker))
+            update_errs(errors, line.accept(child_semantic_checker))
 
         return errors
     
@@ -314,9 +311,9 @@ class SemanticChecker(Visitor):
         instructions = repeat_declaration.instructions
 
         times_type = self.context.resolve(times)
-        if times_type != '_int':
-            errors.append(f"Type expected int, not '{times_type}' ")
+        if times_type.name != 'int':
+            update_errs(errors,f"Type expected int, not '{times_type}' ")
         
         for instruction in instructions:
-            errors.append(instruction.accept(SemanticChecker(self.context))) 
+            update_errs(errors, instruction.accept(SemanticChecker(self.context))) 
         return errors
