@@ -45,7 +45,7 @@ class Eval(Visitor):
     def visit_repeatdeclaration(self, repeat_declaration):
         times = repeat_declaration.times_to_repeat
         if repeat_declaration.times_to_repeat.__class__ is str:
-            times = self.context.resolve(repeat_declaration.times_to_repeat).value.value
+            times = self.context.resolve(repeat_declaration.times_to_repeat).value
         else:
             times = repeat_declaration.times_to_repeat
         instructions = repeat_declaration.instructions

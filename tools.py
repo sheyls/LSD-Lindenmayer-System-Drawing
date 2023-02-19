@@ -21,4 +21,10 @@ Token_to_types={
     'CANVAS' : 'canvas',
     'BRUSH' : 'brush',
     'LSYS' : 'lsys',
+    'FLOAT'  : 'float',
 }
+
+
+def update_errs(errors, new_errs):
+    if new_errs != None and new_errs != []:
+        errors.append(new_errs)

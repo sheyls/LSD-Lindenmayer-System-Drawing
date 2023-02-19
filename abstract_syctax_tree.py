@@ -131,4 +131,4 @@ class Draw(Node):
 class Assignable(Node):
     def __init__(self,value,type):
         self.value = value
-        self.type = Token_to_types[type]
+        self.type = Type.get(type.lower())
