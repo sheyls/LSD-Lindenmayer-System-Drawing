@@ -20,7 +20,7 @@ reserved = {
     'int'        : 'TYPE',
     'string'     : 'TYPE',
     'add_rule'   : 'ADD_RULE',
-    'repeat'     : "REPEAT"
+    'repeat'     : 'REPEAT'
 }
 
 # List of token names. 
