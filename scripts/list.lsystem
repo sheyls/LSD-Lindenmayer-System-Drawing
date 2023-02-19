@@ -1,0 +1,16 @@
+int a = A;
+b = 10;
+
+lsys levy_curve {
+    axiom: A,
+    F => -F++F-
+};
+
+lsys levy_curve {
+    axiom: F,
+    F => -F++F-
+};
+
+repeat v {
+    a = 10;
+};

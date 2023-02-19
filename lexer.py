@@ -2,38 +2,25 @@ import ply.lex as lex
 
 # Keywords
 reserved = {
-    'canvas'     : 'CANVAS',
+    'canvas'     : 'TYPE',
     'draw'       : 'DRAW',
-   
-    'brush'      : 'BRUSH',
-    'lsys'       : 'LSYS',
-    'left'       : 'LEFT',
-    'right'      : 'RIGHT',
-    'line'       : 'LINE',
-    'nill'       : 'NILL',
+    'brush'      : 'TYPE',
+    'lsys'       : 'TYPE',
     'axiom'      : 'AXIOM',
     'color'      : 'COLOR',
     'size'       : 'SIZE',
     'speed'      : 'SPEED',
     'high'       : 'HIGH',
     'width'      : 'WIDTH',
-    'rule'       : 'RULE',
-    'push'       : 'PUSH',
-    'pop'        : 'POP',
-    'while'      : 'WHILE',
     'if'         : 'IF',
-    'not'        : 'NOT',
     'else'       : 'ELSE',
-    'and'        : 'AND',
-    'or'         : 'OR',
-    'bool'       :'BOOLTYPE',
-    'true'       :'BOOL',
-    'false'      :'BOOL',
-    'break'      :'BREAK',
-    '_int'       :'TYPE',
-    'string'     :'TYPE',
-    'add_rule'   :'ADD_RULE',
-    'repeat'     :"REPEAT"
+    'bool'       : 'TYPE',
+    'true'       : 'BOOL',
+    'false'      : 'BOOL',
+    'int'        : 'TYPE',
+    'string'     : 'TYPE',
+    'add_rule'   : 'ADD_RULE',
+    'repeat'     : 'REPEAT'
 }
 
 # List of token names. 
@@ -47,7 +34,7 @@ tokens = (
    'ID',
    'INT',
    'FLOAT',
-   'ANGLE',
+
    'COL',  
    'EQUALEQUAL',
    'GEQUAL',
@@ -71,21 +58,18 @@ tokens = (
 )
 
 
+t_EQUALEQUAL = r'=='
+t_GEQUAL = r'>='
+t_LEQUAL = r'<='
+t_LESS = r'<<'
+t_GREATER = r'>>'
+
+
 # Regular expression rules for simple tokens
 t_ARROW = r'=>'
 # t_STRING = r'[A-Z\+\-\<\>\[\]]+
 t_STRING = r'[A-Z\+\-\<\>\[\]\#\!\&\@\|\%\$]+'
 
-t_PLUS = r'\+'
-t_MINUS = r'\-'
-t_MULTIPLY = r'\*'
-t_DIFFER = r'\\'
-
-t_EQUALEQUAL = r'=='
-t_GEQUAL = r'>='
-t_LEQUAL = r'<='
-t_LESS = r'<'
-t_GREATER = r'>'
 
 t_LPAREN  = r'\('
 t_RPAREN  = r'\)'
@@ -99,6 +83,22 @@ t_LBRACE = r'\{'
 t_RBRACE = r'\}'
 
 
+def t_PLUS(t):
+    r'\(\+\)'
+    return t
+
+def t_MINUS(t):
+    r'\(-\)'
+    return t
+
+def t_MULTIPLY(t):
+    r'\(\*\)'
+    return t
+
+def t_DIFFER(t):
+    r'\(/\)'
+    return t
+
 def t_FLOAT(t):
     r'\d+\.\d+'
     try:
@@ -111,16 +111,7 @@ def t_FLOAT(t):
 def t_INT(t):
     r'\d+'
     t.value = int(t.value)
-    return t
-
-
-def t_ANGLE(t):
-    r'\d+\.\d+'
-    t.value = float(t.value)
-    if t.value > 360 or t.value < -360:
-        t_error(t)
-    else:
-        return t   
+    return t   
 
 
 def t_ID(t):
@@ -166,15 +157,6 @@ def find_column(input, token):
 
 tokens= list(reserved.values()) + list(tokens)
 
+
 lexer = lex.lex()
 
-with open('scripts/test.lsystem')as file:
-   data = file.read()
-
-lexer.input(data)
- 
-while True:
-    tok = lexer.token()
-    if not tok: 
-        break      # No more input
-    print(tok)

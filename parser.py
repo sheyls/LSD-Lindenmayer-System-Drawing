@@ -16,9 +16,9 @@ tokens = lexer.tokens
 #   InstructionList    :   Instruction END
 #                      |   Instruction END  InstructionList
 #
-#   Instruction        : LSYS ID { Lsystem_body } END
-#                      | Type ID EQUAL Assignable
-#                      | ID EQUAL Assignable
+#   Instruction        : TYPE ID { Lsystem_body } END
+#                      | Type ID EQUAL ArithmeticOp
+#                      | ID EQUAL ArithmeticOp
 #                      | BRUSH ID { Brush_body } END
 #                      | CANVAS ID { Canvas_body } END
 #                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA int COMMA int COMMA int RPAREN END
@@ -33,6 +33,7 @@ tokens = lexer.tokens
 #                      | REPEAT int { InstructionList } END
 #                      | REAPEAT ID { InstructionList} END
 #                      | IF ( Condition ) { InstructionList } END
+#                      | IF ( Condition ) { InstructionList } ELSE {InstructionList} END
 #                                    
 #   Lsystem_body        : axiom: axiom_stmt COMMA rule -> replace_stmt
 #
@@ -49,15 +50,49 @@ tokens = lexer.tokens
 #                        | size: int COMMA ID COMMA color: color
 #                        | size: ID COMMA ID COMMA color: color
 #
-#   Condition            : Assignable GEQUAL Assignable
-#                        | Assignable LEQUAL Assignable
-#                        | Assignable EQUALEQUAL Assignable
-#                        | Assignable GRATER Assignable
-#                        | Assignable LESS Assignable
+#   Condition            : ArithmeticOp GEQUAL ArithmeticOp
+#                        | ID GEQUAL ID
+#                        | ID GEQUAL ArithmeticOp
+#                        | ArithmeticOp GEQUAL ID
+#                        | ID LEQUAL ID
+#                        | ID LEQUAL ArithmeticOp
+#                        | ArithmeticOp LEQUAL ID
+#                        | ArithmeticOp EQUALEQUAL ArithmeticOp
+#                        | ID EQUALEQUAL ID
+#                        | ID EQUALEQUAL ArithmeticOp
+#                        | ArithmeticOp EQUALEQUAL ID
+#                        | ArithmeticOp GRATER ArithmeticOp
+#                        | ID GRATER ID
+#                        | ID GRATER ArithmeticOp
+#                        | ArithmeticOp GRATER ID
+#                        | ArithmeticOp LESS ArithmeticOp
+#                        | ID LESS ID
+#                        | ArithmeticOp LESS ID
+#                        | ID LESS ArithmeticOp
 #                        | BOOL
-# 
+#
+#   ArithmeticOp         : ArithmeticOp ++ ArithmeticOp
+#                        | ID ++ ID
+#                        | ID ++ ArithmeticOp
+#                        | ArithmeticOp ++ ID
+#                        | ArithmeticOp -- ArithmeticOp
+#                        | ID -- ID
+#                        | ID -- ArithmeticOp
+#                        | ArithmeticOp -- ID
+#                        | ArithmeticOp * ArithmeticOp
+#                        | ID * ID
+#                        | ID * ArithmeticOp
+#                        | ArithmeticOp * ID
+#                        | ArithmeticOp \ ArithmeticOp
+#                        | ID \ ID
+#                        | ArithmeticOp \ ID
+#                        | ID \ ArithmeticOp
+#                        | Assignable
+#
 #    Assignable          : INT
+#                        | COL
 #                        | STRING
+#                        | COL
 # -----------------------------------------------------------------------------
 """
 Example:
@@ -87,20 +122,48 @@ def p_instruction_list(p):
         p[0] = [p[1]]
 
 
-#def p_type(p):
-#    '''Type : TYPE'''
-#    p[0]=p[1]
 
 def p_assignable(p):
     ''' Assignable : INT
-                   | STRING    
+                   | FLOAT
+                   | STRING
+                   | COL
+
     '''
     
     p[0]=Assignable(p[1], p.slice[1].type)
 
+def p_arithmeticOp(p):
+    '''
+   ArithmeticOp : ArithmeticOp PLUS ArithmeticOp
+                | ID PLUS ID
+                | ID PLUS ArithmeticOp
+                | ArithmeticOp PLUS ID
+                | ArithmeticOp MINUS ArithmeticOp
+                | ID MINUS ID
+                | ID MINUS ArithmeticOp
+                | ArithmeticOp MINUS ID
+                | ArithmeticOp MULTIPLY ArithmeticOp
+                | ID MULTIPLY ID
+                | ID MULTIPLY ArithmeticOp
+                | ArithmeticOp MULTIPLY ID
+                | ArithmeticOp DIFFER ArithmeticOp
+                | ID DIFFER ID
+                | ArithmeticOp DIFFER ID
+                | ID DIFFER ArithmeticOp
+                | Assignable
+    '''
+
+    if len(p) == 4:
+        p[0] = ArithmeticOp(p[1], p[2], p[3])
+    elif len(p) == 3:
+        p[0] = p[2]
+    else:
+        p[0] = p[1]
+
 def p_lsystem(p):
     '''
-    Instruction : LSYS ID LBRACE Lsystem_body RBRACE
+    Instruction : TYPE ID LBRACE Lsystem_body RBRACE
     
     '''
 
@@ -109,14 +172,13 @@ def p_lsystem(p):
 
 def p_variables(p):
     '''
-    Instruction : ID EQUAL Assignable 
-                | TYPE ID EQUAL Assignable
+    Instruction : ID EQUAL ArithmeticOp 
+                | TYPE ID EQUAL ArithmeticOp
     '''
     if len(p)==5:
         p[0] = VariableDeclaration(p[1],p[2],p[4])
     elif len(p)==4:
         p[0] = VariableAssignment(p[1],p[3])
-
 
 
 def p_lsystem_body(p):
@@ -145,7 +207,7 @@ def p_add_rule(p):
 
 def p_brush(p):
     '''
-    Instruction : BRUSH ID LBRACE Brush_body RBRACE
+    Instruction : TYPE ID LBRACE Brush_body RBRACE
     '''
     p[0] = BrushDeclaration(p[2], p[4])
 
@@ -160,7 +222,7 @@ def p_brush_body(p):
 
 def p_canvas(p):
     '''
-    Instruction : CANVAS ID LBRACE Canvas_body RBRACE
+    Instruction : TYPE ID LBRACE Canvas_body RBRACE
     '''
     p[0] = CanvasDeclaration(p[2], p[4])
 
@@ -173,22 +235,22 @@ def p_canvas_body(p):
     '''
     p[0] = CanvasBody(p[3], p[7], p[11])
 
-def p_draw_id(p):
-    '''
-    Instruction : DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA ID COMMA ID RPAREN 
-                | DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA INT COMMA INT RPAREN 
-                | DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA ID COMMA INT RPAREN 
-                | DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA ID RPAREN 
-                | DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA ID COMMA INT RPAREN 
-                | DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA INT COMMA ID RPAREN 
-                | DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA ID COMMA ID RPAREN 
-    '''
 
-    p[0] = Draw_ID(p[3], p[5], p[7], p[9], p[11], p[13])
 
 def p_draw(p):
     '''
+    Instruction : DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA FLOAT COMMA INT RPAREN
     Instruction : DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA INT RPAREN
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA ID COMMA ID RPAREN 
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA FLOAT COMMA INT RPAREN
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA INT COMMA INT RPAREN
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA ID COMMA INT RPAREN 
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA FLOAT COMMA ID RPAREN 
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA INT COMMA ID RPAREN 
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA ID COMMA INT RPAREN 
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA FLOAT COMMA ID RPAREN
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA ID COMMA INT COMMA ID RPAREN
+                | DRAW LPAREN ID COMMA ID COMMA ID COMMA INT COMMA ID COMMA ID RPAREN 
     '''
     p[0] = Draw(p[3], p[5], p[7], p[9], p[11], p[13])
 
@@ -206,14 +268,34 @@ def p_if(p):
    '''    
    p[0] = If_Statement(p[3],p[6])
 
+def p_if_else(p):
+    '''
+    Instruction : IF LPAREN Condition RPAREN LBRACE InstructionList RBRACE ELSE LBRACE InstructionList RBRACE
+    '''
+    p[0] = If_Else_Statement(p[3], p[6], p[10])
+
 def p_condition(p):
     '''
-    Condition : Assignable GEQUAL Assignable
-              | Assignable LEQUAL Assignable
-              | Assignable EQUALEQUAL Assignable
-              | Assignable GREATER Assignable
-              | Assignable LESS Assignable
-              | BOOL
+    Condition  : ArithmeticOp GEQUAL ArithmeticOp
+                | ID GEQUAL ID
+                | ID GEQUAL ArithmeticOp
+                | ArithmeticOp GEQUAL ID
+                | ID LEQUAL ID
+                | ID LEQUAL ArithmeticOp
+                | ArithmeticOp LEQUAL ID                        
+                | ArithmeticOp EQUALEQUAL ArithmeticOp
+                | ID EQUALEQUAL ID
+                | ID EQUALEQUAL ArithmeticOp
+                | ArithmeticOp EQUALEQUAL ID
+                | ArithmeticOp GREATER ArithmeticOp
+                | ID GREATER ID
+                | ID GREATER ArithmeticOp
+                | ArithmeticOp GREATER ID
+                | ArithmeticOp LESS ArithmeticOp
+                | ID LESS ID
+                | ArithmeticOp LESS ID
+                | ID LESS ArithmeticOp
+                | BOOL
     '''    
     if len(p)==2:
         p[0] = p[1]

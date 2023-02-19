@@ -76,12 +76,12 @@ class CanvasInstance:
         
 
 #Internal types
-_lsystem = Type('lsystem')
-_int = Type('_int')
+_lsys = Type('lsys')
+_int = Type('int')
+_float = Type('float')
 _string = Type('string')
 _brush = Type('brush')
 _canvas = Type('canvas')
 _color = Type('color')
-_angle = Type('angle')
 _bool = Type('bool')
 _void = Type('void')

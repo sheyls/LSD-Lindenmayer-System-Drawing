@@ -1,7 +1,15 @@
-Bool_Operations={
+Operator={
+
+    '(+)' : lambda x,y : x+y,
+    '(-)' : lambda x,y : x-y,
+    '(*)' : lambda x,y : x*y,
+    '(/)' : lambda x,y : x/y,
+
+}
+Bool_Operator={
     '==' : lambda x,y : x==y,
-    '>' : lambda x,y : x>y,
-    '<' : lambda x,y : x<y,
+    '(>)' : lambda x,y : x>y,
+    '(<)' : lambda x,y : x<y,
     '>=' : lambda x,y : x>=y,
     '<=' : lambda x,y : x<=y,
     '!=' : lambda x,y : x!=y,

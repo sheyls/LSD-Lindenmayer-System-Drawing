@@ -19,8 +19,10 @@ canvas micanvas {
     color: #ffffff
 };
 
-_int a = 2;
+
+int a = 2;
+
 repeat a{
-draw(quedratic_gosper, mibrocha, micanvas, 2 ,90, 2);
+draw(quedratic_gosper, mibrocha, micanvas, a ,22.5 , a);
 
 };
