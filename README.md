@@ -123,6 +123,9 @@ brush <nombre_de_la_brocha> {
     speed: <int>
 
 }
+
+*size* - Describe en ancho de la línea de la brocha
+*speed* - Describe la velocidad con la que dibuja la brocha
 ```
 **Ejemplo:**
 
@@ -176,13 +179,56 @@ canvas soft_orange {
 
 **Definición:**
 
+```python
+draw( <lsys>, <brush>, <canvas>, <largo_de_las_lineas>, <ángulo_de_giro>, <complejidad_del_sistema>)
 ```
-draw( <lsys>, <brush>, <canvas>, <int>, <float>, <int>)
-```
+
+
 **Ejemplo:**
 
-```
+```python
 draw(leaf, small_blue, soft_orange, 5, 35, 5);
+
+```
+
+### Asignación y Creación de variables
+ 
+ ```python
+int a = 5;
+
+draw(leaf, small_blue, soft_orange, a, 35, a);
+
+a = 6;
+
+draw(leaf, small_blue, soft_orange, b, 35, b);
+
+(completar...Notas en la libreta)
+
+ ```
+
+### Condicionales:
+``` python
+#probar
+
+if (a == 6) {
+    draw(leaf, small_blue, soft_orange, a ,45, a)
+};
+
+if ( a (+) 1 == 7 ) {
+    draw(leaf, small_blue, soft_orange, 5 ,45, 8);
+} else { draw(star, big_red, soft_orange, 7 ,45, 3); };
+
+```
+
+### Ciclos:
+``` python
+int a = 5;
+
+repeat a{
+
+    draw(quedratic_gosper, mibrocha, micanvas, a ,22.5 , a);
+    a = a (+) 1
+};
 
 ```
 

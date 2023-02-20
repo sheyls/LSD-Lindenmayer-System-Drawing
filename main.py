@@ -7,7 +7,10 @@ from parser import parser
 filename = 'testchecker.lsystem'
 filename = 'script.lsystem'
 filename = 'myscript.lsystem'
+filename = 'myscript.lsystem'
+filename = 'assignable.lsystem'
 filename = 'list.lsystem'
+filename = 'test1.lsystem'
 
 with open('scripts/' + filename) as file:
     data = file.read()

@@ -1,0 +1,7 @@
+int a = 5;
+string b = HOLA;
+
+float c = 7.6;
+
+#bool k = true;
+bool l = 4 == 5;
