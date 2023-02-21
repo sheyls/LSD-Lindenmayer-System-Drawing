@@ -207,9 +207,12 @@ draw(leaf, small_blue, soft_orange, b, 35, b);
  ```
 
 ### Condicionales:
-``` python
+
 #probar
 
+**Ejemplo:**
+
+``` python
 if (a == 6) {
     draw(leaf, small_blue, soft_orange, a ,45, a)
 };
@@ -221,6 +224,18 @@ if ( a (+) 1 == 7 ) {
 ```
 
 ### Ciclos:
+
+**Definición:**
+
+``` python
+repeat <int> {
+    <instructions>;
+};
+
+```
+
+**Ejemplo:**
+
 ``` python
 int a = 5;
 
@@ -231,4 +246,5 @@ repeat a{
 };
 
 ```
+
 
