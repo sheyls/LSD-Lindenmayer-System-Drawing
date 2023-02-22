@@ -81,6 +81,10 @@ class Add_rule(Node):
     def __init__(self, lsys_name, rule) -> None:
         self.lsys_name = lsys_name
         self.rule = rule
+class Change_axiom(Node):
+    def __init__(self, lsys_name, axiom) -> None:
+        self.lsys_name = lsys_name
+        self.axiom = axiom
 
 class VariableDeclaration(Node):
     def __init__(self, type, name, value) -> None:

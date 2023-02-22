@@ -134,43 +134,43 @@ class SemanticChecker(Visitor):
         errors = []
 
         lsystem_type = self.context.resolve(draw_node.lsystem)
-        if lsystem_type is not LsystemInstance:
+        if lsystem_type.name != 'lsys':
             update_errs(errors,f"Expected type lsys.")
-        else:
-            update_errs(errors,f"Variable '{draw_node.lsystem}' not defined.")
+        #elif :
+            #update_errs(errors,f"Variable '{draw_node.lsystem}' not defined.")
 
         brush_type = self.context.resolve(draw_node.brush)
-        if brush_type is not BrushInstance:
+        if brush_type.name != 'brush':
             update_errs(errors,f"Expected type brush.")
-        else : 
-            update_errs(errors,f"Variable'{draw_node.brush}' not defined.")  
+        #else : 
+            #update_errs(errors,f"Variable'{draw_node.brush}' not defined.")  
 
         canvas_type = self.context.resolve(draw_node.canvas)
-        if canvas_type is not CanvasInstance:
+        if canvas_type.name != 'canvas':
             update_errs(errors,f"Expected type canvas")
-        else :
-            update_errs(errors,f"Variable'{draw_node.canvas}' not defined.") 
+        #else :
+            #update_errs(errors,f"Variable'{draw_node.canvas}' not defined.") 
 
         if draw_node.step_size.__class__ is str :
             size_type = self.context.resolve(draw_node.step_size).name
             if size_type != 'int':
                 update_errs(errors,f"Expected type int for size.")
-            else:
-                update_errs(errors,f"Variable '{draw_node.step_size}' not defined.")    
+            #else:
+                #update_errs(errors,f"Variable '{draw_node.step_size}' not defined.")    
 
         if draw_node.angle.__class__ is str :
             size_type = self.context.resolve(draw_node.angle).name
             if size_type != 'int':
                 update_errs(errors,f"Expected type int for angle.")
-            else:
-                update_errs(errors,f"Variable '{draw_node.angle}' not defined.")  
+            #else:
+                #update_errs(errors,f"Variable '{draw_node.angle}' not defined.")  
 
         if draw_node.complexity.__class__ is str :
             size_type = self.context.resolve(draw_node.complexity).name
             if size_type != 'int':
                 update_errs(errors,f"Expected type int for complexity.")
-            else:
-                update_errs(errors,f"Variable '{draw_node.complexity}' not defined.")                    
+            #else:
+                #update_errs(errors,f"Variable '{draw_node.complexity}' not defined.")                    
                 
 
         draw_node.computed_type = Type('void')             
@@ -317,3 +317,6 @@ class SemanticChecker(Visitor):
         for instruction in instructions:
             update_errs(errors, instruction.accept(SemanticChecker(self.context))) 
         return errors
+
+    def visit_change_axiom(self, p):
+        return []

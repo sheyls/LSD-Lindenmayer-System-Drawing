@@ -21,6 +21,7 @@ reserved = {
     'string'     : 'TYPE',
     'float'      : 'TYPE',
     'add_rule'   : 'ADD_RULE',
+    'change_axiom' : 'CHANGE_AXIOM',
     'repeat'     : 'REPEAT'
 }
 

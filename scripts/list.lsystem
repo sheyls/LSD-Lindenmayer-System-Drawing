@@ -1,12 +1,47 @@
-string a = A;
-float b = 10.5;
-int c = 10 (*) 1 (+) 2;
 
-lsys levy_curve {
-    axiom: F,
-    F => -F++F-
+lsys leaf {
+    axiom : A,
+    F => >F<,
+    A => F[+X]FB,
+    B => F[-Y]FA,
+    X => A,
+    Y => B
 };
 
-repeat c {
-    b = 10.2;
+brush mibrochamucha {
+
+    size: 2,
+    color: #ffffff,
+    speed: 300
+
 };
+
+brush small_blue {
+
+    size: 2,
+    color: #40e0d0,
+    speed: 300
+
+};
+
+brush big_red {
+
+    size: 5,
+    color: #ff0000,
+    speed: 300
+
+};
+
+
+int k = 4000;
+canvas micanvasga_mbas {
+
+    high: 4000,
+    width: 4000,
+    color: 	#ffebcd
+};
+
+change_axiom( leaf, AC );
+add_rule(leaf, C => FF );
+draw(leaf, small_blue, micanvasga_mbas, 5, 35, 5);
+

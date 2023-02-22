@@ -2,7 +2,7 @@ from lang.context import Context
 from lang.visitor import Eval
 from lang.semantic_checker import SemanticChecker
 from lexer import lexer
-from parser_1 import parser
+from parser import parser
 
 filename = 'testchecker.lsystem'
 filename = 'script.lsystem'
@@ -10,7 +10,7 @@ filename = 'myscript.lsystem'
 filename = 'list.lsystem'
 filename = 'test.lsystem'
 
-with open('scripts/' + filename) as file :
+with open('scripts/' + filename) as file:
     data = file.read()
     lexer.input(data)
 
