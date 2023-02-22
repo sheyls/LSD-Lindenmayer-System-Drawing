@@ -10,30 +10,30 @@ lsys leaf {
 
 brush small_blue {
 
-    size: 2,
+    size: 4,
     color: #40e0d0,
     speed: 300
 
 };
 
-brush big_black {
+brush blue {
 
     size: 5,
-    color: #000000,
+    color: #5bc0eb,
     speed: 300
 
 };
 
-canvas soft_orange {
+canvas yellow {
 
     high: 4000,
     width: 4000,
-    color: #ffebcd
+    color: #fde74c
 };
 
-draw(leaf, small_blue, soft_orange, 5, 35, 5);
+draw(leaf, blue, yellow, 5, 35, 10);
 
 change_axiom( leaf, AC );
 add_rule(leaf, C => FF );
 
-draw(leaf, small_blue, soft_orange, 5, 35, 5);
+draw(leaf, small_blue, yellow, 5, 35, 10);

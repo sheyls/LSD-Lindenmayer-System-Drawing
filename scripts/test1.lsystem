@@ -25,7 +25,7 @@ int a = 5;
 
 repeat 5 {
     if (a (<) 15) {
-        draw(quedratic_snowflake, small_blue, soft_orange, a, angle, 5);
-        a = a (+) 5;
+        draw(quedratic_snowflake, small_blue, soft_orange, a, angle, 3);
+        angle = angle (+) 10;
     };
 };

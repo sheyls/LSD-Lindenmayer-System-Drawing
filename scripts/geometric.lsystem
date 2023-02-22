@@ -3,7 +3,6 @@
 lsys board{
     axiom : F+F+F+F,
     F => FF+F+F+F+FF
-
 };
 #board_angle = 90
 
@@ -48,19 +47,19 @@ lsys snowflake {
 
 #Drawing example
 
-brush mibrocha {
+brush ocean {
 
     size: 3,
-    color: #ffffff,
-    speed: 300
+    color: #0d3b66,
+    speed: 3000
 
 };
 
-canvas micanvas {
+canvas sand {
 
     high: 4000,
     width: 4000,
-    color: #000000
+    color: #fdfd96
 };
 
-draw(hilbert_curve, mibrocha, micanvas, 5 ,90, 10);
+draw(crystal, ocean, sand, 5 ,90, 5);

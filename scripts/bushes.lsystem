@@ -38,19 +38,18 @@ lsys fractal_tree {
 #fractal_tree_angle = 40
 
 #Drawing example
-brush mibrocha {
+brush dark_purple {
 
     size: 2,
-    color: #ffffff,
-    speed: 300
-
+    color: #faff81,
+    speed: 1000
 };
 
-canvas micanvas {
+canvas soft_yellow {
 
     high: 4000,
     width: 4000,
-    color: #000000
+    color: #161032
 };
 
-draw(bushes, mibrocha, micanvas, 5 , 27.5, 8);
+draw(bushes, dark_purple, soft_yellow, 7 , 27.5, 8);

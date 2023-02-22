@@ -1,16 +1,15 @@
 
+brush soft_yellow {
 
-brush mibrocha {
-
-    size: 1,
-    color: #c93c20,
+    size: 3,
+    color: #ffeda0,
     speed: 500
 
 };
 
-col c = #ffffff;
+col c = #ffa585;
 
-canvas micanvas {
+canvas orange {
 
     high: 4000,
     width: 4000,
@@ -28,8 +27,8 @@ lsys leaf {
 };
 
 bool b = true;
-string a = HOLA;
+
 
 if (b) {
-    draw(leaf, mibrocha, micanvas, 5 ,45, 8);
+    draw(leaf, soft_yellow, orange, 5, 45, 10);
 };

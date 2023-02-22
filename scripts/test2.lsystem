@@ -6,13 +6,13 @@ lsys quedratic_snowflake{
 
 int angle = 90;
 int a = 5;
-int c = 5;
+int c = 3;
 
 brush small_blue {
 
     size: 2,
     color: #40e0d0,
-    speed: 300
+    speed: 1000
 
 };
 
@@ -27,5 +27,6 @@ repeat 4 {
 
     draw(quedratic_snowflake, small_blue, soft_orange, a, angle, c);
     c = c (+) 1;
+    a = a (+) 2;
 
 };
