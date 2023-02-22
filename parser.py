@@ -93,19 +93,10 @@ tokens = lexer.tokens
 #    Assignable          : INT
 #                        | COL
 #                        | STRING
-#                        | COL
+#                        |
 # -----------------------------------------------------------------------------
-"""
-Example:
 
-def p_expression_plus(p):
-     'expression : expression PLUS term'
-     #   ^            ^        ^    ^
-     #  p[0]         p[1]     p[2] p[3]
- 
-     p[0] = p[1] + p[3]
-     
-"""
+
 def p_program(p):
     '''
     Program : InstructionList

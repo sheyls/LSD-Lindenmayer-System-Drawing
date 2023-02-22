@@ -160,6 +160,5 @@ def find_column(input, token):
 
 tokens= list(reserved.values()) + list(tokens)
 
-
 lexer = lex.lex()
 

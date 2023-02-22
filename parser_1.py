@@ -29,7 +29,8 @@ tokens = lexer.tokens
 #                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA ID COMMA int COMMA ID RPAREN END
 #                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA int COMMA ID COMMA ID RPAREN END
 #                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA ID COMMA ID COMMA ID RPAREN END
-#                      | ADD_RULE LPAREN ID(lsys) COMMS STRING(left_part) COMMA STRING(right_part) RPAREN END
+#                      | ADD_RULE LPAREN ID(lsys) COMMS STRING(left_part) ARROW STRING(right_part) RPAREN END
+#                      | CHANGE_AXIOM LPAREN ID COMMA STRING END
 #                      | REPEAT int { InstructionList } END
 #                      | REAPEAT ID { InstructionList} END
 #                      | IF ( Condition ) { InstructionList } END
@@ -324,29 +325,3 @@ def p_error(p):
 
 # Build the parser
 parser = yacc.yacc(debug=True)
-
-#with open('script.lsystem')as file:
-#    data = file.read()
-
-# lexer.input(data)
- 
-# while True:
-#     tok = lexer.token()
-#     if not tok: 
-#         break      # No more input
-#     print(tok)
-
-#ast = parser.parse(data)
-
-# for i in ast.instructions:
-#     print(i)
-#     print()
-#     print(i.body.l_rules)
-#     print()
-#     print(i.body.axiom)
-#     print()
-#     print()
-#     for rule in i.body.l_rules:
-#         print(rule.left_part)
-#         print(rule.right_part)
-

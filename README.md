@@ -202,13 +202,34 @@ a = 6;
 
 draw(leaf, small_blue, soft_orange, b, 35, b);
 
-(completar...Notas en la libreta)
+bool b = true
+
+if (b) {
+    draw(leaf, mibrocha, micanvas, 5 ,45, 8);'
+    b = false;
+};
+
+string c = HOLA
 
  ```
+### Operaciones sobre tipos
+
+| Símbolo       | Significado |
+| ------------- | --------------- |
+|   (+)         |  Suma estándar   |
+|   (-)         |  Resta estándar |
+|   (<)         |  Menor que |
+|   (>)         |  Mayor que |
+|   >=          |  Mayor igual|
+|   <=          |  Menor igual |
+|   ==          |  Igual |
+|   !=          |  Distinto |
+
+Todas las operaciones están definidas sobre los tipos int y float.
+Los operadores de igualdad y desigualdad también están definidos para `strings` y `bool`.
 
 ### Condicionales:
 
-#probar
 
 **Ejemplo:**
 
@@ -246,5 +267,36 @@ repeat a{
 };
 
 ```
+### Ejecución del programa:
+
+Para la ejecución del programa, se recorre el AST y se evalúa cada nodo. Se empleó el *patrón visitor* para visistar los nodos del AST y ejecutar el código correspondiente a su funcionamiento en el lenguaje de programación Python, principalmente apoyado en el módulo `Turtle`. 
+## Arquitectura del Compilador 
+### Lexer:
+
+Para el análisis léxico se utilizó el módulo ``lex`` de la biblioteca ``ply`` de Python. 
+Se definieron las palabras reservadas del lenguaje y las expresiones regulares para reconocer los tokens. Para el trabajo con expresiones regulares se utiliza la biblioteca ``re``. 
+Se utilizó el caracter ``#`` para indicar el comentario y el caracter ``;`` para indicar el fin de una instrucción.
+
+### Parser:
+
+Para el proceso de parsing se utilizó el módulo ``yacc`` de la biblioteca ``ply`` de Python y se definieron las reglas semánticas para indicar el comportamiento semántico del lenguaje y la construcción del árbol de sintaxis abtracta (AST). Yacc usa un parser LALR. Cada regla de la grámatica se especifica como una función de ``Python`` donde el docstring de la función indica la regla gramatical que corresponde. En el archivo ``parsing.out`` se muestra cómo queda la gramática y el autómata LALR correspondiente.
+
+### Verificación semántica:
+
+Para la fase de verificación semántica se empleó el patrón visitor para visistar los nodos del AST y realizar el chequeo de tipo correspondiente, y otras verificaciones de tipo semántico. Todos los errores semánticos que pueda tener el archivo, son encontrados y mostrados juntos al final.
+
+A continuación algunas reglas semánticas del lenguaje:
+- En la declaración o asignación de una variable, el tipo debe coincidir con el tipo estático con el que se nombró la variable.
+- La asignación o llamado a una variable solo puede hacerse sobre variables previamente definidas
+- Dos variables no pueden tener el mismo nombre.
+- En el llamado a una función deben pasarse todos los argumentos de esta en el mismo orden en que se definieron los parámetros en la declaración.
+- La condición de una instrucción ``if`` debe ser de tipo ``bool``
+- La operación ``==`` está definida para operandos del mismo tipo. `
+
+## Para correr la aplicacion 
+
+En la carpeta *scripts* hay varios ejemplos de funconamiento del lenguage. Para ejecutar un archivo que no esté en la carpeta *scripts* se debe ponerle la extensión ``.lsystem`` y ponerlo en esta carpeta.
+
+Ejecutar ``main.py`` e introducir el nombre del script que se desea ejecutar.
 
 

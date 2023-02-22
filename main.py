@@ -1,36 +1,19 @@
 from lang.context import Context
 from lang.visitor import Eval
 from lang.semantic_checker import SemanticChecker
-from lexer import lexer
 from parser_1 import parser
 
-filename = 'testchecker.lsystem'
-filename = 'script.lsystem'
-filename = 'myscript.lsystem'
-filename = 'myscript.lsystem'
-filename = 'assignable.lsystem'
-filename = 'list.lsystem'
-filename = 'test.lsystem'
+print("Insert a script name: ")
+file_name = input()
 
-with open('scripts/' + filename) as file:
+with open('scripts/' + file_name + '.lsystem', 'r') as file:
     data = file.read()
-    lexer.input(data)
-
-while True:
-    tok = lexer.token()
-    if not tok:
-        break
-    print(tok)
 
 ast = parser.parse(data)
-
-#type_checker = Eval(Context())
 c =  Context()
+
 errors = ast.accept(SemanticChecker(c))
 if len(errors)==0:
     ast.accept(Eval(Context()))
 else :
     print(errors)
-
-
-
