@@ -25,6 +25,7 @@ lsys leaf {
 
 bool b = true;
 string a = HOLA;
+color c = #ffffff;
 
 if (b) {
     draw(leaf, mibrocha, micanvas, 5 ,45, 8);

@@ -129,7 +129,6 @@ def p_assignable(p):
     ''' Assignable : INT
                    | FLOAT
                    | STRING
-                   | COL
                    | BOOL
 
     '''
