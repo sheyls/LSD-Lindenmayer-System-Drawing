@@ -79,7 +79,7 @@ class SemanticChecker(Visitor):
                     update_errs(errors,f"Expected type int for width.")
             else: update_errs(errors,f"Variable '{width}' not defined.")
 
-        if color[0] != '#':
+        if color.__class__ is str and color[0] != '#':
             color_type = self.context.resolve(color).name
             if color_type != None:
                 if color_type !='col':
@@ -133,7 +133,7 @@ class SemanticChecker(Visitor):
                 update_errs(errors,f"Variable '{speed}' not defined.")
 
         
-        if color[0] != '#':
+        if color.__class__ is str and color[0] != '#':
             color_type = self.context.resolve(color).name
             if color_type != None:
                 if color_type !='col':

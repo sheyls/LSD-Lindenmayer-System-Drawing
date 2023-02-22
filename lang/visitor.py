@@ -80,7 +80,7 @@ class Eval(Visitor):
             size = self.context.resolve(brush_declaration.body.size).value
         else:
             size = brush_declaration.body.size
-        if brush_declaration.body.color[0] != '#':
+        if brush_declaration.body.color.__class__ is str and brush_declaration.body.color[0] != '#':
             color = self.context.resolve(brush_declaration.body.color).value
         else:
             color = brush_declaration.body.color
@@ -99,7 +99,7 @@ class Eval(Visitor):
             high = self.context.resolve(canvas_declaration.body.high).value
         else:
             high = canvas_declaration.body.high
-        if canvas_declaration.body.color[0] != '#':
+        if canvas_declaration.body.color.__class__ is str and canvas_declaration.body.color[0] != '#':
             color = self.context.resolve(canvas_declaration.body.color).value
         else:
             color = canvas_declaration.body.color
