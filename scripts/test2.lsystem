@@ -25,7 +25,7 @@ canvas soft_orange {
 
 repeat 4 {
 
-    draw(quedratic_gosper, small_blue, soft_orange, a, angle, c);
+    draw(quedratic_snowflake, small_blue, soft_orange, a, angle, c);
     c = c (+) 1;
 
 };

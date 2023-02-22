@@ -2,12 +2,12 @@
 #Catalog
 
 lsys leaf {
-    axiom : a,
+    axiom : A,
     F => >F<,
-    a => F[+x]Fb,
-    b => F[-y]Fa,
-    x => a,
-    y => b
+    A => F[+X]FB,
+    B => F[-Y]FA,
+    X => A,
+    Y => B
 };
 #leaf_angle = 45
 

@@ -320,8 +320,10 @@ class SemanticChecker(Visitor):
         errors = []
         times = repeat_declaration.times_to_repeat
         instructions = repeat_declaration.instructions
-
-        times_type = self.context.resolve(times)
+        if repeat_declaration.times_to_repeat.__class__ is str:
+            times_type = self.context.resolve(times)
+        else: 
+            times_type = Type.get('int')
         if times_type.name != 'int':
             update_errs(errors,f"Type expected int, not '{times_type}' ")
         

@@ -41,7 +41,7 @@ lsys hilbert_curve {
 #hilbert_curve_angle = 90
 
 lsys snowflake {
-    axiom = F++F++F,
+    axiom : F++F++F,
     F => F-F++F-F
 };
 #snowflake_angle = 60
