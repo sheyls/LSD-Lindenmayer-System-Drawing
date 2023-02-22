@@ -20,6 +20,7 @@ reserved = {
     'int'        : 'TYPE',
     'string'     : 'TYPE',
     'float'      : 'TYPE',
+    'col'        : 'TYPE', 
     'add_rule'   : 'ADD_RULE',
     'change_axiom' : 'CHANGE_AXIOM',
     'repeat'     : 'REPEAT'
@@ -63,8 +64,8 @@ tokens = (
 t_EQUALEQUAL = r'=='
 t_GEQUAL = r'>='
 t_LEQUAL = r'<='
-t_LESS = r'<<'
-t_GREATER = r'>>'
+t_LESS = r'\(<\)'
+t_GREATER = r'\(>\)'
 
 
 # Regular expression rules for simple tokens

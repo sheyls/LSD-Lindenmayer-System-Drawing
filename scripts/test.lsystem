@@ -1,17 +1,22 @@
+col colorsito = #c93c20;
+
 brush mibrocha {
 
     size: 1,
-    color: #c93c20,
+    color: colorsito,
     speed: 500
 
 };
+
+col c = #ffffff;
 
 canvas micanvas {
 
     high: 4000,
     width: 4000,
-    color: #ffffff
+    color: c
 };
+
 
 lsys leaf {
     axiom : A,
@@ -22,8 +27,9 @@ lsys leaf {
     Y => B
 };
 
-int a = 3;
+bool b = true;
+string a = HOLA;
 
-if (a == 3) {
+if (b) {
     draw(leaf, mibrocha, micanvas, 5 ,45, 8);
 };

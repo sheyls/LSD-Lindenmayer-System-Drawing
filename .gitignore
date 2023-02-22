@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-parser_1.py
+
 
 # C extensions
 *.so

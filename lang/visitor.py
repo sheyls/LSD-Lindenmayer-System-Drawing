@@ -60,7 +60,12 @@ class Eval(Visitor):
 
 
     def visit_lsystemdeclaration(self, lsystem_declaration):
-        self.context.define(lsystem_declaration.name, LsystemInstance(self.context, lsystem_declaration.body)), #self.type))
+        variable = self.context.resolve(lsystem_declaration.name)
+        if variable == None:
+            self.context.define(lsystem_declaration.name, LsystemInstance(self.context, lsystem_declaration.body)), #self.type))
+        else:
+            self.context.define(variable, LsystemInstance(self.context, lsystem_declaration.body)), #self.type))
+
         #print(self.context.symbols[lsystem_declaration.name].body.l_rules[0].right_part)
         print("ccc")
 
@@ -75,7 +80,11 @@ class Eval(Visitor):
             size = self.context.resolve(brush_declaration.body.size).value
         else:
             size = brush_declaration.body.size
-        self.context.define(brush_declaration.name, BrushInstance(self.context, speed = speed,size= size,color= brush_declaration.body.color,brush= brush)), #self.type))
+        if brush_declaration.body.color.__class__ is str:
+            color = self.context.resolve(brush_declaration.body.color).value
+        else:
+            color = brush_declaration.body.color
+        self.context.define(brush_declaration.name, BrushInstance(self.context, speed = speed,size= size,color=color,brush= brush)), #self.type))
         
        # print(self.context.symbols[brush_declaration.name].body.size)
         print("ddd")
@@ -90,7 +99,11 @@ class Eval(Visitor):
             high = self.context.resolve(canvas_declaration.body.high).value
         else:
             high = canvas_declaration.body.high
-        self.context.define(canvas_declaration.name, CanvasInstance(self.context, canvas_declaration.body.color,width,high, canvas)), #self.type))
+        if canvas_declaration.body.color.__class__ is str:
+            color = self.context.resolve(canvas_declaration.body.color).value
+        else:
+            color = canvas_declaration.body.color
+        self.context.define(canvas_declaration.name, CanvasInstance(self.context, color,width,high, canvas)), #self.type))
         
         #print(self.context.symbols[brush_declaration.name].body.size)
         print("eee")
@@ -241,10 +254,15 @@ class Eval(Visitor):
                 return
         elif if_statement.condition=='false':
             return
+        else:
+            cond = self.context.resolve(if_statement.condition).value
+            if cond == 'false':
+                return
         child_context: Context = self.context.make_child()
         for line in if_statement.instructions:
             line.accept(Eval(child_context))
     
+
 
     def visit_if_else_statement(self, if_statement):
         child_context: Context = self.context.make_child()
@@ -264,8 +282,18 @@ class Eval(Visitor):
             line.accept(Eval(child_context))
 
     def visit_binarycomparer(self, binary_comparer):
-        left = binary_comparer.left_expr.accept(Eval(self.context))
-        right = binary_comparer.right_expr.accept(Eval(self.context))
+        left = binary_comparer.left_expr
+        
+        if left.__class__ is str:
+            left = self.context.resolve(left).value
+        else: 
+            left = left.accept(Eval(self.context))
+        
+        right = binary_comparer.right_expr
+        if right.__class__ is str:
+            right = self.context.resolve(right).value
+        else:
+            right = right.accept(Eval(self.context))
         return Bool_Operator[binary_comparer.comparer](left, right)
 
 
@@ -369,16 +397,16 @@ class SemanticChecker(Visitor):
         if canvas_declaration.body.high.__class__ is str:
             try :
                 high_type = self.context.resolve(canvas_declaration.body.high).name
-                if high_type != '_int':
-                    raise Exception(f"Expected type _int for high.")
+                if high_type != 'int':
+                    raise Exception(f"Expected type int for high.")
             except:
                 raise Exception(f"Variable '{canvas_declaration.body.high}' not defined.")
 
         if canvas_declaration.body.width.__class__ is str:
             try:
                 width_type = self.context.resolve(canvas_declaration.body.width).name
-                if width_type != '_int':
-                    raise Exception(f"Expected type _int for width.")
+                if width_type != 'int':
+                    raise Exception(f"Expected type int for width.")
             except:
                 raise Exception(f"Variable '{canvas_declaration.body.width}' not defined.")
 
@@ -437,7 +465,7 @@ class SemanticChecker(Visitor):
         if draw_node.step_size.__class__ is str:
             try:
                 size_type = self.context.resolve(draw_node.step_size).name
-                if size_type != '_int':
+                if size_type != 'int':
                     raise Exception(f"Expected type _int for size.")
             except:
                 raise Exception(f"Variable '{draw_node.step_size}' not defined.")
@@ -445,16 +473,16 @@ class SemanticChecker(Visitor):
         if draw_node.angle.__class__ is str:
             try:
                 angle_type = self.context.resolve(draw_node.angle).name
-                if angle_type != '_int':
-                    raise Exception(f"Expected type _int for angle.")
+                if angle_type != 'float':
+                    raise Exception(f"Expected type float for angle.")
             except:
                 raise Exception(f"Variable '{draw_node.angle}' not defined.")
 
         if draw_node.complexity.__class__ is str:
             try:
                 complexity_type = self.context.resolve(draw_node.complexity).name
-                if complexity_type != '_int':
-                    raise Exception(f"Expected type _int for complexity.")
+                if complexity_type != 'int':
+                    raise Exception(f"Expected type int for complexity.")
             except:
                 raise Exception(f"Variable '{draw_node.complexity}' not defined.")
 
