@@ -246,6 +246,10 @@ class Eval(Visitor):
                 return
         elif if_statement.condition=='false':
             return
+        else:
+            cond = self.context.resolve(if_statement.condition).value
+            if cond == 'false':
+                return
         child_context: Context = self.context.make_child()
         for line in if_statement.instructions:
             line.accept(Eval(child_context))

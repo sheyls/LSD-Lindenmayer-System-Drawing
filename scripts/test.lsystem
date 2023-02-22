@@ -23,8 +23,9 @@ lsys leaf {
     Y => B
 };
 
+bool b = true;
 string a = HOLA;
 
-if (a == HOLA) {
+if (b) {
     draw(leaf, mibrocha, micanvas, 5 ,45, 8);
 };

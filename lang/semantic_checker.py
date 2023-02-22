@@ -223,16 +223,27 @@ class SemanticChecker(Visitor):
 
     def visit_binarycomparer(self, binary_comparer):
         errors = []
-        update_errs(errors, binary_comparer.left_expr.accept(SemanticChecker(self.context)))
-        update_errs(errors,binary_comparer.right_expr.accept(SemanticChecker(self.context)))
+        left = binary_comparer.left_expr
+        if left.__class__ is str:
+            left = self.context.resolve(left)
+        else:
+            update_errs(errors, left.accept(SemanticChecker(self.context)))
+            left = left.computed_type
         
-        if binary_comparer.left_expr.computed_type == Type.get('void') or binary_comparer.right_expr.computed_type == Type.get('void'):
+        right = binary_comparer.right_expr
+        if right.__class__ is str:
+            right = self.context.resolve(right)
+        else:
+            update_errs(errors,right.accept(SemanticChecker(self.context)))
+            right = right.computed_type
+        
+        if left == Type.get('void') or right == Type.get('void'):
             update_errs(errors, f"{'void'} expression not admissible for comparison.")
         
-        if binary_comparer.left_expr.computed_type != binary_comparer.right_expr.computed_type:
+        if left != right:
             update_errs(errors, f"Expressions to compare must be the same type.")
         
-        if binary_comparer.comparer in ['(>)', '(<)', '>=', '<='] and binary_comparer.left_expr.computed_type is not Type.get('_int'):
+        if binary_comparer.comparer in ['(>)', '(<)', '>=', '<='] and left is not Type.get('int'):
             update_errs(errors,f"Invalid expression type for '{binary_comparer.comparer}' comparer.")
         
         binary_comparer.computed_type = Type.get('bool')
