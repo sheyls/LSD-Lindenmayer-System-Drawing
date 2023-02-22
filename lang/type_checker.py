@@ -1,7 +1,7 @@
 from dis import Instruction
 
 from abstract_syctax_tree import LsysBody
-from .visitor import Visitor as visitor
+from .eval_visitor import Visitor as visitor
 
 class TypeChecker(visitor):
     def __init__(self, context) -> None:

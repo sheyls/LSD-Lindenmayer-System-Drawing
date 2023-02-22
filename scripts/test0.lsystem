@@ -1,0 +1,32 @@
+
+lsys leaf {
+    axiom : A,
+    F => >F<,
+    A => F[+X]FB,
+    B => F[-Y]FA,
+    X => A,
+    Y => B
+};
+
+brush small_blue {
+
+    size: 1,
+    color: #40e0d0,
+    speed: 300
+
+};
+
+canvas soft_orange {
+
+    high: 4000,
+    width: 4000,
+    color: #ffebcd
+};
+
+draw(leaf, small_blue, soft_orange, 5, 35, 5);
+
+change_axiom( leaf, AC );
+add_rule(leaf, C => FF );
+
+draw(leaf, small_blue, soft_orange, 5, 35, 5);
+

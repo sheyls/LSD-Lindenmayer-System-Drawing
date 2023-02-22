@@ -191,27 +191,6 @@ draw(leaf, small_blue, soft_orange, 5, 35, 5);
 
 ```
 
-### Asignación y Creación de variables
- 
- ```python
-int a = 5;
-
-draw(leaf, small_blue, soft_orange, a, 35, a);
-
-a = 6;
-
-draw(leaf, small_blue, soft_orange, b, 35, b);
-
-bool b = true
-
-if (b) {
-    draw(leaf, mibrocha, micanvas, 5 ,45, 8);'
-    b = false;
-};
-
-string c = HOLA
-
- ```
 ### Operaciones sobre tipos
 
 | Símbolo       | Significado |
@@ -227,6 +206,49 @@ string c = HOLA
 
 Todas las operaciones están definidas sobre los tipos int y float.
 Los operadores de igualdad y desigualdad también están definidos para `strings` y `bool`.
+
+### Asignación y Creación de variables
+ 
+ ```
+int a = 5;
+
+draw(leaf, small_blue, soft_orange, a, 35, a);
+
+a = 6;
+
+repeat a {
+    draw(leaf, small_blue, soft_orange, 7, 35, 5);
+};
+---------------------------------------------
+
+bool b = true;
+
+if (b) {
+    draw(leaf, mibrocha, micanvas, 5 ,45, 8);
+    b = false;
+};
+
+----------------------------------------------
+
+string c = FF+;
+
+if (c == FF+) {
+    draw(leaf, mibrocha, micanvas, 5 ,45, 8);
+};
+
+----------------------------------------------
+
+col white = #ffffff;
+
+brush mibrocha {
+
+    size: 1,
+    color: white,
+    speed: 500
+
+};
+
+ ```
 
 ### Condicionales:
 

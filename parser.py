@@ -13,89 +13,91 @@ tokens = lexer.tokens
 #
 #   Program             : InstructionList
 #
-#   InstructionList    :   Instruction END
-#                      |   Instruction END  InstructionList
+#   InstructionList     : Instruction ;
+#                       | Instruction ;  InstructionList
 #
-#   Instruction        : TYPE ID { Lsystem_body } END
-#                      | Type ID EQUAL ArithmeticOp
-#                      | ID EQUAL ArithmeticOp
-#                      | BRUSH ID { Brush_body } END
-#                      | CANVAS ID { Canvas_body } END
-#                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA int COMMA int COMMA int RPAREN END
-#                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA ID COMMA int COMMA int RPAREN END
-#                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA int COMMA ID COMMA int RPAREN END
-#                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA int COMMA int COMMA ID RPAREN END
-#                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA ID COMMA ID COMMA int RPAREN END
-#                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA ID COMMA int COMMA ID RPAREN END
-#                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA int COMMA ID COMMA ID RPAREN END
-#                      | DRAW LPAREN Lsys COMMA brush COMMA canvas COMMA ID COMMA ID COMMA ID RPAREN END
-#                      | ADD_RULE LPAREN ID(lsys) COMMS STRING(left_part) ARROW STRING(right_part) RPAREN END
-#                      | CHANGE_AXIOM LPAREN ID COMMA STRING END
-#                      | REPEAT int { InstructionList } END
-#                      | REAPEAT ID { InstructionList} END
-#                      | IF ( Condition ) { InstructionList } END
-#                      | IF ( Condition ) { InstructionList } ELSE {InstructionList} END
+#   Instruction         : TYPE ID { Lsystem_body } ;
+#                       | Type ID = ArithmeticOp
+#                       | ID = ArithmeticOp
+#                       | BRUSH ID { Brush_body } ;
+#                       | CANVAS ID { Canvas_body } ;
+#                       | DRAW LPAREN Lsys , brush , canvas , int , int , int RPAREN ;
+#                       | DRAW LPAREN Lsys , brush , canvas , ID , int , int RPAREN ;
+#                       | DRAW LPAREN Lsys , brush , canvas , int , ID , int RPAREN ;
+#                       | DRAW LPAREN Lsys , brush , canvas , int , int , ID RPAREN ;
+#                       | DRAW LPAREN Lsys , brush , canvas , ID , ID , int RPAREN ;
+#                       | DRAW LPAREN Lsys , brush , canvas , ID , int , ID RPAREN ;
+#                       | DRAW LPAREN Lsys , brush , canvas , int , ID , ID RPAREN ;
+#                       | DRAW LPAREN Lsys , brush , canvas , ID , ID , ID RPAREN ;
+#                       | ADD_RULE ( ID,  STRING => STRING );
+#                       | CHANGE_AXIOM ( ID , STRING ) ;
+#                       | REPEAT int { InstructionList } ;
+#                       | REAPEAT ID { InstructionList} ;
+#                       | IF ( Condition ) { InstructionList } ;
+#                       | IF ( Condition ) { InstructionList } ELSE { InstructionList } ;
 #                                    
-#   Lsystem_body        : axiom: axiom_stmt COMMA rule -> replace_stmt
+#   Lsystem_body        : AXIOM : STRING ; Ls_rules
 #
-#   Ls_rules            : rule -> replace_stmt COMMA Ls_rules
+#   Ls_rules            : rule -> replace_stmt , Ls_rules
 #                       | rule -> replace_stmt
 #
-#   Brush_body          : size: int COMMA color: color COMMA speed: int
-#                       | size: ID COMMA color: color COMMA speed: ID
-#                       | size: ID COMMA color: color COMMA speed: int
-#                       | size: int COMMA color: color COMMA speed: ID
+#   Brush_body          : size: int , color: color , speed: int
+#                       | size: ID , color: color , speed: ID
+#                       | size: ID , color: color , speed: int
+#                       | size: int , color: color , speed: ID
 #
-#   Canvas_body          : size: int COMMA int COMMA color: color
-#                        | size: ID COMMA int COMMA color: color
-#                        | size: int COMMA ID COMMA color: color
-#                        | size: ID COMMA ID COMMA color: color
+#   Canvas_body          : size: int , int , color: color
+#                        | size: ID , int , color: color
+#                        | size: int , ID , color: color
+#                        | size: ID , ID , color: color
 #
-#   Condition            : ArithmeticOp GEQUAL ArithmeticOp
-#                        | ID GEQUAL ID
-#                        | ID GEQUAL ArithmeticOp
-#                        | ArithmeticOp GEQUAL ID
-#                        | ID LEQUAL ID
-#                        | ID LEQUAL ArithmeticOp
-#                        | ArithmeticOp LEQUAL ID
-#                        | ArithmeticOp EQUALEQUAL ArithmeticOp
-#                        | ID EQUALEQUAL ID
-#                        | ID EQUALEQUAL ArithmeticOp
-#                        | ArithmeticOp EQUALEQUAL ID
-#                        | ArithmeticOp GRATER ArithmeticOp
-#                        | ID GRATER ID
-#                        | ID GRATER ArithmeticOp
-#                        | ArithmeticOp GRATER ID
-#                        | ArithmeticOp LESS ArithmeticOp
-#                        | ID LESS ID
-#                        | ArithmeticOp LESS ID
-#                        | ID LESS ArithmeticOp
+#   Condition            : ArithmeticOp >= ArithmeticOp
+#                        | ID >= ID
+#                        | ID >= ArithmeticOp
+#                        | ArithmeticOp >= ID
+#                        | ArithmeticOp <= ArithmeticOp
+#                        | ID <= ID
+#                        | ID <= ArithmeticOp
+#                        | ArithmeticOp <= ID
+#                        | ArithmeticOp == ArithmeticOp
+#                        | ID == ID
+#                        | ID == ArithmeticOp
+#                        | ArithmeticOp == ID
+#                        | ArithmeticOp > ArithmeticOp
+#                        | ID > ID
+#                        | ID > ArithmeticOp
+#                        | ArithmeticOp > ID
+#                        | ArithmeticOp < ArithmeticOp
+#                        | ID < ID
+#                        | ArithmeticOp < ID
+#                        | ID < ArithmeticOp
 #                        | BOOL
+#                        | ID
 #
-#   ArithmeticOp         : ArithmeticOp ++ ArithmeticOp
-#                        | ID ++ ID
-#                        | ID ++ ArithmeticOp
-#                        | ArithmeticOp ++ ID
-#                        | ArithmeticOp -- ArithmeticOp
-#                        | ID -- ID
-#                        | ID -- ArithmeticOp
-#                        | ArithmeticOp -- ID
-#                        | ArithmeticOp * ArithmeticOp
-#                        | ID * ID
-#                        | ID * ArithmeticOp
-#                        | ArithmeticOp * ID
-#                        | ArithmeticOp \ ArithmeticOp
-#                        | ID \ ID
-#                        | ArithmeticOp \ ID
-#                        | ID \ ArithmeticOp
+#   ArithmeticOp         : ArithmeticOp (+) ArithmeticOp
+#                        | ID (+) ID
+#                        | ID (+) ArithmeticOp
+#                        | ArithmeticOp (+) ID
+#                        | ArithmeticOp (-) ArithmeticOp
+#                        | ID (-) ID
+#                        | ID (-) ArithmeticOp
+#                        | ArithmeticOp (-) ID
+#                        | ArithmeticOp (*) ArithmeticOp
+#                        | ID (*) ID
+#                        | ID (*) ArithmeticOp
+#                        | ArithmeticOp (*) ID
+#                        | ArithmeticOp (\) ArithmeticOp
+#                        | ID (\) ID
+#                        | ArithmeticOp (\) ID
+#                        | ID (\) ArithmeticOp
 #                        | Assignable
 #
-#    Assignable          : INT
-#                        | COL
-#                        | STRING
-#                        |
+#   Assignable          : INT
+#                       | FLOAT
+#                       | STRING
+#                       | COL
+#                       | BOOL
 # -----------------------------------------------------------------------------
-
 
 def p_program(p):
     '''
@@ -113,14 +115,18 @@ def p_instruction_list(p):
     elif (len(p) == 3):
         p[0] = [p[1]]
 
+def p_change_axiom(p):
+    '''Instruction : CHANGE_AXIOM LPAREN ID COMMA STRING RPAREN'''
+    
+    p[0] = Change_axiom(p[3], AxiomDefinition(axiom=p[5]))
 
 
 def p_assignable(p):
     ''' Assignable : INT
                    | FLOAT
                    | STRING
+                   | BOOL
                    | COL
-
     '''
     
     p[0]=Assignable(p[1], p.slice[1].type)
@@ -196,11 +202,6 @@ def p_add_rule(p):
     
     p[0] = Add_rule(p[3],RulesDefinition(left_part=p[5],right_part=p[7]))
 
-def p_change_axiom(p):
-    '''Instruction : CHANGE_AXIOM LPAREN ID COMMA STRING RPAREN'''
-    
-    p[0] = Change_axiom(p[3], AxiomDefinition(axiom=p[5]))
-
 
 def p_brush(p):
     '''
@@ -214,6 +215,10 @@ def p_brush_body(p):
                | SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS ID
                | SIZE TWOPOINTS ID COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS INT
                | SIZE TWOPOINTS ID COMMA COLOR TWOPOINTS COL COMMA SPEED TWOPOINTS ID  
+               | SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS ID COMMA SPEED TWOPOINTS INT
+               | SIZE TWOPOINTS INT COMMA COLOR TWOPOINTS ID COMMA SPEED TWOPOINTS ID
+               | SIZE TWOPOINTS ID COMMA COLOR TWOPOINTS ID COMMA SPEED TWOPOINTS INT
+               | SIZE TWOPOINTS ID COMMA COLOR TWOPOINTS ID COMMA SPEED TWOPOINTS ID 
     '''
     p[0] = BrushBody(p[3], p[7], p[11])
 
@@ -228,7 +233,11 @@ def p_canvas_body(p):
     Canvas_body : HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS COL 
                 | HIGH TWOPOINTS ID COMMA WIDTH TWOPOINTS ID COMMA COLOR TWOPOINTS COL
                 | HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS ID COMMA COLOR TWOPOINTS COL
-                | HIGH TWOPOINTS ID COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS COL   
+                | HIGH TWOPOINTS ID COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS COL 
+                | HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS ID 
+                | HIGH TWOPOINTS ID COMMA WIDTH TWOPOINTS ID COMMA COLOR TWOPOINTS ID
+                | HIGH TWOPOINTS INT COMMA WIDTH TWOPOINTS ID COMMA COLOR TWOPOINTS ID
+                | HIGH TWOPOINTS ID COMMA WIDTH TWOPOINTS INT COMMA COLOR TWOPOINTS ID   
     '''
     p[0] = CanvasBody(p[3], p[7], p[11])
 
@@ -293,6 +302,7 @@ def p_condition(p):
                 | ArithmeticOp LESS ID
                 | ID LESS ArithmeticOp
                 | BOOL
+                | ID
     '''    
     if len(p)==2:
         p[0] = p[1]
@@ -306,29 +316,3 @@ def p_error(p):
 
 # Build the parser
 parser = yacc.yacc(debug=True)
-
-#with open('script.lsystem')as file:
-#    data = file.read()
-
-# lexer.input(data)
- 
-# while True:
-#     tok = lexer.token()
-#     if not tok: 
-#         break      # No more input
-#     print(tok)
-
-#ast = parser.parse(data)
-
-# for i in ast.instructions:
-#     print(i)
-#     print()
-#     print(i.body.l_rules)
-#     print()
-#     print(i.body.axiom)
-#     print()
-#     print()
-#     for rule in i.body.l_rules:
-#         print(rule.left_part)
-#         print(rule.right_part)
-

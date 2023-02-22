@@ -1,0 +1,66 @@
+#Catalog
+
+lsys board{
+    axiom : F+F+F+F,
+    F => FF+F+F+F+FF
+
+};
+#board_angle = 90
+
+lsys quedratic_snowflake{
+    axiom : F,
+    F => F-F+F+F-F
+
+};
+#quedratic_snowflake = 90
+
+lsys triangle {
+    axiom : F+F+F,
+    F => F-F+F
+};
+#triangle_angle = 120
+
+
+lsys crystal {
+    axiom : F+F+F+F,
+    F => FF+F++F+F
+};
+#crystal_angle = 90
+
+lsys classic_sierpinski_curve{
+    axiom : F--XF--F--XF,
+    X => XF+F+XF--F--XF+F+X
+}; 
+#classic_sierpinski_angle = 45
+
+lsys hilbert_curve {
+    axiom : X,
+    X => -YF+XFX+FY-,
+    Y => +XF-YFY-FX+
+};
+#hilbert_curve_angle = 90
+
+lsys snowflake {
+    axiom = F++F++F,
+    F => F-F++F-F
+};
+#snowflake_angle = 60
+
+#Drawing example
+
+brush mibrochamucha {
+
+    size: a,
+    color: #ffffff,
+    speed: 300
+
+};
+
+canvas micanvasgambas {
+
+    high: k,
+    width: 4000,
+    color: #000000
+};
+
+draw(leaf, mibrocha, micanvas, 5 ,45, 8);

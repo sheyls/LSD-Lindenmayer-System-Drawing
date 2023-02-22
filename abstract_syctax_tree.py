@@ -1,11 +1,9 @@
-import operator
 from abc import ABC, abstractmethod
 from typing import List
 from lang.context import Context
 from lang.type import *
-from lang.visitor import *
+from lang.eval_visitor import *
 from tools import *
-
 
 class Node(ABC):
     @abstractmethod
@@ -126,7 +124,6 @@ class Draw(Node):
         self.step_size = step_size
         self.angle = angle
         self.complexity = complexity
-
 
 class Assignable(Node):
     def __init__(self,value,type):

@@ -1,5 +1,5 @@
 from unicodedata import name
-from .visitor import *
+from .eval_visitor import *
 from tools import *
 
 class SemanticChecker(Visitor):
@@ -150,43 +150,30 @@ class SemanticChecker(Visitor):
         lsystem_type = self.context.resolve(draw_node.lsystem)
         if lsystem_type.name != 'lsys':
             update_errs(errors,f"Expected type lsys.")
-        #elif :
-            #update_errs(errors,f"Variable '{draw_node.lsystem}' not defined.")
-
+        
         brush_type = self.context.resolve(draw_node.brush)
         if brush_type.name != 'brush':
             update_errs(errors,f"Expected type brush.")
-        #else : 
-            #update_errs(errors,f"Variable'{draw_node.brush}' not defined.")  
 
         canvas_type = self.context.resolve(draw_node.canvas)
         if canvas_type.name != 'canvas':
             update_errs(errors,f"Expected type canvas")
-        #else :
-            #update_errs(errors,f"Variable'{draw_node.canvas}' not defined.") 
 
         if draw_node.step_size.__class__ is str :
             size_type = self.context.resolve(draw_node.step_size).name
             if size_type != 'int':
-                update_errs(errors,f"Expected type int for size.")
-            #else:
-                #update_errs(errors,f"Variable '{draw_node.step_size}' not defined.")    
+                update_errs(errors,f"Expected type int for size.") 
 
         if draw_node.angle.__class__ is str :
             size_type = self.context.resolve(draw_node.angle).name
             if size_type != 'int':
                 update_errs(errors,f"Expected type int for angle.")
-            #else:
-                #update_errs(errors,f"Variable '{draw_node.angle}' not defined.")  
 
         if draw_node.complexity.__class__ is str :
             size_type = self.context.resolve(draw_node.complexity).name
             if size_type != 'int':
-                update_errs(errors,f"Expected type int for complexity.")
-            #else:
-                #update_errs(errors,f"Variable '{draw_node.complexity}' not defined.")                    
+                update_errs(errors,f"Expected type int for complexity.")                  
                 
-
         draw_node.computed_type = Type('void')             
         return errors
 
@@ -309,7 +296,6 @@ class SemanticChecker(Visitor):
         for line in if_else_statement.instructions_false:
             update_errs(errors, line.accept(child_semantic_checker))        
         return errors
-            
 
 
     def visit_if_statement(self,if_declaration):

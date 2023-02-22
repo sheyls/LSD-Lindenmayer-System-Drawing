@@ -48,8 +48,6 @@ tokens = (
    
    'LPAREN',
    'RPAREN',
-   'LCOR',
-   'RCOR',
    'EQUAL',
    'COMMA',
    'END',
@@ -76,8 +74,6 @@ t_STRING = r'[A-Z\+\-\<\>\[\]\#\!\&\@\|\%\$]+'
 
 t_LPAREN  = r'\('
 t_RPAREN  = r'\)'
-t_LCOR = r'\['
-t_RCOR = r'\]'
 t_EQUAL= r'='
 t_COMMA= r','
 t_END= r';'

@@ -1,12 +1,6 @@
 from __future__ import annotations
-
 from typing import Dict, List
-
 from lang.context import Context
-
-import turtle
-
-
 class Type:
     types = {}
 
@@ -73,7 +67,6 @@ class CanvasInstance:
         
         self.canvas = canvas
 
-        
 
 #Internal types
 _lsys = Type('lsys')

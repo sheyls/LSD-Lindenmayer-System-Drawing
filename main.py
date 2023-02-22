@@ -1,7 +1,7 @@
 from lang.context import Context
-from lang.visitor import Eval
-from lang.semantic_checker import SemanticChecker
-from parser_1 import parser
+from lang.eval_visitor import Eval
+from lang.semantic_checker_visitor import SemanticChecker
+from parser import parser
 
 print("Insert a script name: ")
 file_name = input()

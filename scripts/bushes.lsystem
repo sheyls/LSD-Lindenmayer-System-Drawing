@@ -1,0 +1,56 @@
+
+#Catalog
+
+lsys leaf {
+    axiom : a,
+    F => >F<,
+    a => F[+x]Fb,
+    b => F[-y]Fa,
+    x => a,
+    y => b
+};
+#leaf_angle = 45
+
+lsys bushes {
+    axiom : Y,
+    X => X[-FFF][+FFF]FX,
+    Y => YFX[+Y][-Y]
+};
+#bushes_angle = 25.7
+
+lsys bushes_2 {
+    axiom :F,
+    F => FF+[+F-F-F]-[-F+F+F]
+};
+#bushes_angle2 = 22.5
+
+
+lsys bushes_3 {
+    axiom : F,
+    F => F[+FF][-FF]F[-F][+F]F
+};
+#bushes_angle3 = 35
+
+lsys fractal_tree {
+    axiom: FX,
+    X => >[-FX]+FX
+};
+#fractal_tree_angle = 40
+
+#Drawing example
+brush mibrochamucha {
+
+    size: a,
+    color: #ffffff,
+    speed: 300
+
+};
+
+canvas micanvasgambas {
+
+    high: k,
+    width: 4000,
+    color: #000000
+};
+
+draw(leaf, mibrocha, micanvas, 5 ,45, 8);

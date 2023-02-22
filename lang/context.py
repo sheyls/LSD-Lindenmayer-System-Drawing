@@ -1,7 +1,5 @@
 from __future__ import annotations
-
 from typing import Any, Dict, Optional
-
 
 class Context:
     def __init__(self, parent: Context = None):
