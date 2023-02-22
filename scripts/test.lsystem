@@ -13,6 +13,7 @@ canvas micanvas {
     color: #ffffff
 };
 
+
 lsys leaf {
     axiom : A,
     F => >F<,
@@ -21,8 +22,9 @@ lsys leaf {
     X => A,
     Y => B
 };
-_int a = 3;
 
-if (4 == 4) {
+string a = HOLA;
+
+if (a == HOLA) {
     draw(leaf, mibrocha, micanvas, 5 ,45, 8);
 };

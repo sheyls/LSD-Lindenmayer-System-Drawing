@@ -8,6 +8,7 @@ filename = 'testchecker.lsystem'
 filename = 'script.lsystem'
 filename = 'myscript.lsystem'
 filename = 'list.lsystem'
+filename = 'test.lsystem'
 
 with open('scripts/' + filename) as file :
     data = file.read()
@@ -23,9 +24,9 @@ ast = parser.parse(data)
 
 #type_checker = Eval(Context())
 c =  Context()
-errors = ast.accept(SemanticChecker(c))
-if len(errors)==0:
-    ast.accept(Eval(c))
-else :
-    print(errors)
+#errors = ast.accept(SemanticChecker(c))
+#if len(errors)==0:
+ast.accept(Eval(c))
+#else :
+#    print(errors)
 

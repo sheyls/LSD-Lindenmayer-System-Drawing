@@ -60,7 +60,12 @@ class Eval(Visitor):
 
 
     def visit_lsystemdeclaration(self, lsystem_declaration):
-        self.context.define(lsystem_declaration.name, LsystemInstance(self.context, lsystem_declaration.body)), #self.type))
+        variable = self.context.resolve(lsystem_declaration.name)
+        if variable == None:
+            self.context.define(lsystem_declaration.name, LsystemInstance(self.context, lsystem_declaration.body)), #self.type))
+        else:
+            self.context.define(variable, LsystemInstance(self.context, lsystem_declaration.body)), #self.type))
+
         #print(self.context.symbols[lsystem_declaration.name].body.l_rules[0].right_part)
         print("ccc")
 
@@ -246,6 +251,7 @@ class Eval(Visitor):
             line.accept(Eval(child_context))
     
 
+
     def visit_if_else_statement(self, if_statement):
         child_context: Context = self.context.make_child()
 
@@ -264,8 +270,18 @@ class Eval(Visitor):
             line.accept(Eval(child_context))
 
     def visit_binarycomparer(self, binary_comparer):
-        left = binary_comparer.left_expr.accept(Eval(self.context))
-        right = binary_comparer.right_expr.accept(Eval(self.context))
+        left = binary_comparer.left_expr
+        
+        if left.__class__ is str:
+            left = self.context.resolve(left).value
+        else: 
+            left = left.accept(Eval(self.context))
+        
+        right = binary_comparer.right_expr
+        if right.__class__ is str:
+            right = self.context.resolve(right).value
+        else:
+            right = right.accept(Eval(self.context))
         return Bool_Operator[binary_comparer.comparer](left, right)
 
 
