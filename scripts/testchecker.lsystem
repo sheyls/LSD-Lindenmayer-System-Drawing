@@ -22,7 +22,7 @@ canvas micanvas {
 
 int a = 2;
 
-repeat a{
+repeat 5 {
 draw(quedratic_gosper, mibrocha, micanvas, a ,22.5 , a);
 
 };

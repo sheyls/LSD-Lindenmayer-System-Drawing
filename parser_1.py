@@ -107,6 +107,10 @@ def p_expression_plus(p):
      p[0] = p[1] + p[3]
      
 """
+precedence = (
+    ('left', 'PLUS', 'MINUS' ),
+    ('left', 'MULTIPLY', 'DIFFER')
+)
 def p_program(p):
     '''
     Program : InstructionList
