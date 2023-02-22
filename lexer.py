@@ -64,8 +64,8 @@ tokens = (
 t_EQUALEQUAL = r'=='
 t_GEQUAL = r'>='
 t_LEQUAL = r'<='
-t_LESS = r'<<'
-t_GREATER = r'>>'
+t_LESS = r'\(<\)'
+t_GREATER = r'\(>\)'
 
 
 # Regular expression rules for simple tokens

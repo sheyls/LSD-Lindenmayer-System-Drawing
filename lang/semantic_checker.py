@@ -75,11 +75,17 @@ class SemanticChecker(Visitor):
         if width.__class__ is str:
             width_type = self.context.resolve(width).name
             if width_type != None : # revisar esto
-                if width_type != '_int':
-                    update_errs(errors,f"Expected type _int for width.")
+                if width_type != 'int':
+                    update_errs(errors,f"Expected type int for width.")
             else: update_errs(errors,f"Variable '{width}' not defined.")
 
-        # El color no se pone ???
+        if color.__class__ is str:
+            color_type = self.context.resolve(color).name
+            if color_type != None:
+                if color_type !='col':
+                    update_errs(errors, f"Excpected type color for color.")
+            else: update_errs(errors,f"Variable '{color}' not defined.")
+            
 
         return errors
 
@@ -125,6 +131,14 @@ class SemanticChecker(Visitor):
                     update_errs(errors,f"Expected type int for speed.")
             else: 
                 update_errs(errors,f"Variable '{speed}' not defined.")
+
+        
+        if color.__class__ is str:
+            color_type = self.context.resolve(color).name
+            if color_type != None:
+                if color_type !='col':
+                    update_errs(errors, f"Excpected type color for color.")
+            else: update_errs(errors,f"Variable '{color}' not defined.")
 
         return errors    
 

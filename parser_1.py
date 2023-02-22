@@ -123,6 +123,10 @@ def p_instruction_list(p):
     elif (len(p) == 3):
         p[0] = [p[1]]
 
+def p_change_axiom(p):
+    '''Instruction : CHANGE_AXIOM LPAREN ID COMMA STRING RPAREN'''
+    
+    p[0] = Change_axiom(p[3], AxiomDefinition(axiom=p[5]))
 
 
 def p_assignable(p):
@@ -131,7 +135,6 @@ def p_assignable(p):
                    | STRING
                    | BOOL
                    | COL
-
     '''
     
     p[0]=Assignable(p[1], p.slice[1].type)

@@ -397,16 +397,16 @@ class SemanticChecker(Visitor):
         if canvas_declaration.body.high.__class__ is str:
             try :
                 high_type = self.context.resolve(canvas_declaration.body.high).name
-                if high_type != '_int':
-                    raise Exception(f"Expected type _int for high.")
+                if high_type != 'int':
+                    raise Exception(f"Expected type int for high.")
             except:
                 raise Exception(f"Variable '{canvas_declaration.body.high}' not defined.")
 
         if canvas_declaration.body.width.__class__ is str:
             try:
                 width_type = self.context.resolve(canvas_declaration.body.width).name
-                if width_type != '_int':
-                    raise Exception(f"Expected type _int for width.")
+                if width_type != 'int':
+                    raise Exception(f"Expected type int for width.")
             except:
                 raise Exception(f"Variable '{canvas_declaration.body.width}' not defined.")
 
@@ -465,7 +465,7 @@ class SemanticChecker(Visitor):
         if draw_node.step_size.__class__ is str:
             try:
                 size_type = self.context.resolve(draw_node.step_size).name
-                if size_type != '_int':
+                if size_type != 'int':
                     raise Exception(f"Expected type _int for size.")
             except:
                 raise Exception(f"Variable '{draw_node.step_size}' not defined.")
@@ -473,16 +473,16 @@ class SemanticChecker(Visitor):
         if draw_node.angle.__class__ is str:
             try:
                 angle_type = self.context.resolve(draw_node.angle).name
-                if angle_type != '_int':
-                    raise Exception(f"Expected type _int for angle.")
+                if angle_type != 'float':
+                    raise Exception(f"Expected type float for angle.")
             except:
                 raise Exception(f"Variable '{draw_node.angle}' not defined.")
 
         if draw_node.complexity.__class__ is str:
             try:
                 complexity_type = self.context.resolve(draw_node.complexity).name
-                if complexity_type != '_int':
-                    raise Exception(f"Expected type _int for complexity.")
+                if complexity_type != 'int':
+                    raise Exception(f"Expected type int for complexity.")
             except:
                 raise Exception(f"Variable '{draw_node.complexity}' not defined.")
 
