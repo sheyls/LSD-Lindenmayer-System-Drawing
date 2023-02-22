@@ -166,8 +166,8 @@ class SemanticChecker(Visitor):
 
         if draw_node.angle.__class__ is str :
             size_type = self.context.resolve(draw_node.angle).name
-            if size_type != 'int':
-                update_errs(errors,f"Expected type int for angle.")
+            if size_type != 'int' and size_type != 'float':
+                update_errs(errors,f"Expected type int ot type float for angle.")
 
         if draw_node.complexity.__class__ is str :
             size_type = self.context.resolve(draw_node.complexity).name
@@ -255,16 +255,16 @@ class SemanticChecker(Visitor):
         # left, operator, right
         errors = []
         if arithmeticOp.left.__class__ is str:
-            left_type = self.context.resolve(arithmeticOp.left).value
-            if left_type is not float and left_type is not int:
+            left_type = self.context.resolve(arithmeticOp.left).name
+            if left_type != "float" and left_type != "int":
                 update_errs(errors,f"{left_type.name}'not expected.'") 
         else:
             update_errs(errors, arithmeticOp.left.accept(SemanticChecker(self.context)))
             left_type = arithmeticOp.left.computed_type
         
         if arithmeticOp.right.__class__ is str:
-            right_type = self.context.resolve(arithmeticOp.right).value
-            if right_type is not float and right_type is not int:
+            right_type = self.context.resolve(arithmeticOp.right)
+            if right_type != "float" and right_type != "int":
                 update_errs(errors,f"{left_type.name}'not expected.'")
         else:
             update_errs(errors,arithmeticOp.right.accept(SemanticChecker(self.context)))

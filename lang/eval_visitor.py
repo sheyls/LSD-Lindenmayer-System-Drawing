@@ -97,8 +97,7 @@ class Eval(Visitor):
         
         for rule in lsystem.l_rules:
                 curve = curve.replace(rule.right, "")
-                print(curve)
-        print(curve)
+    
 
         stack = []
         meaning_of_plus_and_minus = True
