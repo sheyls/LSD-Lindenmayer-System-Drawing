@@ -1,9 +1,9 @@
-col colorsito = #c93c20;
+
 
 brush mibrocha {
 
     size: 1,
-    color: colorsito,
+    color: #c93c20,
     speed: 500
 
 };
