@@ -238,6 +238,8 @@ if (c == FF+) {
 
 ----------------------------------------------
 
+Los colores serán introducidos siempre en notación hexadecimal. Se adjunta el pdf *hexadecimal_colors* para consultas.
+
 col white = #ffffff;
 
 brush mibrocha {
