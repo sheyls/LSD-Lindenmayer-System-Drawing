@@ -1705,10 +1705,8 @@ state 73
     (22) ArithmeticOp -> ArithmeticOp . DIFFER ArithmeticOp
     (24) ArithmeticOp -> ArithmeticOp . DIFFER ID
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MULTIPLY resolved as shift
-  ! shift/reduce conflict for DIFFER resolved as shift
+    PLUS            reduce using rule 12 (ArithmeticOp -> ID PLUS ArithmeticOp .)
+    MINUS           reduce using rule 12 (ArithmeticOp -> ID PLUS ArithmeticOp .)
     END             reduce using rule 12 (ArithmeticOp -> ID PLUS ArithmeticOp .)
     GEQUAL          reduce using rule 12 (ArithmeticOp -> ID PLUS ArithmeticOp .)
     LEQUAL          reduce using rule 12 (ArithmeticOp -> ID PLUS ArithmeticOp .)
@@ -1716,15 +1714,13 @@ state 73
     GREATER         reduce using rule 12 (ArithmeticOp -> ID PLUS ArithmeticOp .)
     LESS            reduce using rule 12 (ArithmeticOp -> ID PLUS ArithmeticOp .)
     RPAREN          reduce using rule 12 (ArithmeticOp -> ID PLUS ArithmeticOp .)
-    PLUS            shift and go to state 45
-    MINUS           shift and go to state 46
     MULTIPLY        shift and go to state 47
     DIFFER          shift and go to state 48
 
-  ! PLUS            [ reduce using rule 12 (ArithmeticOp -> ID PLUS ArithmeticOp .) ]
-  ! MINUS           [ reduce using rule 12 (ArithmeticOp -> ID PLUS ArithmeticOp .) ]
   ! MULTIPLY        [ reduce using rule 12 (ArithmeticOp -> ID PLUS ArithmeticOp .) ]
   ! DIFFER          [ reduce using rule 12 (ArithmeticOp -> ID PLUS ArithmeticOp .) ]
+  ! PLUS            [ shift and go to state 45 ]
+  ! MINUS           [ shift and go to state 46 ]
 
 
 state 74
@@ -1773,10 +1769,8 @@ state 75
     (22) ArithmeticOp -> ArithmeticOp . DIFFER ArithmeticOp
     (24) ArithmeticOp -> ArithmeticOp . DIFFER ID
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MULTIPLY resolved as shift
-  ! shift/reduce conflict for DIFFER resolved as shift
+    PLUS            reduce using rule 16 (ArithmeticOp -> ID MINUS ArithmeticOp .)
+    MINUS           reduce using rule 16 (ArithmeticOp -> ID MINUS ArithmeticOp .)
     END             reduce using rule 16 (ArithmeticOp -> ID MINUS ArithmeticOp .)
     GEQUAL          reduce using rule 16 (ArithmeticOp -> ID MINUS ArithmeticOp .)
     LEQUAL          reduce using rule 16 (ArithmeticOp -> ID MINUS ArithmeticOp .)
@@ -1784,15 +1778,13 @@ state 75
     GREATER         reduce using rule 16 (ArithmeticOp -> ID MINUS ArithmeticOp .)
     LESS            reduce using rule 16 (ArithmeticOp -> ID MINUS ArithmeticOp .)
     RPAREN          reduce using rule 16 (ArithmeticOp -> ID MINUS ArithmeticOp .)
-    PLUS            shift and go to state 45
-    MINUS           shift and go to state 46
     MULTIPLY        shift and go to state 47
     DIFFER          shift and go to state 48
 
-  ! PLUS            [ reduce using rule 16 (ArithmeticOp -> ID MINUS ArithmeticOp .) ]
-  ! MINUS           [ reduce using rule 16 (ArithmeticOp -> ID MINUS ArithmeticOp .) ]
   ! MULTIPLY        [ reduce using rule 16 (ArithmeticOp -> ID MINUS ArithmeticOp .) ]
   ! DIFFER          [ reduce using rule 16 (ArithmeticOp -> ID MINUS ArithmeticOp .) ]
+  ! PLUS            [ shift and go to state 45 ]
+  ! MINUS           [ shift and go to state 46 ]
 
 
 state 76
@@ -1841,10 +1833,10 @@ state 77
     (22) ArithmeticOp -> ArithmeticOp . DIFFER ArithmeticOp
     (24) ArithmeticOp -> ArithmeticOp . DIFFER ID
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MULTIPLY resolved as shift
-  ! shift/reduce conflict for DIFFER resolved as shift
+    PLUS            reduce using rule 20 (ArithmeticOp -> ID MULTIPLY ArithmeticOp .)
+    MINUS           reduce using rule 20 (ArithmeticOp -> ID MULTIPLY ArithmeticOp .)
+    MULTIPLY        reduce using rule 20 (ArithmeticOp -> ID MULTIPLY ArithmeticOp .)
+    DIFFER          reduce using rule 20 (ArithmeticOp -> ID MULTIPLY ArithmeticOp .)
     END             reduce using rule 20 (ArithmeticOp -> ID MULTIPLY ArithmeticOp .)
     GEQUAL          reduce using rule 20 (ArithmeticOp -> ID MULTIPLY ArithmeticOp .)
     LEQUAL          reduce using rule 20 (ArithmeticOp -> ID MULTIPLY ArithmeticOp .)
@@ -1852,15 +1844,11 @@ state 77
     GREATER         reduce using rule 20 (ArithmeticOp -> ID MULTIPLY ArithmeticOp .)
     LESS            reduce using rule 20 (ArithmeticOp -> ID MULTIPLY ArithmeticOp .)
     RPAREN          reduce using rule 20 (ArithmeticOp -> ID MULTIPLY ArithmeticOp .)
-    PLUS            shift and go to state 45
-    MINUS           shift and go to state 46
-    MULTIPLY        shift and go to state 47
-    DIFFER          shift and go to state 48
 
-  ! PLUS            [ reduce using rule 20 (ArithmeticOp -> ID MULTIPLY ArithmeticOp .) ]
-  ! MINUS           [ reduce using rule 20 (ArithmeticOp -> ID MULTIPLY ArithmeticOp .) ]
-  ! MULTIPLY        [ reduce using rule 20 (ArithmeticOp -> ID MULTIPLY ArithmeticOp .) ]
-  ! DIFFER          [ reduce using rule 20 (ArithmeticOp -> ID MULTIPLY ArithmeticOp .) ]
+  ! PLUS            [ shift and go to state 45 ]
+  ! MINUS           [ shift and go to state 46 ]
+  ! MULTIPLY        [ shift and go to state 47 ]
+  ! DIFFER          [ shift and go to state 48 ]
 
 
 state 78
@@ -1909,10 +1897,10 @@ state 79
     (22) ArithmeticOp -> ArithmeticOp . DIFFER ArithmeticOp
     (24) ArithmeticOp -> ArithmeticOp . DIFFER ID
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MULTIPLY resolved as shift
-  ! shift/reduce conflict for DIFFER resolved as shift
+    PLUS            reduce using rule 25 (ArithmeticOp -> ID DIFFER ArithmeticOp .)
+    MINUS           reduce using rule 25 (ArithmeticOp -> ID DIFFER ArithmeticOp .)
+    MULTIPLY        reduce using rule 25 (ArithmeticOp -> ID DIFFER ArithmeticOp .)
+    DIFFER          reduce using rule 25 (ArithmeticOp -> ID DIFFER ArithmeticOp .)
     END             reduce using rule 25 (ArithmeticOp -> ID DIFFER ArithmeticOp .)
     GEQUAL          reduce using rule 25 (ArithmeticOp -> ID DIFFER ArithmeticOp .)
     LEQUAL          reduce using rule 25 (ArithmeticOp -> ID DIFFER ArithmeticOp .)
@@ -1920,15 +1908,11 @@ state 79
     GREATER         reduce using rule 25 (ArithmeticOp -> ID DIFFER ArithmeticOp .)
     LESS            reduce using rule 25 (ArithmeticOp -> ID DIFFER ArithmeticOp .)
     RPAREN          reduce using rule 25 (ArithmeticOp -> ID DIFFER ArithmeticOp .)
-    PLUS            shift and go to state 45
-    MINUS           shift and go to state 46
-    MULTIPLY        shift and go to state 47
-    DIFFER          shift and go to state 48
 
-  ! PLUS            [ reduce using rule 25 (ArithmeticOp -> ID DIFFER ArithmeticOp .) ]
-  ! MINUS           [ reduce using rule 25 (ArithmeticOp -> ID DIFFER ArithmeticOp .) ]
-  ! MULTIPLY        [ reduce using rule 25 (ArithmeticOp -> ID DIFFER ArithmeticOp .) ]
-  ! DIFFER          [ reduce using rule 25 (ArithmeticOp -> ID DIFFER ArithmeticOp .) ]
+  ! PLUS            [ shift and go to state 45 ]
+  ! MINUS           [ shift and go to state 46 ]
+  ! MULTIPLY        [ shift and go to state 47 ]
+  ! DIFFER          [ shift and go to state 48 ]
 
 
 state 80
@@ -1943,10 +1927,8 @@ state 80
     (22) ArithmeticOp -> ArithmeticOp . DIFFER ArithmeticOp
     (24) ArithmeticOp -> ArithmeticOp . DIFFER ID
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MULTIPLY resolved as shift
-  ! shift/reduce conflict for DIFFER resolved as shift
+    PLUS            reduce using rule 10 (ArithmeticOp -> ArithmeticOp PLUS ArithmeticOp .)
+    MINUS           reduce using rule 10 (ArithmeticOp -> ArithmeticOp PLUS ArithmeticOp .)
     END             reduce using rule 10 (ArithmeticOp -> ArithmeticOp PLUS ArithmeticOp .)
     GEQUAL          reduce using rule 10 (ArithmeticOp -> ArithmeticOp PLUS ArithmeticOp .)
     LEQUAL          reduce using rule 10 (ArithmeticOp -> ArithmeticOp PLUS ArithmeticOp .)
@@ -1954,15 +1936,13 @@ state 80
     GREATER         reduce using rule 10 (ArithmeticOp -> ArithmeticOp PLUS ArithmeticOp .)
     LESS            reduce using rule 10 (ArithmeticOp -> ArithmeticOp PLUS ArithmeticOp .)
     RPAREN          reduce using rule 10 (ArithmeticOp -> ArithmeticOp PLUS ArithmeticOp .)
-    PLUS            shift and go to state 45
-    MINUS           shift and go to state 46
     MULTIPLY        shift and go to state 47
     DIFFER          shift and go to state 48
 
-  ! PLUS            [ reduce using rule 10 (ArithmeticOp -> ArithmeticOp PLUS ArithmeticOp .) ]
-  ! MINUS           [ reduce using rule 10 (ArithmeticOp -> ArithmeticOp PLUS ArithmeticOp .) ]
   ! MULTIPLY        [ reduce using rule 10 (ArithmeticOp -> ArithmeticOp PLUS ArithmeticOp .) ]
   ! DIFFER          [ reduce using rule 10 (ArithmeticOp -> ArithmeticOp PLUS ArithmeticOp .) ]
+  ! PLUS            [ shift and go to state 45 ]
+  ! MINUS           [ shift and go to state 46 ]
 
 
 state 81
@@ -2011,10 +1991,8 @@ state 82
     (22) ArithmeticOp -> ArithmeticOp . DIFFER ArithmeticOp
     (24) ArithmeticOp -> ArithmeticOp . DIFFER ID
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MULTIPLY resolved as shift
-  ! shift/reduce conflict for DIFFER resolved as shift
+    PLUS            reduce using rule 14 (ArithmeticOp -> ArithmeticOp MINUS ArithmeticOp .)
+    MINUS           reduce using rule 14 (ArithmeticOp -> ArithmeticOp MINUS ArithmeticOp .)
     END             reduce using rule 14 (ArithmeticOp -> ArithmeticOp MINUS ArithmeticOp .)
     GEQUAL          reduce using rule 14 (ArithmeticOp -> ArithmeticOp MINUS ArithmeticOp .)
     LEQUAL          reduce using rule 14 (ArithmeticOp -> ArithmeticOp MINUS ArithmeticOp .)
@@ -2022,15 +2000,13 @@ state 82
     GREATER         reduce using rule 14 (ArithmeticOp -> ArithmeticOp MINUS ArithmeticOp .)
     LESS            reduce using rule 14 (ArithmeticOp -> ArithmeticOp MINUS ArithmeticOp .)
     RPAREN          reduce using rule 14 (ArithmeticOp -> ArithmeticOp MINUS ArithmeticOp .)
-    PLUS            shift and go to state 45
-    MINUS           shift and go to state 46
     MULTIPLY        shift and go to state 47
     DIFFER          shift and go to state 48
 
-  ! PLUS            [ reduce using rule 14 (ArithmeticOp -> ArithmeticOp MINUS ArithmeticOp .) ]
-  ! MINUS           [ reduce using rule 14 (ArithmeticOp -> ArithmeticOp MINUS ArithmeticOp .) ]
   ! MULTIPLY        [ reduce using rule 14 (ArithmeticOp -> ArithmeticOp MINUS ArithmeticOp .) ]
   ! DIFFER          [ reduce using rule 14 (ArithmeticOp -> ArithmeticOp MINUS ArithmeticOp .) ]
+  ! PLUS            [ shift and go to state 45 ]
+  ! MINUS           [ shift and go to state 46 ]
 
 
 state 83
@@ -2079,10 +2055,10 @@ state 84
     (22) ArithmeticOp -> ArithmeticOp . DIFFER ArithmeticOp
     (24) ArithmeticOp -> ArithmeticOp . DIFFER ID
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MULTIPLY resolved as shift
-  ! shift/reduce conflict for DIFFER resolved as shift
+    PLUS            reduce using rule 18 (ArithmeticOp -> ArithmeticOp MULTIPLY ArithmeticOp .)
+    MINUS           reduce using rule 18 (ArithmeticOp -> ArithmeticOp MULTIPLY ArithmeticOp .)
+    MULTIPLY        reduce using rule 18 (ArithmeticOp -> ArithmeticOp MULTIPLY ArithmeticOp .)
+    DIFFER          reduce using rule 18 (ArithmeticOp -> ArithmeticOp MULTIPLY ArithmeticOp .)
     END             reduce using rule 18 (ArithmeticOp -> ArithmeticOp MULTIPLY ArithmeticOp .)
     GEQUAL          reduce using rule 18 (ArithmeticOp -> ArithmeticOp MULTIPLY ArithmeticOp .)
     LEQUAL          reduce using rule 18 (ArithmeticOp -> ArithmeticOp MULTIPLY ArithmeticOp .)
@@ -2090,15 +2066,11 @@ state 84
     GREATER         reduce using rule 18 (ArithmeticOp -> ArithmeticOp MULTIPLY ArithmeticOp .)
     LESS            reduce using rule 18 (ArithmeticOp -> ArithmeticOp MULTIPLY ArithmeticOp .)
     RPAREN          reduce using rule 18 (ArithmeticOp -> ArithmeticOp MULTIPLY ArithmeticOp .)
-    PLUS            shift and go to state 45
-    MINUS           shift and go to state 46
-    MULTIPLY        shift and go to state 47
-    DIFFER          shift and go to state 48
 
-  ! PLUS            [ reduce using rule 18 (ArithmeticOp -> ArithmeticOp MULTIPLY ArithmeticOp .) ]
-  ! MINUS           [ reduce using rule 18 (ArithmeticOp -> ArithmeticOp MULTIPLY ArithmeticOp .) ]
-  ! MULTIPLY        [ reduce using rule 18 (ArithmeticOp -> ArithmeticOp MULTIPLY ArithmeticOp .) ]
-  ! DIFFER          [ reduce using rule 18 (ArithmeticOp -> ArithmeticOp MULTIPLY ArithmeticOp .) ]
+  ! PLUS            [ shift and go to state 45 ]
+  ! MINUS           [ shift and go to state 46 ]
+  ! MULTIPLY        [ shift and go to state 47 ]
+  ! DIFFER          [ shift and go to state 48 ]
 
 
 state 85
@@ -2147,10 +2119,10 @@ state 86
     (22) ArithmeticOp -> ArithmeticOp . DIFFER ArithmeticOp
     (24) ArithmeticOp -> ArithmeticOp . DIFFER ID
 
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MULTIPLY resolved as shift
-  ! shift/reduce conflict for DIFFER resolved as shift
+    PLUS            reduce using rule 22 (ArithmeticOp -> ArithmeticOp DIFFER ArithmeticOp .)
+    MINUS           reduce using rule 22 (ArithmeticOp -> ArithmeticOp DIFFER ArithmeticOp .)
+    MULTIPLY        reduce using rule 22 (ArithmeticOp -> ArithmeticOp DIFFER ArithmeticOp .)
+    DIFFER          reduce using rule 22 (ArithmeticOp -> ArithmeticOp DIFFER ArithmeticOp .)
     END             reduce using rule 22 (ArithmeticOp -> ArithmeticOp DIFFER ArithmeticOp .)
     GEQUAL          reduce using rule 22 (ArithmeticOp -> ArithmeticOp DIFFER ArithmeticOp .)
     LEQUAL          reduce using rule 22 (ArithmeticOp -> ArithmeticOp DIFFER ArithmeticOp .)
@@ -2158,15 +2130,11 @@ state 86
     GREATER         reduce using rule 22 (ArithmeticOp -> ArithmeticOp DIFFER ArithmeticOp .)
     LESS            reduce using rule 22 (ArithmeticOp -> ArithmeticOp DIFFER ArithmeticOp .)
     RPAREN          reduce using rule 22 (ArithmeticOp -> ArithmeticOp DIFFER ArithmeticOp .)
-    PLUS            shift and go to state 45
-    MINUS           shift and go to state 46
-    MULTIPLY        shift and go to state 47
-    DIFFER          shift and go to state 48
 
-  ! PLUS            [ reduce using rule 22 (ArithmeticOp -> ArithmeticOp DIFFER ArithmeticOp .) ]
-  ! MINUS           [ reduce using rule 22 (ArithmeticOp -> ArithmeticOp DIFFER ArithmeticOp .) ]
-  ! MULTIPLY        [ reduce using rule 22 (ArithmeticOp -> ArithmeticOp DIFFER ArithmeticOp .) ]
-  ! DIFFER          [ reduce using rule 22 (ArithmeticOp -> ArithmeticOp DIFFER ArithmeticOp .) ]
+  ! PLUS            [ shift and go to state 45 ]
+  ! MINUS           [ shift and go to state 46 ]
+  ! MULTIPLY        [ shift and go to state 47 ]
+  ! DIFFER          [ shift and go to state 48 ]
 
 
 state 87
@@ -3785,62 +3753,30 @@ WARNING: shift/reduce conflict for PLUS in state 72 resolved as shift
 WARNING: shift/reduce conflict for MINUS in state 72 resolved as shift
 WARNING: shift/reduce conflict for MULTIPLY in state 72 resolved as shift
 WARNING: shift/reduce conflict for DIFFER in state 72 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 73 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 73 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 73 resolved as shift
-WARNING: shift/reduce conflict for DIFFER in state 73 resolved as shift
 WARNING: shift/reduce conflict for PLUS in state 74 resolved as shift
 WARNING: shift/reduce conflict for MINUS in state 74 resolved as shift
 WARNING: shift/reduce conflict for MULTIPLY in state 74 resolved as shift
 WARNING: shift/reduce conflict for DIFFER in state 74 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 75 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 75 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 75 resolved as shift
-WARNING: shift/reduce conflict for DIFFER in state 75 resolved as shift
 WARNING: shift/reduce conflict for PLUS in state 76 resolved as shift
 WARNING: shift/reduce conflict for MINUS in state 76 resolved as shift
 WARNING: shift/reduce conflict for MULTIPLY in state 76 resolved as shift
 WARNING: shift/reduce conflict for DIFFER in state 76 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 77 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 77 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 77 resolved as shift
-WARNING: shift/reduce conflict for DIFFER in state 77 resolved as shift
 WARNING: shift/reduce conflict for PLUS in state 78 resolved as shift
 WARNING: shift/reduce conflict for MINUS in state 78 resolved as shift
 WARNING: shift/reduce conflict for MULTIPLY in state 78 resolved as shift
 WARNING: shift/reduce conflict for DIFFER in state 78 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 79 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 79 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 79 resolved as shift
-WARNING: shift/reduce conflict for DIFFER in state 79 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 80 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 80 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 80 resolved as shift
-WARNING: shift/reduce conflict for DIFFER in state 80 resolved as shift
 WARNING: shift/reduce conflict for PLUS in state 81 resolved as shift
 WARNING: shift/reduce conflict for MINUS in state 81 resolved as shift
 WARNING: shift/reduce conflict for MULTIPLY in state 81 resolved as shift
 WARNING: shift/reduce conflict for DIFFER in state 81 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 82 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 82 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 82 resolved as shift
-WARNING: shift/reduce conflict for DIFFER in state 82 resolved as shift
 WARNING: shift/reduce conflict for PLUS in state 83 resolved as shift
 WARNING: shift/reduce conflict for MINUS in state 83 resolved as shift
 WARNING: shift/reduce conflict for MULTIPLY in state 83 resolved as shift
 WARNING: shift/reduce conflict for DIFFER in state 83 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 84 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 84 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 84 resolved as shift
-WARNING: shift/reduce conflict for DIFFER in state 84 resolved as shift
 WARNING: shift/reduce conflict for PLUS in state 85 resolved as shift
 WARNING: shift/reduce conflict for MINUS in state 85 resolved as shift
 WARNING: shift/reduce conflict for MULTIPLY in state 85 resolved as shift
 WARNING: shift/reduce conflict for DIFFER in state 85 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 86 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 86 resolved as shift
-WARNING: shift/reduce conflict for MULTIPLY in state 86 resolved as shift
-WARNING: shift/reduce conflict for DIFFER in state 86 resolved as shift
 WARNING: shift/reduce conflict for PLUS in state 87 resolved as shift
 WARNING: shift/reduce conflict for MINUS in state 87 resolved as shift
 WARNING: shift/reduce conflict for MULTIPLY in state 87 resolved as shift

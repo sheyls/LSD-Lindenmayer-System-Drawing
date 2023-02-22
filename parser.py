@@ -99,6 +99,11 @@ tokens = lexer.tokens
 #                       | BOOL
 # -----------------------------------------------------------------------------
 
+precedence = (
+    ('left', 'PLUS', 'MINUS'),
+    ('left', 'MULTIPLY', 'DIFFER'),
+    )
+
 def p_program(p):
     '''
     Program : InstructionList

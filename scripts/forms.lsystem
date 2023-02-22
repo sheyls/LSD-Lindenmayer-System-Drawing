@@ -21,7 +21,7 @@ lsys levy_curve{
 #levy_curve = 45
 
 #Drawing example
-brush mibrochamucha {
+brush mibrocha {
 
     size: a,
     color: #ffffff,
@@ -29,11 +29,11 @@ brush mibrochamucha {
 
 };
 
-canvas micanvasgambas {
+canvas micanvas {
 
     high: k,
     width: 4000,
     color: #000000
 };
 
-draw(leaf, mibrocha, micanvas, 5 ,45, 8);
+draw(dragon, mibrocha, micanvas, 5 ,90, 7);

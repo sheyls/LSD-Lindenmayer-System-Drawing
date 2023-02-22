@@ -1,5 +1,31 @@
+lsys quedratic_snowflake{
+    axiom : F,
+    F => F-F+F+F-F
+
+};
+
+int angle = 90;
+int a = 5;
+int c = 5;
+
+brush small_blue {
+
+    size: 2,
+    color: #40e0d0,
+    speed: 300
+
+};
+
+canvas soft_orange {
+
+    high: 4000,
+    width: 4000,
+    color: #ffebcd
+};
+
 repeat 4 {
-draw(quedratic_gosper, mibrochamucha, micanvasgambas, a, b, c);
-a = a (+) 5;
-c = 4; 
+
+    draw(quedratic_gosper, small_blue, soft_orange, a, angle, c);
+    c = c (+) 1;
+
 };

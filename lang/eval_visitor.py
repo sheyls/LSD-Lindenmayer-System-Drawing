@@ -14,15 +14,12 @@ class Eval(Visitor):
     def __init__(self, context) -> None:
         super().__init__(context)
 
-
     def visit_program(self, program):
         for instruction in program.instructions:
             instruction.accept(Eval(self.context))
 
-
     def visit_assignable(self, assignable):
         return assignable.value
-
 
     def visit_arithmeticop(self, arithmetic_node):
         if arithmetic_node.left.__class__ is str:
@@ -36,7 +33,6 @@ class Eval(Visitor):
             right = arithmetic_node.right.accept(Eval(self.context))
         return Operator[arithmetic_node.operator](left, right)
 
-
     def visit_repeatdeclaration(self, repeat_declaration):
         times = repeat_declaration.times_to_repeat
         if repeat_declaration.times_to_repeat.__class__ is str:
@@ -48,8 +44,7 @@ class Eval(Visitor):
 
         for i in range(times):
             for instruction in instructions:
-                instruction.accept(Eval(child_context))      
-
+                instruction.accept(Eval(child_context))
 
     def visit_lsystemdeclaration(self, lsystem_declaration):
         variable = self.context.resolve(lsystem_declaration.name)
@@ -69,12 +64,12 @@ class Eval(Visitor):
             size = self.context.resolve(brush_declaration.body.size).value
         else:
             size = brush_declaration.body.size
-        if brush_declaration.body.color.__class__ is str:
+        if brush_declaration.body.color.__class__ is str and brush_declaration.body.color[0] != '#':
             color = self.context.resolve(brush_declaration.body.color).value
         else:
             color = brush_declaration.body.color
         self.context.define(brush_declaration.name, BrushInstance(self.context, speed = speed,size= size,color=color,brush= brush)), #self.type))
-
+        
 
     def visit_canvasdeclaration(self, canvas_declaration):
         canvas = turtle.Screen()
@@ -86,13 +81,13 @@ class Eval(Visitor):
             high = self.context.resolve(canvas_declaration.body.high).value
         else:
             high = canvas_declaration.body.high
-        if canvas_declaration.body.color.__class__ is str:
+        if canvas_declaration.body.color.__class__ is str and canvas_declaration.body.color[0] != '#':
             color = self.context.resolve(canvas_declaration.body.color).value
         else:
             color = canvas_declaration.body.color
         self.context.define(canvas_declaration.name, CanvasInstance(self.context, color,width,high, canvas)), #self.type))
-    
-    
+
+
     def auxiliar(sel, window, lsystem,brush,complexity,forward_value, draw_angle):
         curve = lsystem.axiom.axiom.lower()
         for _ in range(complexity):
@@ -136,15 +131,16 @@ class Eval(Visitor):
                 ang = brush.heading()
                 stack.append(ang)
 
+                #brush.push()
             elif c == ']':
-                # Pop current drawing state into the stack
+              
                 ang = stack.pop()
                 pos = stack.pop()
                 brush.up()
                 brush.setheading(ang)
                 brush.goto(pos)
                 brush.down()
-           
+             
             elif c == '#':
                 # Increment the line width by line width increment
                 brush.pensize(brush.pensize() + 0.5)
@@ -190,25 +186,20 @@ class Eval(Visitor):
 
         self.auxiliar(window,lsystem,brush,complexity,forward_value,draw_angle)
 
-
     def visit_add_rule(self, new_rule):
         lsys = self.context.resolve(new_rule.lsys_name)
         lsys.body.l_rules.append(new_rule.rule)
-
 
     def visit_change_axiom(self, new_axiom):
         lsys = self.context.resolve(new_axiom.lsys_name)
         lsys.body.axiom = new_axiom.axiom
 
-
     def visit_variableassignment(self, var_assignment):
         variable = self.context.resolve(var_assignment.name)
         variable.value = var_assignment.value.accept(Eval(self.context))
 
-
-    def visit_variabledeclaration(self, var_declaration): 
+    def visit_variabledeclaration(self, var_declaration):
         self.context.define(var_declaration.name, Instance(Type.get(var_declaration.type), var_declaration.value.accept(Eval(self.context))))
-
 
     def visit_if_statement(self, if_statement):
         if not if_statement.condition.__class__ is str:
@@ -223,6 +214,7 @@ class Eval(Visitor):
         child_context: Context = self.context.make_child()
         for line in if_statement.instructions:
             line.accept(Eval(child_context))
+    
 
 
     def visit_if_else_statement(self, if_statement):
@@ -241,7 +233,6 @@ class Eval(Visitor):
 
         for line in if_statement.instructions_true:
             line.accept(Eval(child_context))
-
 
     def visit_binarycomparer(self, binary_comparer):
         left = binary_comparer.left_expr
