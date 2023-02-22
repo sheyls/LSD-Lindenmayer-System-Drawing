@@ -263,7 +263,7 @@ class SemanticChecker(Visitor):
             left_type = arithmeticOp.left.computed_type
         
         if arithmeticOp.right.__class__ is str:
-            right_type = self.context.resolve(arithmeticOp.right)
+            right_type = self.context.resolve(arithmeticOp.right).name
             if right_type != "float" and right_type != "int":
                 update_errs(errors,f"{left_type.name}'not expected.'")
         else:
