@@ -80,7 +80,11 @@ class Eval(Visitor):
             size = self.context.resolve(brush_declaration.body.size).value
         else:
             size = brush_declaration.body.size
-        self.context.define(brush_declaration.name, BrushInstance(self.context, speed = speed,size= size,color= brush_declaration.body.color,brush= brush)), #self.type))
+        if brush_declaration.body.color.__class__ is str:
+            color = self.context.resolve(brush_declaration.body.color).value
+        else:
+            color = brush_declaration.body.color
+        self.context.define(brush_declaration.name, BrushInstance(self.context, speed = speed,size= size,color=color,brush= brush)), #self.type))
         
        # print(self.context.symbols[brush_declaration.name].body.size)
         print("ddd")
@@ -95,7 +99,11 @@ class Eval(Visitor):
             high = self.context.resolve(canvas_declaration.body.high).value
         else:
             high = canvas_declaration.body.high
-        self.context.define(canvas_declaration.name, CanvasInstance(self.context, canvas_declaration.body.color,width,high, canvas)), #self.type))
+        if canvas_declaration.body.color.__class__ is str:
+            color = self.context.resolve(canvas_declaration.body.color).value
+        else:
+            color = canvas_declaration.body.color
+        self.context.define(canvas_declaration.name, CanvasInstance(self.context, color,width,high, canvas)), #self.type))
         
         #print(self.context.symbols[brush_declaration.name].body.size)
         print("eee")

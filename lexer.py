@@ -20,6 +20,7 @@ reserved = {
     'int'        : 'TYPE',
     'string'     : 'TYPE',
     'float'      : 'TYPE',
+    'col'        : 'TYPE', 
     'add_rule'   : 'ADD_RULE',
     'change_axiom' : 'CHANGE_AXIOM',
     'repeat'     : 'REPEAT'
