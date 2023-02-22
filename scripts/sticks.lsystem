@@ -17,20 +17,20 @@ lsys weed {
 
 #Drawing example
 
-brush mibrochamucha {
+brush mibrocha {
 
-    size: a,
+    size: 2,
     color: #ffffff,
     speed: 300
 
 };
 
-canvas micanvasgambas {
+canvas micanvas {
 
-    high: k,
+    high: 4000,
     width: 4000,
     color: #000000
 };
 
-draw(leaf, mibrocha, micanvas, 5 ,45, 8);
+draw(stick, mibrocha, micanvas, 5 ,20, 8);
 

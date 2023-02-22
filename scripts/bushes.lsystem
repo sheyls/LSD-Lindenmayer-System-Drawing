@@ -40,7 +40,7 @@ lsys fractal_tree {
 #Drawing example
 brush mibrocha {
 
-    size: a,
+    size: 2,
     color: #ffffff,
     speed: 300
 
@@ -48,7 +48,7 @@ brush mibrocha {
 
 canvas micanvas {
 
-    high: k,
+    high: 4000,
     width: 4000,
     color: #000000
 };
