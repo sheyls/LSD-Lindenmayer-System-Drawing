@@ -12,6 +12,8 @@ lsys hexagonal_gosper{
     X => X+YF++YF-FX--FXFX-YF+,
     Y => -FX+YFYF++YF+FX--FX-Y
 };
+
+
 #hexagonal_gosper_angle = 60
 
 lsys levy_curve{
@@ -36,4 +38,4 @@ canvas white {
     color: #eaf2ef
 };
 
-draw(dragon, wine, white, 10 ,90, 10);
+draw(hexagonal_gosper, wine, white, 10 ,90, 10);

@@ -190,7 +190,7 @@ class SemanticChecker(Visitor):
     def visit_variableassignment(self, var_assignment):
         # name, value
         errors = []
-        update_errs(errors,var_assignment.value.accept(SemanticChecker(self.context)))
+        update_errs(errors, var_assignment.value.accept(SemanticChecker(self.context)))
         var_type = self.context.resolve(var_assignment.name)
         if var_type is None:
             update_errs(errors,f"Variable '{var_assignment.name}' not defined.")

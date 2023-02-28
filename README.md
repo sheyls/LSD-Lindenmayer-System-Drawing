@@ -74,14 +74,14 @@ lsys leaf {
 | +             |  Girar a la izquierda el ángulo indicado  |
 | -             |  Girar a la derecha el ángulo indicado  |
 | [             |  Agrega a la pila el estado actual del dibujo (posición de la brocha y ángulo de rotación) |
-| ]            |  Saca a la pila el último estado y lo toma como actual |
-| #            |  Incrementa el grosor de la línea |
-| !            |  Decrementa el grosor de la linea |
-| >            |  Multiplica el largo de la línea por un factor |
-| <            |  Divide el largo de la línea por un factor |
-| &            |  Cambia el significado del + y el -|
-| %            |  Aumenta el ángulo de giro |
-| $            |  Decrementa el ángulo de giro |
+| ]             |  Saca a la pila el último estado y lo toma como actual |
+| #             |  Incrementa el grosor de la línea |
+| !             |  Decrementa el grosor de la linea |
+| >             |  Multiplica el largo de la línea por un factor |
+| <             |  Divide el largo de la línea por un factor |
+| &             |  Cambia el significado del + y el -|
+| %             |  Aumenta el ángulo de giro |
+| $             |  Decrementa el ángulo de giro |
 
 ### Cambiar el axioma de un Sistema-L ya defido
 
@@ -139,7 +139,7 @@ brush small_blue {
 
 };
 
-brush big_red {
+brush breig_d {
 
     size: 5,
     color: #ff0000,

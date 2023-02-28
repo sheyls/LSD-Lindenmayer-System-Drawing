@@ -37,7 +37,6 @@ tokens = (
    'ID',
    'INT',
    'FLOAT',
-
    'COL',  
    'EQUALEQUAL',
    'GEQUAL',

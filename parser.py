@@ -132,6 +132,7 @@ def p_assignable(p):
                    | STRING
                    | BOOL
                    | COL
+                   | ID
     '''
     
     p[0]=Assignable(p[1], p.slice[1].type)
