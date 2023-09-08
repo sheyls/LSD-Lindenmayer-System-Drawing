@@ -88,7 +88,7 @@ class Eval(Visitor):
         self.context.define(canvas_declaration.name, CanvasInstance(self.context, color,width,high, canvas)), #self.type))
 
 
-    def auxiliar(sel, window, lsystem,brush,complexity,forward_value, draw_angle):
+    def auxiliar(sel, window, lsystem,brush, complexity, forward_value, draw_angle):
         curve = lsystem.axiom.axiom.lower()
         for _ in range(complexity):
             for rule in lsystem.l_rules:
